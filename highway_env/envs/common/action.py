@@ -153,9 +153,161 @@ class ContinuousAction(ActionType):
                 actions.append(self.actions_indexes['LANE_RIGHT'])
         self.last_action = action
 
+class DiscreteAction(ContinuousAction):
+    def __init__(self,
+                 env: 'AbstractEnv',
+                 acceleration_range: Optional[Tuple[float, float]] = None,
+                 steering_range: Optional[Tuple[float, float]] = None,
+                 longitudinal: bool = True,
+                 lateral: bool = True,
+                 dynamical: bool = False,
+                 clip: bool = True,
+                 actions_per_axis: int = 3,
+                 **kwargs) -> None:
+        super().__init__(env, acceleration_range=acceleration_range, steering_range=steering_range,
+                         longitudinal=longitudinal, lateral=lateral, dynamical=dynamical, clip=clip)
+        self.actions_per_axis = actions_per_axis
+
+    def space(self) -> spaces.Discrete:
+        return spaces.Discrete(self.actions_per_axis**self.size)
+
+    def act(self, action: int) -> None:
+        cont_space = super().space()
+        axes = np.linspace(cont_space.low, cont_space.high, self.actions_per_axis).T
+        all_actions = list(itertools.product(*axes))
+        super().act(all_actions[action])
+
+
+class DiscreteMetaAction(ActionType):
+
+    """
+    An discrete action space of meta-actions: lane changes, and cruise control set-point.
+    """
+
+    ACTIONS_ALL = {
+        0: 'LANE_LEFT',
+        1: 'IDLE',
+        2: 'LANE_RIGHT',
+        3: 'FASTER',
+        4: 'SLOWER'
+    }
+    """A mapping of action indexes to labels."""
+
+    ACTIONS_LONGI = {
+        0: 'SLOWER',
+        1: 'IDLE',
+        2: 'FASTER'
+    }
+    """A mapping of longitudinal action indexes to labels."""
+
+    ACTIONS_LAT = {
+        0: 'LANE_LEFT',
+        1: 'IDLE',
+        2: 'LANE_RIGHT'
+    }
+    """A mapping of lateral action indexes to labels."""
+
+    def __init__(self,
+                 env: 'AbstractEnv',
+                 longitudinal: bool = True,
+                 lateral: bool = True,
+                 target_speeds: Optional[Vector] = None,
+                 **kwargs) -> None:
+        """
+        Create a discrete action space of meta-actions.
+
+        :param env: the environment
+        :param longitudinal: include longitudinal actions
+        :param lateral: include lateral actions
+        :param target_speeds: the list of speeds the vehicle is able to track
+        """
+        super().__init__(env)
+        self.longitudinal = longitudinal
+        self.lateral = lateral
+        self.target_speeds = np.array(target_speeds) if target_speeds is not None else MDPVehicle.DEFAULT_TARGET_SPEEDS
+        self.actions = self.ACTIONS_ALL if longitudinal and lateral \
+            else self.ACTIONS_LONGI if longitudinal \
+            else self.ACTIONS_LAT if lateral \
+            else None
+        if self.actions is None:
+            raise ValueError("At least longitudinal or lateral actions must be included")
+        self.actions_indexes = {v: k for k, v in self.actions.items()}
+
+    def space(self) -> spaces.Space:
+        return spaces.Discrete(len(self.actions))
+
+    @property
+    def vehicle_class(self) -> Callable:
+        return functools.partial(MDPVehicle, target_speeds=self.target_speeds)
+
+    def act(self, action: Union[int, np.ndarray]) -> None:
+        self.controlled_vehicle.act(self.actions[int(action)])
+
+    def get_available_actions(self) -> List[int]:
+        """
+        Get the list of currently available actions.
+
+        Lane changes are not available on the boundary of the road, and speed changes are not available at
+        maximal or minimal speed.
+
+        :return: the list of available actions
+        """
+        actions = [self.actions_indexes['IDLE']]
+        network = self.controlled_vehicle.road.network
+        for l_index in network.side_lanes(self.controlled_vehicle.lane_index):
+            if l_index[2] < self.controlled_vehicle.lane_index[2] \
+                    and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
+                    and self.lateral:
+                actions.append(self.actions_indexes['LANE_LEFT'])
+            if l_index[2] > self.controlled_vehicle.lane_index[2] \
+                    and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
+                    and self.lateral:
+                actions.append(self.actions_indexes['LANE_RIGHT'])
+        if self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 and self.longitudinal:
+            actions.append(self.actions_indexes['FASTER'])
+        if self.controlled_vehicle.speed_index > 0 and self.longitudinal:
+            actions.append(self.actions_indexes['SLOWER'])
+        return actions
+
+
+class MultiAgentAction(ActionType):
+    def __init__(self,
+                 env: 'AbstractEnv',
+                 action_config: dict,
+                 **kwargs) -> None:
+        super().__init__(env)
+        self.action_config = action_config
+        self.agents_action_types = []
+        for vehicle in self.env.controlled_vehicles:
+            action_type = action_factory(self.env, self.action_config)
+            action_type.controlled_vehicle = vehicle
+            self.agents_action_types.append(action_type)
+
+    def space(self) -> spaces.Space:
+        return spaces.Tuple([action_type.space() for action_type in self.agents_action_types])
+
+    @property
+    def vehicle_class(self) -> Callable:
+        return action_factory(self.env, self.action_config).vehicle_class
+
+    def act(self, action: Action) -> None:
+        assert isinstance(action, tuple)
+        for agent_action, action_type in zip(action, self.agents_action_types):
+            action_type.act(agent_action)
+
+    def get_available_actions(self):
+        return itertools.product(*[action_type.get_available_actions() for action_type in self.agents_action_types])
+
+
 def action_factory(env: 'AbstractEnv', config: dict) -> ActionType:
     if config["type"] == "ContinuousAction":
         return ContinuousAction(env, **config)
+    if config["type"] == "DiscreteAction":
+        return DiscreteAction(env, **config)
+    elif config["type"] == "DiscreteMetaAction":
+        return DiscreteMetaAction(env, **config)
+    elif config["type"] == "MultiAgentAction":
+        return MultiAgentAction(env, **config)
     else:
         raise ValueError("Unknown action type")
 
