@@ -127,7 +127,7 @@ class ContinuousAction(ActionType):
         self.action_lat = self.ACTIONS_LAT
         self.size = 1                         
         self.actions_indexes = {v: k for k, v in self.action_lat}
-        self.last_action = [np.zeros(self.size), self.actions_indexes['IDLE']]
+        self.last_action =[0, 'IDLE']
 
     def space(self) -> [spaces.Box, spaces.Space]:
         return [spaces.Box(-1., 1., shape=(self.size,), dtype=np.float32), spaces.Discrete(len(self.action_lat))]
