@@ -153,7 +153,11 @@ class ContinuousAction(ActionType):
                 actions.append(self.actions_indexes['LANE_RIGHT'])
         self.last_action = action
 
-
+def action_factory(env: 'AbstractEnv', config: dict) -> ActionType:
+    if config["type"] == "ContinuousAction":
+        return ContinuousAction(env, **config)
+    else:
+        raise ValueError("Unknown action type")
 
         
 
