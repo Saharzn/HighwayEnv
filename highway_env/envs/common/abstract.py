@@ -1,4 +1,4 @@
-.import copy
+import copy
 import os
 from typing import List, Tuple, Optional, Callable, TypeVar, Generic, Union, Dict, Text
 import gymnasium as gym
