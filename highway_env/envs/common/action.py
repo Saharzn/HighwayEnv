@@ -128,7 +128,7 @@ class ContinuousAction(ActionType):
         self.action_lat = self.ACTIONS_LAT if lateral \
             else None
         self.size = 1                         
-        self.actions_indexes = {v: k for k, v in self.action_lat}
+        #self.actions_indexes = {v: k for k, v in self.action_lat}
         self.last_action =[0, 'IDLE']
 
     def space(self) -> [spaces.Box, spaces.Space]:
