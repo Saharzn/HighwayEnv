@@ -68,12 +68,6 @@ class ActionType(object):
         self.__controlled_vehicle = vehicle
 
 
-
-
-
-
-
-
 class ContinuousAction(ActionType):
 
     """
@@ -86,17 +80,14 @@ class ContinuousAction(ActionType):
 
     ACCELERATION_RANGE = (-5, 5.0)
     """Acceleration range: [-x, x], in m/s²."""
-    
-    
-    ACTIONS_LAT = {
-        0: 'LANE_LEFT',
-        1: 'IDLE',
-        2: 'LANE_RIGHT'
-    }
+
+    STEERING_RANGE = (-np.pi / 4, np.pi / 4)
+    """Steering angle range: [-x, x], in rad."""
 
     def __init__(self,
                  env: 'AbstractEnv',
                  acceleration_range: Optional[Tuple[float, float]] = None,
+                 steering_range: Optional[Tuple[float, float]] = None,
                  speed_range: Optional[Tuple[float, float]] = None,
                  longitudinal: bool = True,
                  lateral: bool = True,
@@ -117,6 +108,7 @@ class ContinuousAction(ActionType):
         """
         super().__init__(env)
         self.acceleration_range = acceleration_range if acceleration_range else self.ACCELERATION_RANGE
+        self.steering_range = steering_range if steering_range else self.STEERING_RANGE
         self.speed_range = speed_range
         self.lateral = lateral
         self.longitudinal = longitudinal
@@ -124,62 +116,37 @@ class ContinuousAction(ActionType):
             raise ValueError("Either longitudinal and/or lateral control must be enabled")
         self.dynamical = dynamical
         self.clip = clip
+        self.size = 2 if self.lateral and self.longitudinal else 1
+        self.last_action = np.zeros(self.size)
 
-        self.action_lat = self.ACTIONS_LAT if lateral \
-            else None
-        self.size = 1                         
-        #self.actions_indexes = {v: k for k, v in self.action_lat}
-        self.last_action =[0, 'IDLE']
-
-    def space(self) -> [spaces.Box, spaces.Space]:
-        return [spaces.Box(-1., 1., shape=(self.size,), dtype=np.float32), spaces.Discrete(len(self.action_lat))]
+    def space(self) -> spaces.Box:
+        return spaces.Box(-1., 1., shape=(self.size,), dtype=np.float32)
 
     @property
     def vehicle_class(self) -> Callable:
         return Vehicle if not self.dynamical else BicycleVehicle
 
-    def act(self, action) -> None:
+    def act(self, action: np.ndarray) -> None:
         if self.clip:
             action = np.clip(action, -1, 1)
         if self.speed_range:
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
-        self.controlled_vehicle.act({
+        if self.longitudinal and self.lateral:
+            self.controlled_vehicle.act({
                 "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-                "steering": self.actions,
+                "steering": utils.lmap(action[1], [-1, 1], self.steering_range),
             })
-
+        elif self.longitudinal:
+            self.controlled_vehicle.act({
+                "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
+                "steering": 0,
+            })
+        elif self.lateral:
+            self.controlled_vehicle.act({
+                "acceleration": 0,
+                "steering": utils.lmap(action[0], [-1, 1], self.steering_range)
+            })
         self.last_action = action
-
-
-    
-    def get_available_actions(self) -> List[int]:
-        actions = [self.actions_indexes['IDLE']]
-        network = self.controlled_vehicle.road.network
-        for l_index in network.side_lanes(self.controlled_vehicle.lane_index):
-            if l_index[2] < self.controlled_vehicle.lane_index[2] \
-                    and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
-                    and self.lateral:
-                actions.append(self.actions_indexes['LANE_LEFT'])
-            if l_index[2] > self.controlled_vehicle.lane_index[2] \
-                    and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
-                    and self.lateral:
-                actions.append(self.actions_indexes['LANE_RIGHT'])
-        return actions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class DiscreteAction(ContinuousAction):
