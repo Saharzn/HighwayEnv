@@ -6,6 +6,12 @@ import numpy as np
 
 from highway_env import utils
 from highway_env.vehicle.kinematics import Vehicle
+from highway_env.envs.common.abstract import info
+
+
+
+
+
 
 if TYPE_CHECKING:
     from highway_env.envs import AbstractEnv
@@ -58,7 +64,8 @@ def finite_mdp(env: 'AbstractEnv',
     state_reward = \
         + env.config["collision_reward"] * grid \
         + env.config["right_lane_reward"] * np.tile(lanes[np.newaxis, :, np.newaxis], (v, 1, t)) \
-        + env.config["high_speed_reward"] * np.tile(speeds[:, np.newaxis, np.newaxis], (1, l, t))
+        + env.config["high_speed_reward"] * np.tile(speeds[:, np.newaxis, np.newaxis], (1, l, t))\
+        + 
     
     state_reward = np.ravel(state_reward)
     action_reward = [env.config["lane_change_reward"], 0, env.config["lane_change_reward"], 0, 0]
