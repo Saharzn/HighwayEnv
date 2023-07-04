@@ -164,7 +164,7 @@ class AbstractEnv(gym.Env):
         """
         raise NotImplementedError
 
-    def _info(self, obs: Observation, action: Optional[Action] = None) -> dict:
+    def _info(self, obs: Observation, action: Optional[Action] = None) :
         """
         Return a dictionary of additional information
 
@@ -172,12 +172,7 @@ class AbstractEnv(gym.Env):
         :param action: current action
         :return: info dict
         """
-        info = {
-            "speed": self.vehicle.speed,
-            "crashed": self.vehicle.crashed,
-            "action": action,
-            "time" : self.time,
-        }
+        info = [self.vehicle.speed, self.vehicle.crashed, action, self.time]
         try:
             info["rewards"] = self._rewards(action)
         except NotImplementedError:
