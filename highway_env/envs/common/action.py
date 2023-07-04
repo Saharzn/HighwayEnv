@@ -124,7 +124,9 @@ class ContinuousAction(ActionType):
             raise ValueError("Either longitudinal and/or lateral control must be enabled")
         self.dynamical = dynamical
         self.clip = clip
-        self.action_lat = self.ACTIONS_LAT
+
+        self.action_lat = self.ACTIONS_LAT if lateral \
+            else None
         self.size = 1                         
         self.actions_indexes = {v: k for k, v in self.action_lat}
         self.last_action =[0, 'IDLE']
