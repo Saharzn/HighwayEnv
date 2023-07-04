@@ -1,4 +1,4 @@
-import copy
+.import copy
 import os
 from typing import List, Tuple, Optional, Callable, TypeVar, Generic, Union, Dict, Text
 import gymnasium as gym
@@ -176,7 +176,7 @@ class AbstractEnv(gym.Env):
             "speed": self.vehicle.speed,
             "crashed": self.vehicle.crashed,
             "action": action,
-            "time" : time,
+            "time" : self.time,
         }
         try:
             info["rewards"] = self._rewards(action)
