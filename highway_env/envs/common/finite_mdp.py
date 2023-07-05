@@ -6,7 +6,7 @@ import numpy as np
 
 from highway_env import utils
 from highway_env.vehicle.kinematics import Vehicle
-from highway_env.envs.common.abstract import info
+#from highway_env.envs.common.abstract import info
 
 
 
