@@ -174,7 +174,7 @@ class AbstractEnv(gym.Env):
         """
         info = [self.vehicle.speed, self.vehicle.crashed, action, self.time]
         try:
-            info.append = self._rewards(action)
+            info.append(self._rewards(action))
         except NotImplementedError:
             pass
         return info
