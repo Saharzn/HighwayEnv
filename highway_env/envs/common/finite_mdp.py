@@ -12,7 +12,7 @@ from highway_env.vehicle.kinematics import Vehicle
 
 
 
-X = Vehicle.speed 
+ 
 if TYPE_CHECKING:
     from highway_env.envs import AbstractEnv
 
