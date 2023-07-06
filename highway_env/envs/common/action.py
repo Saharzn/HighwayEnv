@@ -117,7 +117,7 @@ class ContinuousAction(ActionType):
         self.dynamical = dynamical
         self.clip = clip
 
-        self.action_lat = self.ACTIONS_LAT if lateral \        
+        self.action_lat = self.ACTIONS_LAT if lateral       
             else None
         self.size = 1
         self.action_lat_indexes = {v: k for k, v in self.action_lat.items()}
