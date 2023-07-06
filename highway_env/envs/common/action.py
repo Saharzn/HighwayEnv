@@ -122,7 +122,7 @@ class ContinuousAction(ActionType):
         self.action_lat_indexes = {v: k for k, v in self.action_lat.items()}
         self.last_action = [0, 'IDLE']
 
-    def space(self) -> [spaces.Box, spaces.Space]:
+    def space(self):
         return [spaces.Box(-1., 1., shape=(self.size,), dtype=np.float32), spaces.Discrete(len(self.action_lat))]
 
     @property
