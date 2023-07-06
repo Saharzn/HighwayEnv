@@ -120,7 +120,7 @@ class ContinuousAction(ActionType):
         self.action_lat = self.ACTIONS_LAT if lateral \
             else None
         self.size = 1
-        self.actions_indexes = {v: k for k, v in self.action_lat}
+        self.action_lat_indexes = {v: k for k, v in self.action_lat}
         self.last_action = [0, 'IDLE']
 
     def space(self) -> [spaces.Box, spaces.Space]:
@@ -132,7 +132,7 @@ class ContinuousAction(ActionType):
 
     def act(self, action) -> None:
         if self.clip:
-            action = np.clip(action, -1, 1)
+            action[0] = np.clip(action[0], -1, 1)
         if self.speed_range:
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
         self.controlled_vehicle.act({
