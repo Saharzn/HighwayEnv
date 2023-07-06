@@ -87,11 +87,16 @@ class HighwayEnv(AbstractEnv):
         :param action: the last action performed
         :return: the corresponding reward
         """
+        #We apply the action to find different values for each reward function
         rewards = self._rewards(action)
+        
+        #then we sum up each reward element to get the final reward value
         reward = sum(self.config.get(name, 0) * reward for name, reward in rewards.items())
+        
+        #normalize the reward
         if self.config["normalize_reward"]:
             reward = utils.lmap(reward,
-                                [self.config["collision_reward"],
+                                [self.config["collision_reward"], 
                                  self.config["high_speed_reward"] + self.config["right_lane_reward"]],
                                 [0, 1])
         reward *= rewards['on_road_reward']
@@ -101,6 +106,7 @@ class HighwayEnv(AbstractEnv):
         neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
         lane = self.vehicle.target_lane_index[2] if isinstance(self.vehicle, ControlledVehicle) \
             else self.vehicle.lane_index[2]
+        
         # Use forward speed rather than speed, see https://github.com/eleurent/highway-env/issues/268
         forward_speed = self.vehicle.speed * np.cos(self.vehicle.heading)
         scaled_speed = utils.lmap(forward_speed, self.config["reward_speed_range"], [0, 1])
@@ -109,6 +115,8 @@ class HighwayEnv(AbstractEnv):
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road)
+            "fuel_reward": info["speed"]/(350*0.00214)
+        
         }
 
     def _is_terminated(self) -> bool:
