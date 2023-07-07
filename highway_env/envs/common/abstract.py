@@ -15,7 +15,7 @@ from highway_env.envs.common.graphics import EnvViewer
 from highway_env.vehicle.behavior import IDMVehicle, LinearVehicle
 from highway_env.vehicle.controller import MDPVehicle
 from highway_env.vehicle.kinematics import Vehicle
-
+import random
 Observation = TypeVar("Observation")
 
 
