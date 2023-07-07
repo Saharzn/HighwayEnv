@@ -211,7 +211,7 @@ class AbstractEnv(gym.Env):
         2: 'LANE_RIGHT'}
 
         
-        info = self._info(obs, action=[self.action_space[0].sample(), random.sample(list(d), 1)])
+        info = self._info(obs, action=[random.sample([-1,1],1), random.sample(list(d), 1)])
         if self.render_mode == 'human':
             self.render()
         return obs, info
