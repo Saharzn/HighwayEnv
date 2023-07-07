@@ -307,11 +307,5 @@ class MultiAgentAction(ActionType):
 def action_factory(env: 'AbstractEnv', config: dict) -> ActionType:
     if config["type"] == "ContinuousAction":
         return ContinuousAction(env, **config)
-    if config["type"] == "DiscreteAction":
-        return DiscreteAction(env, **config)
-    elif config["type"] == "DiscreteMetaAction":
-        return DiscreteMetaAction(env, **config)
-    elif config["type"] == "MultiAgentAction":
-        return MultiAgentAction(env, **config)
     else:
         raise ValueError("Unknown action type")
