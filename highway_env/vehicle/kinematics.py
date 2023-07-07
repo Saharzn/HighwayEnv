@@ -136,7 +136,7 @@ class Vehicle(RoadObject):
         if self.crashed:
             self.action['steering'] = 0
             self.action['acceleration'] = -1.0*self.speed
-        self.action['steering'] = self.action['steering']
+        #self.action['steering'] = self.action['steering']
         self.action['acceleration'] = float(self.action['acceleration'])
         if self.speed > self.MAX_SPEED:
             self.action['acceleration'] = min(self.action['acceleration'], 1.0 * (self.MAX_SPEED - self.speed))
