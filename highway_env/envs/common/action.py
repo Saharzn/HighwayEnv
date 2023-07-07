@@ -136,7 +136,7 @@ class ContinuousAction(ActionType):
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
         self.controlled_vehicle.act({
             "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-            "steering": self.action_lat,
+            "steering": self.action_lat[int(action)],
         })
 
         self.last_action = action
