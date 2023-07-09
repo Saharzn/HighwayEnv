@@ -10,6 +10,7 @@ from highway_env.vehicle.behavior import IDMVehicle
 from highway_env.vehicle.dynamics import BicycleVehicle
 from highway_env.vehicle.kinematics import Vehicle
 from highway_env.vehicle.controller import MDPVehicle
+from highway_env.vehicle.controller import ControlledVehicle as CV
 
 if TYPE_CHECKING:
     from highway_env.envs.common.abstract import AbstractEnv
@@ -91,7 +92,7 @@ class ContinuousAction(ActionType):
                  acceleration_range: Optional[Tuple[float, float]] = None,
                  speed_range: Optional[Tuple[float, float]] = None,
                  longitudinal: bool = True,
-                 lateral: bool = False,
+                 lateral: bool = True,
                  dynamical: bool = False,
                  clip: bool = True,
                  **kwargs) -> None:
@@ -135,11 +136,20 @@ class ContinuousAction(ActionType):
         if self.speed_range:
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
         if self.longitudinal and self.lateral:
+                    if self.action_lat == "LANE_RIGHT":
+                       _from, _to, _id = self.target_lane_index
+                       target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+                       if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                       self.target_lane_index = target_lane_index
+                   elif self.action_lat == "LANE_LEFT":
+                       _from, _to, _id = self.target_lane_index
+                       target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+                       if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                       self.target_lane_index = target_lane_index
             self.controlled_vehicle.act({
                 "acceleration_index": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-                "steering_index": self.action_lat,
+                "steering": steering = CV.steering_control(self.target_lane_index),
             })
-
         self.last_action = action
     
     def get_available_actions(self) -> List[int]:
