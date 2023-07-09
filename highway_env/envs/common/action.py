@@ -91,7 +91,7 @@ class ContinuousAction(ActionType):
                  acceleration_range: Optional[Tuple[float, float]] = None,
                  speed_range: Optional[Tuple[float, float]] = None,
                  longitudinal: bool = True,
-                 lateral: bool = Fasle,
+                 lateral: bool = False,
                  dynamical: bool = False,
                  clip: bool = True,
                  **kwargs) -> None:
