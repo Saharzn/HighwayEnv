@@ -148,7 +148,7 @@ class ContinuousAction(ActionType):
                           self.target_lane_index = target_lane_index
             self.controlled_vehicle.act({
                 "acceleration_index": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-                "steering": steering = CV.steering_control(self.target_lane_index),
+                "steering": CV.steering_control(self.target_lane_index),
             })
         self.last_action = action
     
