@@ -90,8 +90,6 @@ class ContinuousAction(ActionType):
                  env: 'AbstractEnv',
                  acceleration_range: Optional[Tuple[float, float]] = None,
                  speed_range: Optional[Tuple[float, float]] = None,
-                 longitudinal: bool = True,
-                 lateral: bool = True,
                  dynamical: bool = False,
                  clip: bool = True,
                  **kwargs) -> None:
@@ -136,7 +134,7 @@ class ContinuousAction(ActionType):
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
         if self.longitudinal and self.lateral:
             self.controlled_vehicle.act({
-                "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
+                "acceleration_index": utils.lmap(action[0], [-1, 1], self.acceleration_range),
                 "steering_index": self.action_lat,
             })
 
