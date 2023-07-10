@@ -11,6 +11,7 @@ from highway_env.vehicle.dynamics import BicycleVehicle
 from highway_env.vehicle.kinematics import Vehicle
 from highway_env.vehicle.controller import MDPVehicle
 from highway_env.vehicle.controller import ControlledVehicle as CV
+from highway_env.road.road import Road, LaneIndex, Route
 
 if TYPE_CHECKING:
     from highway_env.envs.common.abstract import AbstractEnv
