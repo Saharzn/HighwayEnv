@@ -78,12 +78,12 @@ class ControlledVehicle(Vehicle):
     
     def target_lane_ind(action):
         if action[1] == "LANE_RIGHT":
-            _from, _to, _id = target_lane_index
+            _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(road.network.graph[_from][_to]) - 1)
             if road.network.get_lane(target_lane_index).is_reachable_from(position):
                 target_lane_ind = target_lane_index
         if action[1] == "LANE_LEFT":
-            _from, _to, _id = target_lane_index
+            _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(position):
                 target_lane_ind = target_lane_index
