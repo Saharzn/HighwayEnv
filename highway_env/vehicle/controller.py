@@ -76,7 +76,7 @@ class ControlledVehicle(Vehicle):
         return self
 
     
-    def target_lane_ind(action):
+    def target_lane_ind(self,action):
         if action[1] == "LANE_RIGHT":
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(road.network.graph[_from][_to]) - 1)
