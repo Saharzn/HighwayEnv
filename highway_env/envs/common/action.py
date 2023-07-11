@@ -175,7 +175,7 @@ def steering_control(self, target_lane_index: LaneIndex) -> float:
         :param target_lane_index: index of the lane to follow
         :return: a steering wheel angle command [rad]
         """
-        target_lane = self.road.network.get_lane(target_lane_index)
+        target_lane = road.network.get_lane(target_lane_index)
         lane_coords = target_lane.local_coordinates(self.position)
         lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
         lane_future_heading = target_lane.heading_at(lane_next_coords)
