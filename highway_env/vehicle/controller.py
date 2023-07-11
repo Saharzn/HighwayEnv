@@ -100,7 +100,7 @@ class ControlledVehicle(Vehicle):
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
 
-        action = {"steering": self.steering_control("LANE_LEFT"),
+        action = {"steering": self.steering_control(self.target_lane_index),
                   "acceleration": self.speed_control(self.target_speed)}
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         super().act(action)
@@ -111,7 +111,7 @@ class ControlledVehicle(Vehicle):
                 target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
                 if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                     self.target_lane_index = target_lane_index
-            print(self.steering_control("LANE_LEFT"))
+            print(self.steering_control(self.target_lane_index))
     
     
     def follow_road(self) -> None:
