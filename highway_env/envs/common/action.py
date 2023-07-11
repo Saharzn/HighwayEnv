@@ -96,6 +96,7 @@ class ContinuousAction(ActionType):
                  lateral: bool = True,
                  dynamical: bool = False,
                  clip: bool = True,
+                 target_lane_index: LaneIndex = None,
                  **kwargs) -> None:
         """
         Create a continuous action space.
@@ -123,6 +124,7 @@ class ContinuousAction(ActionType):
         self.size = 1
         self.action_lat_indexes = {v: k for k, v in self.action_lat.items()}
         self.last_action = [0, 'IDLE']
+        self.target_lane_index = target_lane_index or self.lane_index
 
     def space(self):
         return [spaces.Box(-1., 1., shape=(self.size,), dtype=np.float32), spaces.Discrete(len(self.action_lat))]
@@ -131,6 +133,7 @@ class ContinuousAction(ActionType):
     def vehicle_class(self) -> Callable:
         return Vehicle if not self.dynamical else BicycleVehicle
 
+    
     def act(self, action: np.ndarray) -> None:
         if self.clip:
             action[0] = np.clip(action[0], -1, 1)
@@ -138,12 +141,63 @@ class ContinuousAction(ActionType):
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
            
         if self.longitudinal and self.lateral:
+            if action == "LANE_LEFT":
+                  _from, _to, _id = self.target_lane_index
+                  target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+                  if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                     self.target_lane_index = target_lane_index
+            elif action == "LANE_RIGHT":
+                  _from, _to, _id = self.target_lane_index
+                  target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+                  if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                     self.target_lane_index = target_lane_index
+            
             self.controlled_vehicle.act({
                 "acceleration_index": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-                "steering": CV.steering_control(self,action),
+                "steering": steering_control(self,self.target_lane_index),
             })
         self.last_action = action
-    
+
+
+
+
+
+
+def steering_control(self, target_lane_index: LaneIndex) -> float:
+        """
+        Steer the vehicle to follow the center of an given lane.
+
+        1. Lateral position is controlled by a proportional controller yielding a lateral speed command
+        2. Lateral speed command is converted to a heading reference
+        3. Heading is controlled by a proportional controller yielding a heading rate command
+        4. Heading rate command is converted to a steering angle
+
+        :param target_lane_index: index of the lane to follow
+        :return: a steering wheel angle command [rad]
+        """
+        target_lane = self.road.network.get_lane(target_lane_index)
+        lane_coords = target_lane.local_coordinates(self.position)
+        lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
+        lane_future_heading = target_lane.heading_at(lane_next_coords)
+
+        # Lateral position control
+        lateral_speed_command = - self.KP_LATERAL * lane_coords[1]
+        # Lateral speed to heading
+        heading_command = np.arcsin(np.clip(lateral_speed_command / utils.not_zero(self.speed), -1, 1))
+        heading_ref = lane_future_heading + np.clip(heading_command, -np.pi/4, np.pi/4)
+        # Heading control
+        heading_rate_command = self.KP_HEADING * utils.wrap_to_pi(heading_ref - self.heading)
+        # Heading rate to steering angle
+        slip_angle = np.arcsin(np.clip(self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command, -1, 1))
+        steering_angle = np.arctan(2 * np.tan(slip_angle))
+        steering_angle = np.clip(steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+        return float(steering_angle)
+
+
+
+
+
+
     def get_available_actions(self) -> List[int]:
         actions = [self.actions_indexes['IDLE']]
         network = self.controlled_vehicle.road.network
