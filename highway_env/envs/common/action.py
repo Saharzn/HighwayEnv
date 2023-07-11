@@ -123,8 +123,8 @@ class ContinuousAction(ActionType):
         self.action_lat = self.ACTIONS_LAT if lateral else None
         self.size = 1
         self.action_lat_indexes = {v: k for k, v in self.action_lat.items()}
-        self.last_action['acceleration'] = 0
-        self.last_action['steering'] = 'IDLE'
+        #self.last_action['acceleration'] = 0
+        #self.last_action['steering'] = 'IDLE'
         self.target_lane_index = target_lane_index 
 
     def space(self):
@@ -159,6 +159,7 @@ class ContinuousAction(ActionType):
                 "steering":0.1,
             })
         self.last_action = action
+    
     def steering_control(self, target_lane_index: LaneIndex) -> float:
         """
         Steer the vehicle to follow the center of an given lane.
