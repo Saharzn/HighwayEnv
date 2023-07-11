@@ -123,7 +123,8 @@ class ContinuousAction(ActionType):
         self.action_lat = self.ACTIONS_LAT if lateral else None
         self.size = 1
         self.action_lat_indexes = {v: k for k, v in self.action_lat.items()}
-        self.last_action = [0, 'IDLE']
+        self.last_action['acceleration'] = 0
+        self.last_action['steering'] = 'IDLE'
         self.target_lane_index = target_lane_index 
 
     def space(self):
@@ -136,7 +137,7 @@ class ContinuousAction(ActionType):
     
     def act(self, action: np.ndarray) -> None:
         if self.clip:
-            action[0] = np.clip(action[0], -1, 1)
+            action['acceleration'] = np.clip(action['acceleration'], -1, 1)
         if self.speed_range:
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
            
@@ -153,7 +154,7 @@ class ContinuousAction(ActionType):
                      #self.target_lane_index = target_lane_index
             
             self.controlled_vehicle.act({
-                "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
+                "acceleration": utils.lmap(action['acceleration'], [-1, 1], self.acceleration_range),
                 #"steering": steering_control(self,self.target_lane_index),
                 "steering":0.1,
             })
