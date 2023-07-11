@@ -153,7 +153,7 @@ class ContinuousAction(ActionType):
                      #self.target_lane_index = target_lane_index
             
             self.controlled_vehicle.act({
-                "acceleration_index": utils.lmap(action[0], [-1, 1], self.acceleration_range),
+                "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
                 #"steering": steering_control(self,self.target_lane_index),
                 "steering":0.1,
             })
