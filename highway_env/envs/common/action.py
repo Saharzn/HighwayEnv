@@ -201,31 +201,6 @@ def get_available_actions(self) -> List[int]:
                     and self.lateral:
                 actions.append(self.actions_indexes['LANE_RIGHT'])
         return actions
-    
-class DiscreteAction(ContinuousAction):
-    def __init__(self,
-                 env: 'AbstractEnv',
-                 acceleration_range: Optional[Tuple[float, float]] = None,
-                 steering_range: Optional[Tuple[float, float]] = None,
-                 longitudinal: bool = True,
-                 lateral: bool = True,
-                 dynamical: bool = False,
-                 clip: bool = True,
-                 actions_per_axis: int = 3,
-                 **kwargs) -> None:
-        super().__init__(env, acceleration_range=acceleration_range, steering_range=steering_range,
-                         longitudinal=longitudinal, lateral=lateral, dynamical=dynamical, clip=clip)
-        self.actions_per_axis = actions_per_axis
-
-    def space(self) -> spaces.Discrete:
-        return spaces.Discrete(self.actions_per_axis**self.size)
-
-    def act(self, action: int) -> None:
-        cont_space = super().space()
-        axes = np.linspace(cont_space.low, cont_space.high, self.actions_per_axis).T
-        all_actions = list(itertools.product(*axes))
-        super().act(all_actions[action])
-
 
 class DiscreteMetaAction(ActionType):
 
@@ -350,9 +325,7 @@ class MultiAgentAction(ActionType):
 
 def action_factory(env: 'AbstractEnv', config: dict) -> ActionType:
     if config["type"] == "ContinuousAction_s":
-        return ContinuousAction(env, **config)
-    if config["type"] == "DiscreteAction":
-        return DiscreteAction(env, **config)
+        return ContinuousAction_s(env, **config)
     elif config["type"] == "DiscreteMetaAction":
         return DiscreteMetaAction(env, **config)
     elif config["type"] == "MultiAgentAction":
