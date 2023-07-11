@@ -193,12 +193,7 @@ def steering_control(self, target_lane_index: LaneIndex) -> float:
         steering_angle = np.clip(steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         return float(steering_angle)
 
-
-
-
-
-
-    def get_available_actions(self) -> List[int]:
+def get_available_actions(self) -> List[int]:
         actions = [self.actions_indexes['IDLE']]
         network = self.controlled_vehicle.road.network
         for l_index in network.side_lanes(self.controlled_vehicle.lane_index):
