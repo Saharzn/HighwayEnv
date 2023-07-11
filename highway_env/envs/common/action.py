@@ -140,7 +140,7 @@ class ContinuousAction(ActionType):
         if self.longitudinal and self.lateral:
             self.controlled_vehicle.act({
                 "acceleration_index": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-                "steering": CV.index_lane(self,action),
+                "steering": CV.steering_control(self,action),
             })
         self.last_action = action
     
