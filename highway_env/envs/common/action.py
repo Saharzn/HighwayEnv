@@ -95,8 +95,8 @@ class ContinuousAction(ActionType):
                  longitudinal: bool = True,
                  lateral: bool = True,
                  dynamical: bool = False,
+                 target_lane_index: LaneIndex = None,
                  clip: bool = True,
-                 target_lane_index: LaneIndex,
                  **kwargs) -> None:
         """
         Create a continuous action space.
