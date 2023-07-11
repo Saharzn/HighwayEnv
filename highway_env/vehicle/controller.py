@@ -111,7 +111,7 @@ class ControlledVehicle(Vehicle):
                 target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
                 if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                     self.target_lane_index = target_lane_index
-            return _from
+            print(_from)
     
     
     def follow_road(self) -> None:
