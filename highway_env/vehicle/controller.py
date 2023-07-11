@@ -87,11 +87,11 @@ class ControlledVehicle(Vehicle):
           #  if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
          #       self.target_lane_index = target_lane_index  
         #return self.steering_control(self.target_lane_index)
-        if action == "LANE_LEFT":
-            _from, _to, _id = self.target_lane_index
-            target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                self.target_lane_index = target_lane_index
+        #if action == "LANE_LEFT":
+            #_from, _to, _id = self.target_lane_index
+            #target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+           # if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                #self.target_lane_index = target_lane_index
         return(self.lane_index)
     
     def act(self, action: Union[dict, str] = None) -> None:
