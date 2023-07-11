@@ -70,7 +70,7 @@ class ActionType(object):
         self.__controlled_vehicle = vehicle
 
 
-class ContinuousAction_s(ActionType):
+class ContinuousAction(ActionType):
     """
     An continuous action space for throttle and/or steering angle.
 
@@ -324,8 +324,8 @@ class MultiAgentAction(ActionType):
 
 
 def action_factory(env: 'AbstractEnv', config: dict) -> ActionType:
-    if config["type"] == "ContinuousAction_s":
-        return ContinuousAction_s(env, **config)
+    if config["type"] == "ContinuousAction":
+        return ContinuousAction(env, **config)
     elif config["type"] == "DiscreteMetaAction":
         return DiscreteMetaAction(env, **config)
     elif config["type"] == "MultiAgentAction":
