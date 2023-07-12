@@ -117,7 +117,7 @@ class HighwayEnv(AbstractEnv):
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
             "fuel_reward": forward_speed/(350*0.00214),
-            "index": self.vehicle.target_lane_index
+            "index": [self.vehicle.lane_index, self.vehicle.target_lane_index]
         
         }
 
