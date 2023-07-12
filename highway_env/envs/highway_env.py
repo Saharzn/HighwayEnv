@@ -102,8 +102,6 @@ class HighwayEnv(AbstractEnv):
         reward *= rewards['on_road_reward']
         return reward
 
-    def index_s():
-        return(vehicle.lane_index)
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
         neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
@@ -119,6 +117,7 @@ class HighwayEnv(AbstractEnv):
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
             "fuel_reward": forward_speed/(350*0.00214)
+            "index": self.vehicle.lane_index
         
         }
 
