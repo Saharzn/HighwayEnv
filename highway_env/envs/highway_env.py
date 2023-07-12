@@ -102,7 +102,7 @@ class HighwayEnv(AbstractEnv):
         reward *= rewards['on_road_reward']
         return reward
 
-    def index_s:
+    def index_s():
         return(vehicle.lane_index)
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
