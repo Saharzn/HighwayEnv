@@ -168,7 +168,7 @@ def steering_control(self, target_lane_index: LaneIndex) -> float:
     
 
     
-    def act(self, action: np.ndarray) -> None:
+def act(self, action: np.ndarray) -> None:
         if self.clip:
             action[0] = np.clip(action[0], -1, 1)
         if self.speed_range:
