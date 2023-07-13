@@ -292,7 +292,8 @@ class MultiAgentAction(ActionType):
         return itertools.product(*[action_type.get_available_actions() for action_type in self.agents_action_types])
 
 
-def action_factory(env: 'AbstractEnv', config: dict) -> ActionType:
+def action_factory(env: 'AbstractEnv', road: Road,
+                 position: Vector, config: dict) -> ActionType:
     if config["type"] == "ContinuousAction_s":
         return ContinuousAction_s(env,road, position, **config)
     if config["type"] == "DiscreteMetaAction":
