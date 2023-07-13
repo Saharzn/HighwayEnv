@@ -87,16 +87,16 @@ class ControlledVehicle(Vehicle):
         ACCELERATION_RANGE = (-5, 5.0)
         acceleration_range = ACCELERATION_RANGE
         self.follow_road()
-        if action[1] == "LANE_LEFT":
-            _from, _to, _id = self.target_lane_index
-            target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                self.target_lane_index = target_lane_index
-        elif action[1] == "LANE_RIGHT":
-            _from, _to, _id = self.target_lane_index
-            target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                self.target_lane_index = target_lane_index    
+        #if action[1] == "LANE_LEFT":
+         #   _from, _to, _id = self.target_lane_index
+          #  target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+           # if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+            #    self.target_lane_index = target_lane_index
+        #elif action[1] == "LANE_RIGHT":
+         #   _from, _to, _id = self.target_lane_index
+          #  target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+           # if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+            #    self.target_lane_index = target_lane_index    
         elif action == "FASTER":
             self.target_speed += self.DELTA_SPEED
         elif action == "SLOWER":
