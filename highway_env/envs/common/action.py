@@ -150,7 +150,7 @@ class ContinuousAction_s(ActionType):
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
                     and self.lateral:
                   action[1] = self.action_lat_indexes['LANE_RIGHT']
-            target_index = CV.index_s(self,action)
+            #target_index = CV.index_s(self,action)
             #self.controlled_vehicle.act({
              #   "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
               #  "steering": CV.steering_control(self,target_index)
