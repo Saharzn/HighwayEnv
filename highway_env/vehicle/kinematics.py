@@ -99,14 +99,14 @@ class Vehicle(RoadObject):
             v.color = vehicle.color
         return v
 
-    def act(self, action_s: Union[dict, str] = None) -> None:
+    def act(self, action) -> None:
         """
         Store an action to be repeated.
 
         :param action: the input action
         """
-        if action_s:
-            self.action_s = action_s
+        if action:
+            self.action = action
 
     def step(self, dt: float) -> None:
         """
@@ -119,7 +119,7 @@ class Vehicle(RoadObject):
         :param dt: timestep of integration of the model [s]
         """
         self.clip_actions()
-        delta_f = self.action_s['steering']
+        delta_f = self.action['steering']
         beta = np.arctan(1 / 2 * np.tan(delta_f))
         v = self.speed * np.array([np.cos(self.heading + beta),
                                    np.sin(self.heading + beta)])
@@ -129,19 +129,19 @@ class Vehicle(RoadObject):
             self.crashed = True
             self.impact = None
         self.heading += self.speed * np.sin(beta) / (self.LENGTH / 2) * dt
-        self.speed += self.action_s['acceleration'] * dt
+        self.speed += self.action['acceleration'] * dt
         self.on_state_update()
 
     def clip_actions(self) -> None:
         if self.crashed:
-            self.action_s['steering'] = 0
-            self.action_s['acceleration'] = -1.0*self.speed
-        self.action_s['steering'] = float(self.action_s['steering'])
-        self.action_s['acceleration'] = float(self.action_s['acceleration'])
+            self.action['steering'] = 0
+            self.action['acceleration'] = -1.0*self.speed
+        self.action['steering'] = float(self.action['steering'])
+        self.action['acceleration'] = float(self.action['acceleration'])
         if self.speed > self.MAX_SPEED:
-            self.action_s['acceleration'] = min(self.action_s['acceleration'], 1.0 * (self.MAX_SPEED - self.speed))
+            self.action['acceleration'] = min(self.action['acceleration'], 1.0 * (self.MAX_SPEED - self.speed))
         elif self.speed < self.MIN_SPEED:
-            self.action_s['acceleration'] = max(self.action_s['acceleration'], 1.0 * (self.MIN_SPEED - self.speed))
+            self.action['acceleration'] = max(self.action['acceleration'], 1.0 * (self.MIN_SPEED - self.speed))
 
     def on_state_update(self) -> None:
         if self.road:
@@ -152,9 +152,9 @@ class Vehicle(RoadObject):
 
     def predict_trajectory_constant_speed(self, times: np.ndarray) -> Tuple[List[np.ndarray], List[float]]:
         if self.prediction_type == 'zero_steering':
-            action_s = {'acceleration': 0.0, 'steering': 0.0}
+            action = {'acceleration': 0.0, 'steering': 0.0}
         elif self.prediction_type == 'constant_steering':
-            action_s = {'acceleration': 0.0, 'steering': self.action_s['steering']}
+            action = {'acceleration': 0.0, 'steering': self.action['steering']}
         else:
             raise ValueError("Unknown predition type")
 
@@ -163,7 +163,7 @@ class Vehicle(RoadObject):
         positions = []
         headings = []
         v = copy.deepcopy(self)
-        v.act(action_s)
+        v.act(action)
         for t in dt:
             v.step(t)
             positions.append(v.position.copy())
