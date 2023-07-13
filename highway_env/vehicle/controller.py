@@ -6,6 +6,7 @@ from highway_env import utils
 from highway_env.road.road import Road, LaneIndex, Route
 from highway_env.utils import Vector
 from highway_env.vehicle.kinematics import Vehicle
+from highway_env.envs.common.action import ActionType
 
 
 class ControlledVehicle(Vehicle):
@@ -30,6 +31,7 @@ class ControlledVehicle(Vehicle):
     KP_LATERAL = 1 / TAU_LATERAL  # [1/s]
     MAX_STEERING_ANGLE = np.pi / 3  # [rad]
     DELTA_SPEED = 5  # [m/s]
+    action_type: ActionType
 
     def __init__(self,
                  road: Road,
@@ -85,7 +87,7 @@ class ControlledVehicle(Vehicle):
         :param action: a high-level action
         """
         ACCELERATION_RANGE = (-5, 5.0)
-        self.acceleration_range = self.ACCELERATION_RANGE
+        acceleration_range = ACCELERATION_RANGE
         self.follow_road()
         if action[1] == "LANE_LEFT":
             _from, _to, _id = self.target_lane_index
@@ -112,9 +114,13 @@ class ControlledVehicle(Vehicle):
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
 
+        #action = {"steering": self.steering_control(self.target_lane_index),
+         #         "acceleration": utils.lmap(action[0], [-1, 1], acceleration_range)}
+        #action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         action = {"steering": self.steering_control(self.target_lane_index),
-                  "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range)}
+                  "acceleration": self.speed_control(self.target_speed)}
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+        
         super().act(action)
 
     
