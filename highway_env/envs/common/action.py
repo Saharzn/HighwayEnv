@@ -168,7 +168,7 @@ def act(self, action: np.ndarray) -> None:
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
                 #"steering": steering_control(self,self.target_lane_index),
-                "steering":0.1
+                "steering":0.1,
             })
         self.last_action = action
     
