@@ -143,27 +143,27 @@ class ContinuousAction_s(ActionType):
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
            
         if self.longitudinal and self.lateral:
-            #network = self.controlled_vehicle.road.network
-            #for l_index in network.side_lanes(self.controlled_vehicle.lane_index):
-             #   if l_index[2] < self.controlled_vehicle.lane_index[2] \
-              #      and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
-               #     and self.lateral:
-                #  action[1] = self.action_lat_indexes['LANE_LEFT']
-                #if l_index[2] > self.controlled_vehicle.lane_index[2] \
-                 #   and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
-                  #  and self.lateral:
-                  #action[1] = self.action_lat_indexes['LANE_RIGHT']
+            network = self.controlled_vehicle.road.network
+            for l_index in network.side_lanes(self.controlled_vehicle.lane_index):
+                if l_index[2] < self.controlled_vehicle.lane_index[2] \
+                    and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
+                    and self.lateral:
+                  action[1] = self.action_lat_indexes['LANE_LEFT']
+                if l_index[2] > self.controlled_vehicle.lane_index[2] \
+                    and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
+                    and self.lateral:
+                  action[1] = self.action_lat_indexes['LANE_RIGHT']
 
-            #if action[1] == "LANE_LEFT":
-             #     _from, _to, _id = self.target_lane_index
-              #    target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-               #   if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                #     self.target_lane_index = target_lane_index
-            #elif action[1] == "LANE_RIGHT":
-             #     _from, _to, _id = self.target_lane_index
-              #    target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-               #   if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                #     self.target_lane_index = target_lane_index
+            if action[1] == "LANE_LEFT":
+                  _from, _to, _id = self.target_lane_index
+                  target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+                  if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                     self.target_lane_index = target_lane_index
+            elif action[1] == "LANE_RIGHT":
+                  _from, _to, _id = self.target_lane_index
+                  target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+                  if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                     self.target_lane_index = target_lane_index
             
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
