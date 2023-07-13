@@ -30,7 +30,6 @@ class ControlledVehicle(Vehicle):
     KP_LATERAL = 1 / TAU_LATERAL  # [1/s]
     MAX_STEERING_ANGLE = np.pi / 3  # [rad]
     DELTA_SPEED = 5  # [m/s]
-    action_type: ActionType
 
     def __init__(self,
                  road: Road,
