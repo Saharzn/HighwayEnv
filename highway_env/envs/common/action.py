@@ -70,7 +70,7 @@ class ActionType(object):
         self.__controlled_vehicle = vehicle
 
 
-class DiscreteMetaAction(ActionType):
+class ContinuousAction_s(ActionType):
     """
     An continuous action space for throttle and/or steering angle.
 
@@ -159,8 +159,72 @@ class DiscreteMetaAction(ActionType):
             })
         self.last_action = action
     
-    
-def get_available_actions(self) -> List[int]:
+class DiscreteMetaAction(ActionType):
+
+    """
+    An discrete action space of meta-actions: lane changes, and cruise control set-point.
+    """
+
+    ACTIONS_ALL = {
+        0: 'LANE_LEFT',
+        1: 'IDLE',
+        2: 'LANE_RIGHT',
+        3: 'FASTER',
+        4: 'SLOWER'
+    }
+    """A mapping of action indexes to labels."""
+
+    ACTIONS_LONGI = {
+        0: 'SLOWER',
+        1: 'IDLE',
+        2: 'FASTER'
+    }
+    """A mapping of longitudinal action indexes to labels."""
+
+    ACTIONS_LAT = {
+        0: 'LANE_LEFT',
+        1: 'IDLE',
+        2: 'LANE_RIGHT'
+    }
+    """A mapping of lateral action indexes to labels."""
+
+    def __init__(self,
+                 env: 'AbstractEnv',
+                 longitudinal: bool = True,
+                 lateral: bool = True,
+                 target_speeds: Optional[Vector] = None,
+                 **kwargs) -> None:
+        """
+        Create a discrete action space of meta-actions.
+
+        :param env: the environment
+        :param longitudinal: include longitudinal actions
+        :param lateral: include lateral actions
+        :param target_speeds: the list of speeds the vehicle is able to track
+        """
+        super().__init__(env)
+        self.longitudinal = longitudinal
+        self.lateral = lateral
+        self.target_speeds = np.array(target_speeds) if target_speeds is not None else MDPVehicle.DEFAULT_TARGET_SPEEDS
+        self.actions = self.ACTIONS_ALL if longitudinal and lateral \
+            else self.ACTIONS_LONGI if longitudinal \
+            else self.ACTIONS_LAT if lateral \
+            else None
+        if self.actions is None:
+            raise ValueError("At least longitudinal or lateral actions must be included")
+        self.actions_indexes = {v: k for k, v in self.actions.items()}
+
+    def space(self) -> spaces.Space:
+        return spaces.Discrete(len(self.actions))
+
+    @property
+    def vehicle_class(self) -> Callable:
+        return functools.partial(MDPVehicle, target_speeds=self.target_speeds)
+
+    def act(self, action: Union[int, np.ndarray]) -> None:
+        self.controlled_vehicle.act(self.actions[int(action)])
+
+    def get_available_actions(self) -> List[int]:
         """
         Get the list of currently available actions.
 
@@ -180,11 +244,11 @@ def get_available_actions(self) -> List[int]:
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
                     and self.lateral:
                 actions.append(self.actions_indexes['LANE_RIGHT'])
+        if self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 and self.longitudinal:
+            actions.append(self.actions_indexes['FASTER'])
+        if self.controlled_vehicle.speed_index > 0 and self.longitudinal:
+            actions.append(self.actions_indexes['SLOWER'])
         return actions
-
-
-
-
 
 
 
@@ -219,8 +283,8 @@ class MultiAgentAction(ActionType):
 
 
 def action_factory(env: 'AbstractEnv', config: dict) -> ActionType:
-    #if config["type"] == "ContinuousAction_s":
-     #   return ContinuousAction_s(env, **config)
+    if config["type"] == "ContinuousAction_s":
+        return ContinuousAction_s(env, **config)
     if config["type"] == "DiscreteMetaAction":
         return DiscreteMetaAction(env, **config)
     elif config["type"] == "MultiAgentAction":
