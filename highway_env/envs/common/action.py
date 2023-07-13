@@ -121,7 +121,7 @@ class ContinuousAction_s(ActionType):
         self.action_lat = self.ACTIONS_LAT if lateral else None
         self.size = 1
         self.action_lat_indexes = {v: k for k, v in self.action_lat.items()}
-        self.last_action = [0, 'IDLE'] 
+        self.last_action = {"acceleration":0, "steering":'IDLE'}
 
     def space(self):
         return [spaces.Box(-1., 1., shape=(self.size,), dtype=np.float32), spaces.Discrete(len(self.action_lat))]
@@ -138,17 +138,17 @@ class ContinuousAction_s(ActionType):
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
            
         if self.longitudinal and self.lateral:
-            action = [0, 'IDLE']
+            action = {"acceleration": 0, "steering":'IDLE'}
             network = self.controlled_vehicle.road.network
             for l_index in network.side_lanes(self.controlled_vehicle.lane_index):
                 if l_index[2] < self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
                     and self.lateral:
-                  action[1] = 'LANE_LEFT'
+                  action["steering"] = 'LANE_LEFT'
                 if l_index[2] > self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
                     and self.lateral:
-                  action[1] = 'LANE_RIGHT'
+                  action["steering"] = 'LANE_RIGHT'
             #target_index = CV.index_s(self,action)
             #self.controlled_vehicle.act({
              #   "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
