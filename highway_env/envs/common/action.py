@@ -131,7 +131,7 @@ class ContinuousAction_s(ActionType):
         return Vehicle if not self.dynamical else BicycleVehicle
 
     
-    def act(self, action: np.ndarray) -> None:
+    def act(self, actions: np.ndarray) -> None:
         if self.clip:
             actions[0] = np.clip(action[0], -1, 1)
         if self.speed_range:
