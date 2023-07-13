@@ -84,6 +84,8 @@ class ControlledVehicle(Vehicle):
 
         :param action: a high-level action
         """
+        ACCELERATION_RANGE = (-5, 5.0)
+        self.acceleration_range = self.ACCELERATION_RANGE
         self.follow_road()
         if action[1] == "LANE_LEFT":
             _from, _to, _id = self.target_lane_index
@@ -111,7 +113,7 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
 
         action = {"steering": self.steering_control(self.target_lane_index),
-                  "acceleration": action[0]}
+                  "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range)}
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         super().act(action)
 
