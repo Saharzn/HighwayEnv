@@ -75,7 +75,7 @@ class ControlledVehicle(Vehicle):
             self.route = [self.lane_index]
         return self
 
-    def act(self, action) -> None:
+    def act_steer(self, action) -> None:
         """
         Perform a high-level action to change the desired lane or speed.
 
@@ -87,12 +87,12 @@ class ControlledVehicle(Vehicle):
         ACCELERATION_RANGE = (-5, 5.0)
         acceleration_range = ACCELERATION_RANGE
         self.follow_road()
-        if action[1] == "LANE_LEFT":
+        if action["steering_ind"] == "LANE_LEFT":
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
-        elif action[1] == "LANE_RIGHT":
+        elif action["steering_ind"] == "LANE_RIGHT":
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
@@ -112,8 +112,7 @@ class ControlledVehicle(Vehicle):
            # if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
             #    self.target_lane_index = target_lane_index
 
-        actions = {"acceleration": utils.lmap(action[0], [-1, 1], acceleration_range), "steering": 0.1}
-        
+       return (np.clipself.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE))  
         
         #{"steering": self.steering_control(self.target_lane_index),
                #   "steering": 0.1,
@@ -123,7 +122,8 @@ class ControlledVehicle(Vehicle):
          #         "acceleration": self.speed_control(self.target_speed)}
         #action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         
-        super().act(actions)
+        #super().act(actions)
+     
 
     
     
