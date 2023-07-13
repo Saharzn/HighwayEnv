@@ -96,8 +96,17 @@ class ContinuousAction_s(ActionType):
                  lateral: bool = True,
                  dynamical: bool = False,
                  target_lane_index: LaneIndex = None,
+                 road: Road,
+                 position: Vector,
+                 heading: float = 0,
+                 speed: float = 0,
+                 target_lane_index: LaneIndex = None,
+                 route: Route = None
                  clip: bool = True,
                  **kwargs) -> None:
+        super().__init__(road, position, heading, speed)
+        self.target_lane_index = target_lane_index or self.lane_index
+        self.route = route
         """
         Create a continuous action space.
 
