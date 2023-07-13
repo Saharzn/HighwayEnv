@@ -140,7 +140,7 @@ class ContinuousAction_s(ActionType):
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
            
         if self.longitudinal and self.lateral:
-            action = [0, self.action_lat['IDLE']]
+            action = [0, self.action_lat_indexes['IDLE']]
             network = self.controlled_vehicle.road.network
             for l_index in network.side_lanes(self.controlled_vehicle.lane_index):
                 if l_index[2] < self.controlled_vehicle.lane_index[2] \
