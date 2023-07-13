@@ -150,12 +150,12 @@ class ContinuousAction_s(ActionType):
                     and self.lateral:
                   actions[1] = 'LANE_RIGHT'
             #target_index = CV.index_s(self,action)
-            #self.controlled_vehicle.act({
-             #   "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-              #  "steering": CV.steering_control(self,target_index)
+            self.controlled_vehicle.act({
+                "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range),
+              #  "steering_ind": actions [1]
                # #"steering":0.1,
             #})
-            self.controlled_vehicle.act(actions)
+            
         self.last_actions = actions
     
 class DiscreteMetaAction(ActionType):
