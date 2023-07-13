@@ -39,7 +39,7 @@ class Vehicle(RoadObject):
                  predition_type: str = 'constant_steering'):
         super().__init__(road, position, heading, speed)
         self.prediction_type = predition_type
-        self.action_s = {'steering': 0, 'acceleration': 0}
+        self.action = {'steering': 0, 'acceleration': 0}
         self.crashed = False
         self.impact = None
         self.log = []
@@ -99,7 +99,7 @@ class Vehicle(RoadObject):
             v.color = vehicle.color
         return v
 
-    def act(self, action) -> None:
+    def act(self, action: Union[dict, str] = None) -> None:
         """
         Store an action to be repeated.
 
