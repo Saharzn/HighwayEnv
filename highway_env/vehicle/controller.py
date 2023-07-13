@@ -112,7 +112,7 @@ class ControlledVehicle(Vehicle):
            # if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
             #    self.target_lane_index = target_lane_index
 
-       return (np.clipself.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE))  
+        return (np.clipself.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE))  
         
         #{"steering": self.steering_control(self.target_lane_index),
                #   "steering": 0.1,
