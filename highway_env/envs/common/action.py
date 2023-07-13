@@ -11,7 +11,7 @@ from highway_env.vehicle.dynamics import BicycleVehicle
 from highway_env.vehicle.kinematics import Vehicle
 from highway_env.vehicle.controller import MDPVehicle
 from highway_env.road.road import Road, LaneIndex, Route
-
+from highway_env.vehicle.controller import ControlledVehicle as CV
 if TYPE_CHECKING:
     from highway_env.envs.common.abstract import AbstractEnv
 
@@ -152,7 +152,7 @@ class ContinuousAction_s(ActionType):
             #target_index = CV.index_s(self,action)
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range),
-                "steering_ind": actions [1]
+                "steering_ind": CV.act_steer(self,actions)
                # #"steering":0.1,
             })
             
