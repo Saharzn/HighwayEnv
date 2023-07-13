@@ -104,7 +104,7 @@ class ContinuousAction_s(ActionType):
                  dynamical: bool = False,
                  clip: bool = True,
                  **kwargs) -> None:
-        super().__init__(road, position, heading, speed)
+        #super().__init__(road, position, heading, speed)
         self.target_lane_index = target_lane_index or self.lane_index
         self.route = route
         """
