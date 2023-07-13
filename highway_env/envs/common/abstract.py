@@ -6,6 +6,7 @@ from gymnasium import Wrapper
 from gymnasium.wrappers import RecordVideo
 from gymnasium.utils import seeding
 import numpy as np
+import random
 
 from highway_env import utils
 from highway_env.envs.common.action import action_factory, Action, DiscreteMetaAction, ActionType
@@ -205,7 +206,14 @@ class AbstractEnv(gym.Env):
         self._reset()
         self.define_spaces()  # Second, to link the obs and actions to the vehicles once the scene is created
         obs = self.observation_type.observe()
-        info = self._info(obs, action=self.action_space.sample())
+
+
+        d = {0: 'LANE_LEFT',
+            1: 'IDLE',
+            2: 'LANE_RIGHT'}
+
+
+        info = self._info(obs, action=[random.sample([-1,1],1), random.sample(list(d), 1)])
         if self.render_mode == 'human':
             self.render()
         return obs, info
