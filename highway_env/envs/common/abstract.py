@@ -15,8 +15,7 @@ from highway_env.envs.common.graphics import EnvViewer
 from highway_env.vehicle.behavior import IDMVehicle, LinearVehicle
 from highway_env.vehicle.controller import MDPVehicle
 from highway_env.vehicle.kinematics import Vehicle
-import random
-from highway_env.road.road import Road, LaneIndex, Route
+
 Observation = TypeVar("Observation")
 
 
@@ -176,7 +175,7 @@ class AbstractEnv(gym.Env):
         info = {
             "speed": self.vehicle.speed,
             "crashed": self.vehicle.crashed,
-            "action": action
+            "action": action,
         }
         try:
             info["rewards"] = self._rewards(action)
@@ -206,13 +205,7 @@ class AbstractEnv(gym.Env):
         self._reset()
         self.define_spaces()  # Second, to link the obs and actions to the vehicles once the scene is created
         obs = self.observation_type.observe()
-        
-        d = {0: 'LANE_LEFT',
-        1: 'IDLE',
-        2: 'LANE_RIGHT'}
-
-        
-        info = self._info(obs, action=[random.sample([-1,1],1), random.sample(list(d), 1)])
+        info = self._info(obs, action=self.action_space.sample())
         if self.render_mode == 'human':
             self.render()
         return obs, info
