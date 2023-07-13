@@ -115,7 +115,7 @@ class ControlledVehicle(Vehicle):
         action = [utils.lmap(action[0], [-1, 1], acceleration_range), 0.1]
         
         
-        {#"steering": self.steering_control(self.target_lane_index),
+        #{"steering": self.steering_control(self.target_lane_index),
                #   "steering": 0.1,
                 #  "acceleration": utils.lmap(action[0], [-1, 1], acceleration_range)}
         #action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
