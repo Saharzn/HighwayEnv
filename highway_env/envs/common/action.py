@@ -89,18 +89,19 @@ class ContinuousAction_s(ActionType):
     }
 
     def __init__(self,
+                 road: Road,
+                 position: Vector,
+                 heading: float = 0,
+                 speed: float = 0,
+                 target_lane_index: LaneIndex = None,
+                 target_speed: float = None,
+                 route: Route = None
                  env: 'AbstractEnv',
                  acceleration_range: Optional[Tuple[float, float]] = None,
                  speed_range: Optional[Tuple[float, float]] = None,
                  longitudinal: bool = True,
                  lateral: bool = True,
                  dynamical: bool = False,
-                 road: Road,
-                 position: Vector,
-                 heading: float = 0,
-                 speed: float = 0,
-                 target_lane_index: LaneIndex = None,
-                 route: Route = None
                  clip: bool = True,
                  **kwargs) -> None:
         super().__init__(road, position, heading, speed)
