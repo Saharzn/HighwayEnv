@@ -121,7 +121,7 @@ class ContinuousAction_s(ActionType):
         self.action_lat = self.ACTIONS_LAT if lateral else None
         self.size = 1
         self.action_lat_indexes = {v: k for k, v in self.action_lat.items()}
-        self.last_action = {"acceleration":0, "steering":'IDLE'}
+        self.last_actions = [0, 'IDLE']
 
     def space(self):
         return [spaces.Box(-1., 1., shape=(self.size,), dtype=np.float32), spaces.Discrete(len(self.action_lat))]
@@ -133,30 +133,30 @@ class ContinuousAction_s(ActionType):
     
     def act(self, action: np.ndarray) -> None:
         if self.clip:
-            action[0] = np.clip(action[0], -1, 1)
+            actions[0] = np.clip(actions[0], -1, 1)
         if self.speed_range:
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
            
         if self.longitudinal and self.lateral:
-            action = {"acceleration": 0, "steering":'IDLE'}
+            actions = [0, 'IDLE']
             network = self.controlled_vehicle.road.network
             for l_index in network.side_lanes(self.controlled_vehicle.lane_index):
                 if l_index[2] < self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
                     and self.lateral:
-                  action["steering"] = 'LANE_LEFT'
+                  actions[1] = 'LANE_LEFT'
                 if l_index[2] > self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
                     and self.lateral:
-                  action["steering"] = 'LANE_RIGHT'
+                  actions[1] = 'LANE_RIGHT'
             #target_index = CV.index_s(self,action)
             #self.controlled_vehicle.act({
              #   "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
               #  "steering": CV.steering_control(self,target_index)
                # #"steering":0.1,
             #})
-            self.controlled_vehicle.act(action)
-        self.last_action = action
+            self.controlled_vehicle.act(actions)
+        self.last_actions = actions
     
 class DiscreteMetaAction(ActionType):
 
