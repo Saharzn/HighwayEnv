@@ -95,7 +95,7 @@ class ContinuousAction_s(ActionType):
                  longitudinal: bool = True,
                  lateral: bool = True,
                  dynamical: bool = False,
-                 target_lane_index: LaneIndex = None,
+                 #target_lane_index: LaneIndex = None,
                  clip: bool = True,
                  **kwargs) -> None:
         """
@@ -123,10 +123,7 @@ class ContinuousAction_s(ActionType):
         self.action_lat = self.ACTIONS_LAT if lateral else None
         self.size = 1
         self.action_lat_indexes = {v: k for k, v in self.action_lat.items()}
-        self.last_action = [0, 'IDLE']
-        
-        #self.lane_index = self.road.network.get_closest_lane_index(self.position, self.heading)
-        self.target_lane_index = target_lane_index 
+        self.last_action = [0, 'IDLE'] 
 
     def space(self):
         return [spaces.Box(-1., 1., shape=(self.size,), dtype=np.float32), spaces.Discrete(len(self.action_lat))]
@@ -153,22 +150,11 @@ class ContinuousAction_s(ActionType):
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
                     and self.lateral:
                   action[1] = self.action_lat_indexes['LANE_RIGHT']
-
-            if action[1] == "LANE_LEFT":
-                  _from, _to, _id = self.target_lane_index
-                  target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-                  if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                     self.target_lane_index = target_lane_index
-            elif action[1] == "LANE_RIGHT":
-                  _from, _to, _id = ['0','1',0]
-                  target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-                  if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                     self.target_lane_index = target_lane_index
-            
+            target_index = CV.index_s(self,action)
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-                #"steering": steering_control(self,self.target_lane_index),
-                "steering":0.1,
+                "steering": CV.self.steering_control(target_index)
+                #"steering":0.1,
             })
         self.last_action = action
     
