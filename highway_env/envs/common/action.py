@@ -154,7 +154,6 @@ class ContinuousAction_s(ActionType):
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
                     and self.lateral:
                   actions[1] = 'LANE_RIGHT'
-            (self.actions[int(action)])
             
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range),
