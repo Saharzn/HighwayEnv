@@ -156,7 +156,7 @@ class ContinuousAction_s(ActionType):
               #  "steering": CV.steering_control(self,target_index)
                # #"steering":0.1,
             #})
-            self.controlled_vehicle.act(self.action)
+            self.controlled_vehicle.act(action)
         self.last_action = action
     
 class DiscreteMetaAction(ActionType):
