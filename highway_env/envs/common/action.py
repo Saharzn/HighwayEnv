@@ -89,6 +89,7 @@ class ContinuousAction_s(ActionType):
     }
 
     def __init__(self,
+                 env: 'AbstractEnv',
                  road: Road,
                  position: Vector,
                  heading: float = 0,
@@ -96,7 +97,6 @@ class ContinuousAction_s(ActionType):
                  target_lane_index: LaneIndex = None,
                  target_speed: float = None,
                  route: Route = None,
-                 env: 'AbstractEnv',
                  acceleration_range: Optional[Tuple[float, float]] = None,
                  speed_range: Optional[Tuple[float, float]] = None,
                  longitudinal: bool = True,
