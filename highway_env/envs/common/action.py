@@ -119,6 +119,7 @@ class ContinuousAction_s(ActionType):
             raise ValueError("Either longitudinal and/or lateral control must be enabled")
         self.dynamical = dynamical
         self.clip = clip
+        self.target_lane_index = target_lane_index
 
         self.action_lat = self.ACTIONS_LAT if lateral else None
         self.size = 1
@@ -154,7 +155,7 @@ class ContinuousAction_s(ActionType):
             target_index = CV.index_s(self,action)
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-                "steering": CV.steering_control(self,target_index)
+                "steering": CV.steering_control(target_index)
                 #"steering":0.1,
             })
         self.last_action = action
