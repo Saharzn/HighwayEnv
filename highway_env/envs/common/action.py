@@ -157,7 +157,7 @@ class ContinuousAction_s(ActionType):
             
             self.controlled_vehicle.act(actions)
         action = {"steering": 0.1,
-                  "acceleration": utils.lmap(actions[0], [-1, 1], acceleration_range)}     
+                  "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range)}     
         self.last_actions = actions
     
 class DiscreteMetaAction(ActionType):
