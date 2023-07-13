@@ -95,7 +95,7 @@ class ContinuousAction_s(ActionType):
                  speed: float = 0,
                  target_lane_index: LaneIndex = None,
                  target_speed: float = None,
-                 route: Route = None
+                 route: Route = None,
                  env: 'AbstractEnv',
                  acceleration_range: Optional[Tuple[float, float]] = None,
                  speed_range: Optional[Tuple[float, float]] = None,
