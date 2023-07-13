@@ -148,7 +148,7 @@ class ContinuousAction_s(ActionType):
                 if l_index[2] < self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
                     and self.lateral:
-                  action[1].append(self.actions_indexes['LANE_LEFT'])
+                  action[1] = self.actions_indexes['LANE_LEFT']
                 if l_index[2] > self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
                     and self.lateral:
