@@ -111,22 +111,22 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
 
         action = {"steering": self.steering_control(self.target_lane_index),
-                  "acceleration": self.speed_control(self.target_speed)}
+                  "acceleration": action[0]}
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         super().act(action)
 
-    def index_s(self,action):
-        if action[1] == "LANE_LEFT":
-            _from, _to, _id = self.target_lane_index
-            target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                self.target_lane_index = target_lane_index
-        elif action[1] == "LANE_RIGHT":
-            _from, _to, _id = self.target_lane_index
-            target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                self.target_lane_index = target_lane_index
-        return self.target_lane_index
+    #def index_s(self,action):
+     #   if action[1] == "LANE_LEFT":
+      #      _from, _to, _id = self.target_lane_index
+       #     target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+        #    if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+         #       self.target_lane_index = target_lane_index
+        #elif action[1] == "LANE_RIGHT":
+         #   _from, _to, _id = self.target_lane_index
+          #  target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+           # if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+            #    self.target_lane_index = target_lane_index
+        #return self.target_lane_index
     
     
     def follow_road(self) -> None:
