@@ -125,8 +125,8 @@ class ContinuousAction_s(ActionType):
         self.action_lat_indexes = {v: k for k, v in self.action_lat.items()}
         self.last_action = [0, 'IDLE']
         
-        self.lane_index = self.road.network.get_closest_lane_index(self.position, self.heading)
-        #self.target_lane_index = target_lane_index 
+        #self.lane_index = self.road.network.get_closest_lane_index(self.position, self.heading)
+        self.target_lane_index = target_lane_index 
 
     def space(self):
         return [spaces.Box(-1., 1., shape=(self.size,), dtype=np.float32), spaces.Discrete(len(self.action_lat))]
