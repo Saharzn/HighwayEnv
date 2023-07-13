@@ -95,7 +95,6 @@ class ContinuousAction_s(ActionType):
                  longitudinal: bool = True,
                  lateral: bool = True,
                  dynamical: bool = False,
-                 target_lane_index: LaneIndex = None,
                  road: Road,
                  position: Vector,
                  heading: float = 0,
