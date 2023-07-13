@@ -1,4 +1,4 @@
-import functools
+fimport functools
 import itertools
 from typing import TYPE_CHECKING, Optional, Union, Tuple, Callable, List
 from gymnasium import spaces
@@ -133,7 +133,7 @@ class ContinuousAction_s(ActionType):
     
     def act(self, action: np.ndarray) -> None:
         if self.clip:
-            actions[0] = np.clip(actions[0], -1, 1)
+            actions[0] = np.clip(action[0], -1, 1)
         if self.speed_range:
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
            
