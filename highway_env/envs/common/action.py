@@ -40,7 +40,7 @@ class ActionType(object):
         """
         raise NotImplementedError
 
-    def act(self, action: Action) -> None:
+    #def act(self, action: Action) -> None:
         """
         Execute the action on the ego-vehicle.
 
@@ -50,7 +50,7 @@ class ActionType(object):
 
         :param action: the action to execute
         """
-        raise NotImplementedError
+        #raise NotImplementedError
 
     def get_available_actions(self):
         """
