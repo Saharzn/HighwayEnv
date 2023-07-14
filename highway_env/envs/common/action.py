@@ -155,7 +155,7 @@ class ContinuousAction_s(ActionType):
                     and self.lateral:
                   actions[1] = 'LANE_RIGHT'
             
-            self.controlled_vehicle.act({"steering": np.clip(ControlledVehicle.steering_control(ControlledVehicle.index_s(self, actions)), 
+            self.controlled_vehicle.act({"steering": np.clip(CV.steering_control(CV.index_s(self, actions)), 
                                                              -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
                   "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range)})     
         self.last_actions = actions
@@ -504,6 +504,8 @@ class ControlledVehicle(Vehicle):
         route = self.route or [self.lane_index]
         return tuple(zip(*[self.road.network.position_heading_along_route(route, coordinates[0] + self.speed * t, 0)
                      for t in times]))
+
+CV = ControlledVehicle()
 
 
 class MDPVehicle(ControlledVehicle):
