@@ -191,7 +191,7 @@ class ContinuousAction_s(ActionType):
 
         :param target_lane_index: index of the lane to follow
         :return: a steering wheel angle command [rad]
-        
+        """
 
 
         TAU_ACC = 0.6  # [s]
