@@ -216,7 +216,7 @@ class ContinuousAction_s(ActionType):
         heading_command = np.arcsin(np.clip(lateral_speed_command / utils.not_zero(self.controlled_vehicle.speed), -1, 1))
         heading_ref = lane_future_heading + np.clip(heading_command, -np.pi/4, np.pi/4)
         # Heading control
-        heading_rate_command = KP_HEADING * utils.wrap_to_pi(heading_ref - self.heading)
+        heading_rate_command = KP_HEADING * utils.wrap_to_pi(heading_ref - self.controlled_vehicle.heading)
         # Heading rate to steering angle
         slip_angle = np.arcsin(np.clip(self.LENGTH / 2 / utils.not_zero(self.controlled_vehicle.speed) * heading_rate_command, -1, 1))
         steering_angle = np.arctan(2 * np.tan(slip_angle))
