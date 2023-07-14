@@ -120,7 +120,7 @@ class ContinuousAction_s(ActionType):
         :param dynamical: whether to simulate dynamics (i.e. friction) rather than kinematics
         :param clip: clip action to the defined range
         """
-        super().__init__(env)
+        super().__init__(env,road,position)
         self.acceleration_range = acceleration_range if acceleration_range else self.ACCELERATION_RANGE
         self.speed_range = speed_range
         self.lateral = lateral
