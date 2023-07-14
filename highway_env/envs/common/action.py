@@ -94,13 +94,6 @@ class ContinuousAction_s(ActionType):
 
     def __init__(self,
                  env: 'AbstractEnv',
-                 road: Road,
-                 position: Vector,
-                 heading: float = 0,
-                 speed: float = 0,
-                 target_lane_index: LaneIndex = None,
-                 target_speed: float = None,
-                 route: Route = None,
                  acceleration_range: Optional[Tuple[float, float]] = None,
                  speed_range: Optional[Tuple[float, float]] = None,
                  longitudinal: bool = True,
@@ -166,10 +159,10 @@ class ContinuousAction_s(ActionType):
                     and self.lateral:
                   actions[1] = 'LANE_RIGHT'
             
-            self.controlled_vehicle.act({"steering":le ,
+            self.controlled_vehicle.act({"steering":0.1 ,
                   "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range)})     
         #np.clip(ControlledVehic.steering_control(ControlledVehicle.index_s(actions)), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
-        ControlledVehicle.index_s(actions)
+        #ControlledVehicle.index_s(actions)
         self.last_actions = actions
 
 
@@ -308,9 +301,9 @@ class MultiAgentAction(ActionType):
         return itertools.product(*[action_type.get_available_actions() for action_type in self.agents_action_types])
 
 
-def action_factory(env: 'AbstractEnv',road,position, config: dict) -> ActionType:
+def action_factory(env: 'AbstractEnv', config: dict) -> ActionType:
     if config["type"] == "ContinuousAction_s":
-        return ContinuousAction_s(env,road, position, **config)
+        return ContinuousAction_s(env, **config)
     if config["type"] == "DiscreteMetaAction":
         return DiscreteMetaAction(env, **config)
     elif config["type"] == "MultiAgentAction":
