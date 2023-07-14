@@ -150,7 +150,6 @@ class ContinuousAction_s(ActionType):
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index    
         return target_lane_index
-        print(target_lane_index)
     
     def act(self, actions: np.ndarray) -> None:
         #CV = ControlledVehicle()
@@ -177,7 +176,7 @@ class ContinuousAction_s(ActionType):
         #np.clip(ControlledVehic.steering_control(ControlledVehicle.index_s(actions)), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         #ControlledVehicle.index_s(actions)
         self.last_actions = actions
-        print(self.controlled_vehicle.lane_index)
+        print(index_s(self,actions))
 
 
 
