@@ -155,10 +155,24 @@ class ContinuousAction_s(ActionType):
                     and self.lateral:
                   actions[1] = 'LANE_RIGHT'
             
-            self.controlled_vehicle.act({"steering": 0.1,
+            self.controlled_vehicle.act({"steering": np.clip(ControlledVehicle.steering_control(ControlledVehicle.target_lane_index), 
+                                                             -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
                   "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range)})     
         self.last_actions = actions
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class DiscreteMetaAction(ActionType):
 
     """
