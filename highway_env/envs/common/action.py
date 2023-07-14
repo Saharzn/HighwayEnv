@@ -213,7 +213,7 @@ class ContinuousAction_s(ActionType):
         # Lateral position control
         lateral_speed_command = - KP_LATERAL * lane_coords[1]
         # Lateral speed to heading
-        heading_command = np.arcsin(np.clip(lateral_speed_command / utils.not_zero(controlled_vehicle.speed), -1, 1))
+        heading_command = np.arcsin(np.clip(lateral_speed_command / utils.not_zero(self.controlled_vehicle.speed), -1, 1))
         heading_ref = lane_future_heading + np.clip(heading_command, -np.pi/4, np.pi/4)
         # Heading control
         heading_rate_command = KP_HEADING * utils.wrap_to_pi(heading_ref - self.heading)
