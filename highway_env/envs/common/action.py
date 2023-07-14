@@ -99,6 +99,7 @@ class ContinuousAction_s(ActionType):
                  longitudinal: bool = True,
                  lateral: bool = True,
                  dynamical: bool = False,
+                 target_lane_index: LaneIndex = None,
                  clip: bool = True,
                  **kwargs) -> None:
         """
@@ -118,11 +119,13 @@ class ContinuousAction_s(ActionType):
         self.speed_range = speed_range
         self.lateral = lateral
         self.longitudinal = longitudinal
+        
         if not self.lateral and not self.longitudinal:
             raise ValueError("Either longitudinal and/or lateral control must be enabled")
         self.dynamical = dynamical
         self.clip = clip
 
+        self.target_lane_index = target_lane_index or self.controlled_vehicle.lane_index
         self.action_lat = self.ACTIONS_LAT if lateral else None
         self.size = 1
         self.action_lat_indexes = {v: k for k, v in self.action_lat.items()}
@@ -135,6 +138,19 @@ class ContinuousAction_s(ActionType):
     def vehicle_class(self) -> Callable:
         return Vehicle if not self.dynamical else BicycleVehicle
 
+    def index_s(self, action) -> None:
+        if action[1] == "LANE_LEFT":
+            _from, _to, _id = self.target_lane_index
+            target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                self.target_lane_index = target_lane_index
+        elif action[1] == "LANE_RIGHT":
+            _from, _to, _id = self.target_lane_index
+            target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                self.target_lane_index = target_lane_index    
+        
+      return target_lane_index
     
     def act(self, actions: np.ndarray) -> None:
         #CV = ControlledVehicle()
@@ -393,23 +409,6 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index    
         
         super().act(action)
-
-    
-    def index_s(self, action) -> None:
-        ACCELERATION_RANGE = (-5, 5.0)
-        acceleration_range = ACCELERATION_RANGE
-        if action[1] == "LANE_LEFT":
-            _from, _to, _id = self.target_lane_index
-            target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                self.target_lane_index = target_lane_index
-        elif action[1] == "LANE_RIGHT":
-            _from, _to, _id = self.target_lane_index
-            target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                self.target_lane_index = target_lane_index    
-        
-        return target_lane_index
      
 
     
