@@ -203,8 +203,9 @@ class ContinuousAction_s(ActionType):
         KP_HEADING = 1 / TAU_HEADING
         KP_LATERAL = 1 / TAU_LATERAL  # [1/s]
         MAX_STEERING_ANGLE = np.pi / 3  # [rad]
-        DELTA_SPEED = 5  # [m/s]        
-        target_lane = self.road.network.get_lane(target_lane_index)
+        DELTA_SPEED = 5  # [m/s] 
+        network = self.controlled_vehicle.road.network
+        target_lane = network.get_lane(target_lane_index)
         lane_coords = target_lane.local_coordinates(self.position)
         lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
         lane_future_heading = target_lane.heading_at(lane_next_coords)
