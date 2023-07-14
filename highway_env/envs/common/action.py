@@ -158,7 +158,7 @@ class ContinuousAction_s(ActionType):
                     and self.lateral:
                   actions[1] = 'LANE_RIGHT'
             
-            self.controlled_vehicle.act({"steering":ControlledVehicle.steering_control(self.index_s(actions)) ,
+            self.controlled_vehicle.act({"steering":self.steering_control(self.index_s(actions)) ,
                   "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range)})     
         #np.clip(ControlledVehic.steering_control(ControlledVehicle.index_s(actions)), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         #ControlledVehicle.index_s(actions)
@@ -179,8 +179,48 @@ class ContinuousAction_s(ActionType):
                 self.target_lane_index = target_lane_index    
         return self.target_lane_index
 
+        
+    def steering_control(self, target_lane_index: LaneIndex) -> float:
+        """
+        Steer the vehicle to follow the center of an given lane.
+
+        1. Lateral position is controlled by a proportional controller yielding a lateral speed command
+        2. Lateral speed command is converted to a heading reference
+        3. Heading is controlled by a proportional controller yielding a heading rate command
+        4. Heading rate command is converted to a steering angle
+
+        :param target_lane_index: index of the lane to follow
+        :return: a steering wheel angle command [rad]
+        
 
 
+        TAU_ACC = 0.6  # [s]
+        TAU_HEADING = 0.2  # [s]
+        TAU_LATERAL = 0.6  # [s]
+
+        TAU_PURSUIT = 0.5 * TAU_HEADING  # [s]
+        KP_A = 1 / TAU_ACC
+        KP_HEADING = 1 / TAU_HEADING
+        KP_LATERAL = 1 / TAU_LATERAL  # [1/s]
+        MAX_STEERING_ANGLE = np.pi / 3  # [rad]
+        DELTA_SPEED = 5  # [m/s]        
+        target_lane = self.road.network.get_lane(target_lane_index)
+        lane_coords = target_lane.local_coordinates(self.position)
+        lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
+        lane_future_heading = target_lane.heading_at(lane_next_coords)
+
+        # Lateral position control
+        lateral_speed_command = - self.KP_LATERAL * lane_coords[1]
+        # Lateral speed to heading
+        heading_command = np.arcsin(np.clip(lateral_speed_command / utils.not_zero(self.speed), -1, 1))
+        heading_ref = lane_future_heading + np.clip(heading_command, -np.pi/4, np.pi/4)
+        # Heading control
+        heading_rate_command = self.KP_HEADING * utils.wrap_to_pi(heading_ref - self.heading)
+        # Heading rate to steering angle
+        slip_angle = np.arcsin(np.clip(self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command, -1, 1))
+        steering_angle = np.arctan(2 * np.tan(slip_angle))
+        steering_angle = np.clip(steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+        return float(steering_angle)
 
 
 
