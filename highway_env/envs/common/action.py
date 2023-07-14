@@ -94,6 +94,13 @@ class ContinuousAction_s(ActionType):
 
     def __init__(self,
                  env: 'AbstractEnv',
+                 road: Road,
+                 position: Vector,
+                 heading: float = 0,
+                 speed: float = 0,
+                 target_lane_index: LaneIndex = None,
+                 target_speed: float = None,
+                 route: Route = None,
                  acceleration_range: Optional[Tuple[float, float]] = None,
                  speed_range: Optional[Tuple[float, float]] = None,
                  longitudinal: bool = True,
@@ -127,6 +134,9 @@ class ContinuousAction_s(ActionType):
         self.size = 1
         self.action_lat_indexes = {v: k for k, v in self.action_lat.items()}
         self.last_actions = [0, 'IDLE']
+        self.target_lane_index = target_lane_index or self.lane_index
+        self.target_speed = target_speed or self.speed
+        self.route = route
 
     def space(self):
         return [spaces.Box(-1., 1., shape=(self.size,), dtype=np.float32), spaces.Discrete(len(self.action_lat))]
@@ -156,9 +166,10 @@ class ContinuousAction_s(ActionType):
                     and self.lateral:
                   actions[1] = 'LANE_RIGHT'
             
-            self.controlled_vehicle.act({"steering": np.clip(ControlledVehicle.steering_control(ControlledVehicle.index_s(actions)), 
-                                                             -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
+            self.controlled_vehicle.act({"steering":le ,
                   "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range)})     
+        #np.clip(ControlledVehic.steering_control(ControlledVehicle.index_s(actions)), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+        ControlledVehicle.index_s(actions)
         self.last_actions = actions
 
 
@@ -340,7 +351,7 @@ class ControlledVehicle(Vehicle):
                  target_lane_index: LaneIndex = None,
                  target_speed: float = None,
                  route: Route = None):
-        super().__init__(road, position, heading, speed)
+        super().__init__()
         self.target_lane_index = target_lane_index or self.lane_index
         self.target_speed = target_speed or self.speed
         self.route = route
