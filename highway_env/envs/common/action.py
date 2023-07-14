@@ -155,7 +155,7 @@ class ContinuousAction_s(ActionType):
                     and self.lateral:
                   actions[1] = 'LANE_RIGHT'
             
-            self.controlled_vehicle.act({"steering": np.clip(ControlledVehicle.steering_control(ControlledVehicle.act.target_lane_index), 
+            self.controlled_vehicle.act({"steering": np.clip(ControlledVehicle.steering_control(ControlledVehicle.index_s(self, actions)), 
                                                              -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
                   "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range)})     
         self.last_actions = actions
@@ -376,14 +376,6 @@ class ControlledVehicle(Vehicle):
         return self
 
     def act(self, action) -> None:
-        """
-        Perform a high-level action to change the desired lane or speed.
-
-        - If a high-level action is provided, update the target speed and lane;
-        - then, perform longitudinal and lateral control.
-
-        :param action: a high-level action
-        """
         ACCELERATION_RANGE = (-5, 5.0)
         acceleration_range = ACCELERATION_RANGE
         if action[1] == "LANE_LEFT":
@@ -396,31 +388,25 @@ class ControlledVehicle(Vehicle):
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index    
-        #if action == "FASTER":
-         #   self.target_speed += self.DELTA_SPEED
-        #elif action == "SLOWER":
-         #   self.target_speed -= self.DELTA_SPEED
-        #elif action == "LANE_RIGHT":
-         #   _from, _to, _id = self.target_lane_index
-          #  target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-           # if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-            #    self.target_lane_index = target_lane_index
-        #elif action == "LANE_LEFT":
-         #   _from, _to, _id = self.target_lane_index
-          #  target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-           # if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-            #    self.target_lane_index = target_lane_index
-
-        
-        #{"steering": self.steering_control(self.target_lane_index),
-               #   "steering": 0.1,
-                #  "acceleration": utils.lmap(action[0], [-1, 1], acceleration_range)}
-        #action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
-        action = {"steering": self.steering_control(self.target_lane_index),
-                  "acceleration": utils.lmap(action[0], [-1, 1], acceleration_range)}
-        action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         
         super().act(action)
+
+    
+    def index_s(self, action) -> None:
+        ACCELERATION_RANGE = (-5, 5.0)
+        acceleration_range = ACCELERATION_RANGE
+        if action[1] == "LANE_LEFT":
+            _from, _to, _id = self.target_lane_index
+            target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                self.target_lane_index = target_lane_index
+        elif action[1] == "LANE_RIGHT":
+            _from, _to, _id = self.target_lane_index
+            target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                self.target_lane_index = target_lane_index    
+        
+        return target_lane_index
      
 
     
