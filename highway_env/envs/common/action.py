@@ -176,7 +176,9 @@ class ContinuousAction_s(ActionType):
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(network.graph[_from][_to]) - 1)
             if network.get_lane(target_lane_index).is_reachable_from(self.controlled_vehicle.position):
-                self.target_lane_index = target_lane_index    
+                self.target_lane_index = target_lane_index
+        elif action[1] == "IDLE"
+            self.target_lane_index = self.controlled_vehicle.lane_index
         return self.target_lane_index
 
         
