@@ -206,7 +206,7 @@ class ContinuousAction_s(ActionType):
         DELTA_SPEED = 5  # [m/s] 
         network = self.controlled_vehicle.road.network
         target_lane = network.get_lane(target_lane_index)
-        lane_coords = target_lane.local_coordinates(self.position)
+        lane_coords = target_lane.local_coordinates(self.controlled_vehicle.position)
         lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
         lane_future_heading = target_lane.heading_at(lane_next_coords)
 
