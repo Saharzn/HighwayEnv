@@ -137,7 +137,7 @@ class ContinuousAction_s(ActionType):
 
     
     def act(self, actions: np.ndarray) -> None:
-        CV = ControlledVehicle()
+        #CV = ControlledVehicle()
         if self.clip:
             actions[0] = np.clip(actions[0], -1, 1)
         if self.speed_range:
@@ -156,7 +156,7 @@ class ContinuousAction_s(ActionType):
                     and self.lateral:
                   actions[1] = 'LANE_RIGHT'
             
-            self.controlled_vehicle.act({"steering": np.clip(CV.steering_control(CV.index_s(actions)), 
+            self.controlled_vehicle.act({"steering": np.clip(ControlledVehicle.steering_control(ControlledVehicle.index_s(actions)), 
                                                              -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
                   "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range)})     
         self.last_actions = actions
