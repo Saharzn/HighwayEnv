@@ -170,12 +170,12 @@ class ContinuousAction_s(ActionType):
         if action[1] == "LANE_LEFT":
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(network.graph[_from][_to]) - 1)
-            if network.get_lane(target_lane_index).is_reachable_from(self.position):
+            if network.get_lane(target_lane_index).is_reachable_from(self.controlled_vehicle.position):
                 self.target_lane_index = target_lane_index
         elif action[1] == "LANE_RIGHT":
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(network.graph[_from][_to]) - 1)
-            if network.get_lane(target_lane_index).is_reachable_from(self.position):
+            if network.get_lane(target_lane_index).is_reachable_from(self.controlled_vehicle.position):
                 self.target_lane_index = target_lane_index    
         return target_lane_index
 
