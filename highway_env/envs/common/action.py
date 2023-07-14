@@ -163,7 +163,7 @@ class ContinuousAction_s(ActionType):
         #np.clip(ControlledVehic.steering_control(ControlledVehicle.index_s(actions)), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         #ControlledVehicle.index_s(actions)
         self.last_actions = actions
-        print(self.index_s(self,actions))
+        print(self.index_s(actions))
 
     def index_s(self, action) -> None:
         if action[1] == "LANE_LEFT":
