@@ -159,7 +159,7 @@ class ContinuousAction_s(ActionType):
                     and self.lateral:
                   actions[1] = 'LANE_RIGHT'
             
-            self.controlled_vehicle.act({"steering": 0, #np.clip(self.steering_control(self.index_s(actions)) , -MAX_STEERING_ANGLE, MAX_STEERING_ANGLE),
+            self.controlled_vehicle.act({"steering": np.clip(self.steering_control(self.index_s(actions)) , -MAX_STEERING_ANGLE, MAX_STEERING_ANGLE),
                   "acceleration": utils.lmap(actions[0], [-1, 1], self.acceleration_range)})     
         #np.clip(ControlledVehic.steering_control(ControlledVehicle.index_s(actions)), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         #ControlledVehicle.index_s(actions)
