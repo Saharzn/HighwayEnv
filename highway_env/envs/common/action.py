@@ -140,7 +140,7 @@ class ContinuousAction_s(ActionType):
     
     def act(self, actions: np.ndarray) -> None:
         MAX_STEERING_ANGLE = np.pi / 3  # [rad]
-        self.controlled_vehicle.follow_road()
+        self.follow_road()
         if self.clip:
             actions[0] = np.clip(actions[0], -1, 1)
         if self.speed_range:
@@ -181,7 +181,16 @@ class ContinuousAction_s(ActionType):
             self.target_lane_index = self.controlled_vehicle.lane_index
         return self.target_lane_index
 
+    
+    def follow_road(self) -> None:
+        """At the end of a lane, automatically switch to a next one."""
+        if self.road.network.get_lane(self.target_lane_index).after_end(self.position):
+            self.target_lane_index = self.road.network.next_lane(self.target_lane_index,
+                                                                 route=self.route,
+                                                                 position=self.position,
+                                                                 np_random=self.road.np_random)
         
+    
     def steering_control(self, target_lane_index: LaneIndex) -> float:
         """
         Steer the vehicle to follow the center of an given lane.
