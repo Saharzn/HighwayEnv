@@ -140,7 +140,7 @@ class ContinuousAction_s(ActionType):
     
     def act(self, actions: np.ndarray) -> None:
         MAX_STEERING_ANGLE = np.pi / 3  # [rad]
-        #self.follow_road()
+        self.follow_road()
         if self.clip:
             actions[0] = np.clip(actions[0], -1, 1)
         if self.speed_range:
