@@ -167,7 +167,7 @@ class ContinuousAction_s(ActionType):
         print(self.controlled_vehicle.lane_index)
 
     
-       def follow_road(self) -> None:
+    def follow_road(self) -> None:
         """At the end of a lane, automatically switch to a next one."""
         if self.network.get_lane(self.target_lane_index).after_end(self.controlled_vehicle.position):
             self.target_lane_index = self.network.next_lane(self.target_lane_index,
