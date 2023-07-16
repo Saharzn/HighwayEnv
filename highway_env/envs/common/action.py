@@ -139,6 +139,7 @@ class ContinuousAction_s(ActionType):
         return Vehicle if not self.dynamical else BicycleVehicle
     
     def act(self, actions: np.ndarray) -> None:
+        self.network = self.controlled_vehicle.road.network
         MAX_STEERING_ANGLE = np.pi / 3  # [rad]
         self.follow_road()
         if self.clip:
@@ -148,7 +149,6 @@ class ContinuousAction_s(ActionType):
            
         if self.longitudinal and self.lateral:
             actions = [0, 'IDLE']
-            self.network = self.controlled_vehicle.road.network
             for l_index in self.network.side_lanes(self.controlled_vehicle.lane_index):
                 if l_index[2] < self.controlled_vehicle.lane_index[2] \
                     and self.network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
