@@ -166,6 +166,16 @@ class ContinuousAction_s(ActionType):
         self.last_actions = actions
         print(self.controlled_vehicle.lane_index)
 
+    
+       def follow_road(self) -> None:
+        """At the end of a lane, automatically switch to a next one."""
+        if self.network.get_lane(self.target_lane_index).after_end(self.controlled_vehicle.position):
+            self.target_lane_index = self.network.next_lane(self.target_lane_index,
+                                                                 route=self.controlled_vehicle.route,
+                                                                 position=self.controlled_vehicle.position,
+                                                                 np_random=self.controlled_vehicle.road.np_random)
+    
+    
     def index_s(self, action) -> None:
         if action[1] == "LANE_LEFT":
             _from, _to, _id = self.target_lane_index
@@ -180,15 +190,6 @@ class ContinuousAction_s(ActionType):
         elif action[1] == "IDLE":
             self.target_lane_index = self.controlled_vehicle.lane_index
         return self.target_lane_index
-
-    
-    def follow_road(self) -> None:
-        """At the end of a lane, automatically switch to a next one."""
-        if self.network.get_lane(self.target_lane_index).after_end(self.position):
-            self.target_lane_index = self.road.network.next_lane(self.target_lane_index,
-                                                                 route=self.route,
-                                                                 position=self.position,
-                                                                 np_random=self.road.np_random)
         
     
     def steering_control(self, target_lane_index: LaneIndex) -> float:
