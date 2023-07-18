@@ -164,7 +164,7 @@ class ContinuousAction_s(ActionType):
         #np.clip(ControlledVehic.steering_control(ControlledVehicle.index_s(actions)), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         #ControlledVehicle.index_s(actions)
         self.last_actions = actions
-        print(self.controlled_vehicle.lane_index)
+        print(self.controlled_vehicle.speed_index)
 
     
     def follow_road(self) -> None:
