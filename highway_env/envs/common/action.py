@@ -229,7 +229,6 @@ class DiscreteMetaAction(ActionType):
             raise ValueError("At least longitudinal or lateral actions must be included")
         self.actions_indexes = {v: k for k, v in self.actions.items()}
 
-    print([self.controlled_vehicle.speed_index, self.controlled_vehicle.target_speeds.size])
     def space(self) -> spaces.Space:
         return spaces.Discrete(len(self.actions))
 
