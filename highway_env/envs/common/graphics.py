@@ -175,7 +175,7 @@ class EventHandler(object):
         """
         if isinstance(action_type, DiscreteMetaAction):
             cls.handle_discrete_action_event(action_type, event)
-        elif action_type.__class__ == ContinuousAction_s:
+        elif action_type.__class__ == ContinuousAction:
             cls.handle_continuous_action_event(action_type, event)
 
     @classmethod
@@ -191,7 +191,7 @@ class EventHandler(object):
                 action_type.act(action_type.actions_indexes["LANE_LEFT"])
 
     @classmethod
-    def handle_continuous_action_event(cls, action_type: ContinuousAction_s, event: pygame.event.EventType) -> None:
+    def handle_continuous_action_event(cls, action_type: ContinuousAction, event: pygame.event.EventType) -> None:
         action = action_type.last_action.copy()
         steering_index = action_type.space().shape[0] - 1
         if event.type == pygame.KEYDOWN:
