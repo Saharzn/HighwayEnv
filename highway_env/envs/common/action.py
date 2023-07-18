@@ -181,29 +181,25 @@ class DiscreteMetaAction(ActionType):
     """
 
     ACTIONS_ALL = {
-        0: 'keep_vel_lane',
-        1: 'keep_vel_left',
-        2: 'keep_vel_right',
-        3: 'slower_keep_lane',
-        4: 'slower_left'
-        5: 'slower_right'
-        6: 'faster_keep_lane'
-        7: 'faste_left'
-        8: 'faster_right'
+        0: 'LANE_LEFT',
+        1: 'IDLE',
+        2: 'LANE_RIGHT',
+        3: 'FASTER',
+        4: 'SLOWER'
     }
     """A mapping of action indexes to labels."""
 
     ACTIONS_LONGI = {
-        0: 'keep_vel_lane',
-        1: 'slower_keep_lane',
-        2: 'faster_keep_lane'
+        0: 'SLOWER',
+        1: 'IDLE',
+        2: 'FASTER'
     }
     """A mapping of longitudinal action indexes to labels."""
 
     ACTIONS_LAT = {
-        0: 'keep_vel_lane',
-        1: 'keep_vel_left',
-        2: 'keep_vel_right'
+        0: 'LANE_LEFT',
+        1: 'IDLE',
+        2: 'LANE_RIGHT'
     }
     """A mapping of lateral action indexes to labels."""
 
@@ -267,6 +263,7 @@ class DiscreteMetaAction(ActionType):
             actions.append(self.actions_indexes['FASTER'])
         if self.controlled_vehicle.speed_index > 0 and self.longitudinal:
             actions.append(self.actions_indexes['SLOWER'])
+        print(self.controlled_vehicle.speed_index)
         return actions
 
 
