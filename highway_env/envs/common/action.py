@@ -250,6 +250,7 @@ class DiscreteMetaAction(ActionType):
         """
         actions = [self.actions_indexes['IDLE']]
         network = self.controlled_vehicle.road.network
+        print([self.controlled_vehicle.speed_index, self.controlled_vehicle.target_speeds.size])
         for l_index in network.side_lanes(self.controlled_vehicle.lane_index):
             if l_index[2] < self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
@@ -263,7 +264,6 @@ class DiscreteMetaAction(ActionType):
             actions.append(self.actions_indexes['FASTER'])
         if self.controlled_vehicle.speed_index > 0 and self.longitudinal:
             actions.append(self.actions_indexes['SLOWER'])
-        print([self.controlled_vehicle.speed_indexx, self.controlled_vehicle.target_speeds.size])
         return actions
 
 
