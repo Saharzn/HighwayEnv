@@ -229,6 +229,7 @@ class DiscreteMetaAction(ActionType):
             raise ValueError("At least longitudinal or lateral actions must be included")
         self.actions_indexes = {v: k for k, v in self.actions.items()}
 
+    print([self.controlled_vehicle.speed_index, self.controlled_vehicle.target_speeds.size])
     def space(self) -> spaces.Space:
         return spaces.Discrete(len(self.actions))
 
@@ -250,7 +251,6 @@ class DiscreteMetaAction(ActionType):
         """
         actions = [self.actions_indexes['IDLE']]
         network = self.controlled_vehicle.road.network
-        print([self.controlled_vehicle.speed_index, self.controlled_vehicle.target_speeds.size])
         for l_index in network.side_lanes(self.controlled_vehicle.lane_index):
             if l_index[2] < self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
