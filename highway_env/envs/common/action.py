@@ -181,25 +181,29 @@ class DiscreteMetaAction(ActionType):
     """
 
     ACTIONS_ALL = {
-        0: 'LANE_LEFT',
-        1: 'IDLE',
-        2: 'LANE_RIGHT',
-        3: 'FASTER',
-        4: 'SLOWER'
+        0: 'keep_vel_lane',
+        1: 'keep_vel_left',
+        2: 'keep_vel_right',
+        3: 'slower_keep_lane',
+        4: 'slower_left'
+        5: 'slower_right'
+        6: 'faster_keep_lane'
+        7: 'faste_left'
+        8: 'faster_right'
     }
     """A mapping of action indexes to labels."""
 
     ACTIONS_LONGI = {
-        0: 'SLOWER',
-        1: 'IDLE',
-        2: 'FASTER'
+        0: 'keep_vel_lane',
+        1: 'slower_keep_lane',
+        2: 'faster_keep_lane'
     }
     """A mapping of longitudinal action indexes to labels."""
 
     ACTIONS_LAT = {
-        0: 'LANE_LEFT',
-        1: 'IDLE',
-        2: 'LANE_RIGHT'
+        0: 'keep_vel_lane',
+        1: 'keep_vel_left',
+        2: 'keep_vel_right'
     }
     """A mapping of lateral action indexes to labels."""
 
