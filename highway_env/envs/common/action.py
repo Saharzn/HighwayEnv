@@ -264,6 +264,7 @@ class DiscreteMetaAction(ActionType):
         if self.controlled_vehicle.speed_index > 0 and self.longitudinal:
             actions.append(self.actions_indexes['SLOWER'])
         print(self.controlled_vehicle.speed_index)
+        print(self.controlled_vehicle.target_speeds.size)
         return actions
 
 
