@@ -309,6 +309,7 @@ class DiscreteMetaAction(ActionType):
                     and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
                     and self.lateral and self.longitudinal:
                 actions.append(self.actions_indexes['faster_keep_lane'])
+        print([self.controlled_vehicle.lane_index, self.controlled_vehicle.target_lane_index])
         return actions
 
 
