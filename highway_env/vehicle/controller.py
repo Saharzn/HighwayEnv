@@ -89,9 +89,9 @@ class ControlledVehicle(Vehicle):
         if action == "FASTER":
             self.target_speed += self.DELTA_SPEED
         elif action == "SLOWER":
-            print("salam")
             self.target_speed -= self.DELTA_SPEED
         elif action == "LANE_RIGHT":
+            print("salam")
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
