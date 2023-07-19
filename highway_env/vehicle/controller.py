@@ -85,7 +85,7 @@ class ControlledVehicle(Vehicle):
         :param action: a high-level action
         """
         self.follow_road()
-        
+        print("Hi")
         if action == "keep_vel_lane":
             self.target_speed = self.speed
             self.target_lane_index = self.lane_index       
@@ -109,7 +109,6 @@ class ControlledVehicle(Vehicle):
             target_lane_index = self.lane_index
         
         elif action == "slower_left":
-            print("Hi")
             self.target_speed -= self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
