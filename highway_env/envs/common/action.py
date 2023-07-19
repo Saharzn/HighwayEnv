@@ -285,30 +285,30 @@ class DiscreteMetaAction(ActionType):
                 actions.append(self.actions_indexes['faster_right'])
                 
             "Option 1"
-            #if l_index[2] < self.controlled_vehicle.lane_index[2] \
-             #       and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
-              #      and self.controlled_vehicle.speed == self.controlled_vehicle.target_speed \
-               #     and self.lateral and self.longitudinal:
-               # actions.append(self.actions_indexes['keep_vel_left'])
+            if l_index[2] < self.controlled_vehicle.lane_index[2] \
+                    and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
+                    and self.controlled_vehicle.speed == self.controlled_vehicle.target_speed \
+                    and self.lateral and self.longitudinal:
+                actions.append(self.actions_indexes['keep_vel_left'])
                 
             "Option 2"
-            #if l_index[2] > self.controlled_vehicle.lane_index[2] \
-             #       and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
-              #      and self.controlled_vehicle.speed == self.controlled_vehicle.target_speed \
-               #     and self.lateral and self.longitudinal:
-               # actions.append(self.actions_indexes['keep_vel_right'])
+            if l_index[2] > self.controlled_vehicle.lane_index[2] \
+                    and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
+                    and self.controlled_vehicle.speed == self.controlled_vehicle.target_speed \
+                    and self.lateral and self.longitudinal:
+                actions.append(self.actions_indexes['keep_vel_right'])
                 
             "Option 3"
-            #if self.controlled_vehicle.lane_index == self.controlled_vehicle.target_lane_index \
-             #       and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
-              #      and self.lateral and self.longitudinal:
-              #  actions.append(self.actions_indexes['slower_keep_lane'])
+            if self.controlled_vehicle.lane_index == self.controlled_vehicle.target_lane_index \
+                    and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
+                    and self.lateral and self.longitudinal:
+                actions.append(self.actions_indexes['slower_keep_lane'])
                 
             "Option 6"
-            #if self.controlled_vehicle.lane_index == self.controlled_vehicle.target_lane_index \
-             #       and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
-              #      and self.lateral and self.longitudinal:
-               # actions.append(self.actions_indexes['faster_keep_lane'])
+            if self.controlled_vehicle.lane_index == self.controlled_vehicle.target_lane_index \
+                    and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
+                    and self.lateral and self.longitudinal:
+                actions.append(self.actions_indexes['faster_keep_lane'])
         return actions
 
 
