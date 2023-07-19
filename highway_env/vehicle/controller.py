@@ -85,22 +85,70 @@ class ControlledVehicle(Vehicle):
         :param action: a high-level action
         """
         self.follow_road()
-        print(action)
-        if action == "FASTER":
-            print("salam")
-            self.target_speed += self.DELTA_SPEED
-        elif action == "SLOWER":
-            self.target_speed -= self.DELTA_SPEED
-        elif action == "LANE_RIGHT":
-            _from, _to, _id = self.target_lane_index
-            target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-                self.target_lane_index = target_lane_index
-        elif action == "LANE_LEFT":
+        print(self.action)
+        if action == "keep_vel_lane":
+            print("salam_1")
+            self.target_speed = self.speed
+            self.target_lane_index = self.lane_index       
+
+        if action == "keep_vel_left":
+            print("salam_2")
+            self.target_speed = self.speed
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
+            
+        if action == "keep_vel_right":
+            print("salam_3")
+            self.target_speed = self.speed
+            _from, _to, _id = self.target_lane_index
+            target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                self.target_lane_index = target_lane_index
+            
+        if action == "slower_keep_lane":
+            print("salam_4")
+            self.target_speed -= self.DELTA_SPEED
+            target_lane_index = self.lane_index
+        
+        if action == "slower_left":
+            print("salam_5")
+            self.target_speed -= self.DELTA_SPEED
+            _from, _to, _id = self.target_lane_index
+            target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                self.target_lane_index = target_lane_index
+
+        if action == "slower_right":
+            print("salam_6")
+            self.target_speed -= self.DELTA_SPEED
+            _from, _to, _id = self.target_lane_index
+            target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                self.target_lane_index = target_lane_index
+
+        if action == "slower_keep_lane":
+            print("salam_7")
+            self.target_speed -= self.DELTA_SPEED
+            target_lane_index = self.lane_index
+
+        if action == "faster_left":
+            print("salam_8")
+            self.target_speed += self.DELTA_SPEED
+            _from, _to, _id = self.target_lane_index
+            target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                self.target_lane_index = target_lane_index        
+
+        if action == "faster_right":
+            print("salam_9")
+            self.target_speed += self.DELTA_SPEED
+            _from, _to, _id = self.target_lane_index
+            target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+            if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                self.target_lane_index = target_lane_index
+
 
         action = {"steering": self.steering_control(self.target_lane_index),
                   "acceleration": self.speed_control(self.target_speed)}
@@ -205,7 +253,7 @@ class ControlledVehicle(Vehicle):
 class MDPVehicle(ControlledVehicle):
 
     """A controlled vehicle with a specified discrete range of allowed target speeds."""
-    DEFAULT_TARGET_SPEEDS = np.linspace(20, 30, 3)
+    DEFAULT_TARGET_SPEEDS = np.linspace(20, 30, 5)
 
     def __init__(self,
                  road: Road,
@@ -242,10 +290,17 @@ class MDPVehicle(ControlledVehicle):
 
         :param action: a high-level action
         """
-        if action == "FASTER":
-            print("sahar")
+        if action == "faster_keep_lane":
             self.speed_index = self.speed_to_index(self.speed) + 1
-        elif action == "SLOWER":
+        elif action == "faster_left":
+            self.speed_index = self.speed_to_index(self.speed) + 1
+        elif action == "faster_right":
+            self.speed_index = self.speed_to_index(self.speed) + 1
+        elif action == "slower_keep_lane":
+            self.speed_index = self.speed_to_index(self.speed) - 1
+        elif action == "slower_left":
+            self.speed_index = self.speed_to_index(self.speed) - 1
+        elif action == "slower_right":
             self.speed_index = self.speed_to_index(self.speed) - 1
         else:
             super().act(action)
