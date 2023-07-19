@@ -176,8 +176,8 @@ class AbstractEnv(gym.Env):
             "speed": self.vehicle.speed,
             "crashed": self.vehicle.crashed,
             "action": action,
-            "v_index": self.vehicle.speed_index,
-            "target_v_index": self.vehicle.target_speeds.size,
+            "l_index": self.controlled_vehicle.lane_index,
+            "target_l_index": self.controlled_vehicle.target_lane_index,
         }
         try:
             info["rewards"] = self._rewards(action)
