@@ -86,10 +86,12 @@ class ControlledVehicle(Vehicle):
         """
         self.follow_road()
         if action == "keep_vel_lane":
+            print("salam_1")
             self.target_speed = self.speed
             self.target_lane_index = self.lane_index       
 
         elif action == "keep_vel_left":
+            print("salam_2")
             self.target_speed = self.speed
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -97,6 +99,7 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
             
         elif action == "keep_vel_right":
+            print("salam_3")
             self.target_speed = self.speed
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -104,11 +107,12 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
             
         elif action == "slower_keep_lane":
+            print("salam_4")
             self.target_speed -= self.DELTA_SPEED
             target_lane_index = self.lane_index
         
         elif action == "slower_left":
-            print("Hi")
+            print("salam_5")
             self.target_speed -= self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -116,6 +120,7 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
 
         elif action == "slower_right":
+            print("salam_6")
             self.target_speed -= self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -123,10 +128,12 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
 
         elif action == "slower_keep_lane":
+            print("salam_7")
             self.target_speed -= self.DELTA_SPEED
             target_lane_index = self.lane_index
 
         elif action == "faster_left":
+            print("salam_8")
             self.target_speed += self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -134,6 +141,7 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index        
 
         elif action == "faster_right":
+            print("salam_9")
             self.target_speed += self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -148,7 +156,6 @@ class ControlledVehicle(Vehicle):
 
     def follow_road(self) -> None:
         """At the end of a lane, automatically switch to a next one."""
-        print("salam_follow_road")
         if self.road.network.get_lane(self.target_lane_index).after_end(self.position):
             self.target_lane_index = self.road.network.next_lane(self.target_lane_index,
                                                                  route=self.route,
@@ -167,7 +174,6 @@ class ControlledVehicle(Vehicle):
         :param target_lane_index: index of the lane to follow
         :return: a steering wheel angle command [rad]
         """
-        print("salam_steering_control")
         target_lane = self.road.network.get_lane(target_lane_index)
         lane_coords = target_lane.local_coordinates(self.position)
         lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
@@ -195,7 +201,6 @@ class ControlledVehicle(Vehicle):
         :param target_speed: the desired speed
         :return: an acceleration command [m/s2]
         """
-        print("salam_speed_control")
         return self.KP_A * (target_speed - self.speed)
 
     def get_routes_at_intersection(self) -> List[Route]:
