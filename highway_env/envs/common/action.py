@@ -252,10 +252,9 @@ class DiscreteMetaAction(ActionType):
 
         :return: the list of available actions
         """
-        actions = [self.actions_indexes['IDLE']]
+        actions = [self.actions_indexes['keep_vel_lane']]
         network = self.controlled_vehicle.road.network
-        for l_index in network.side_lanes(self.controlled_vehicle.lane_index):
-            
+        for l_index in network.side_lanes(self.controlled_vehicle.lane_index):            
             "Option 4"
             if l_index[2] < self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
