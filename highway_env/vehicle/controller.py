@@ -84,7 +84,6 @@ class ControlledVehicle(Vehicle):
 
         :param action: a high-level action
         """
-        print("salam_controller")
         self.follow_road()
         if action == "keep_vel_lane":
             self.target_speed = self.speed
@@ -149,6 +148,7 @@ class ControlledVehicle(Vehicle):
 
     def follow_road(self) -> None:
         """At the end of a lane, automatically switch to a next one."""
+        print("salam_follow_road")
         if self.road.network.get_lane(self.target_lane_index).after_end(self.position):
             self.target_lane_index = self.road.network.next_lane(self.target_lane_index,
                                                                  route=self.route,
@@ -167,6 +167,7 @@ class ControlledVehicle(Vehicle):
         :param target_lane_index: index of the lane to follow
         :return: a steering wheel angle command [rad]
         """
+        print("salam_steering_control")
         target_lane = self.road.network.get_lane(target_lane_index)
         lane_coords = target_lane.local_coordinates(self.position)
         lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
@@ -194,6 +195,7 @@ class ControlledVehicle(Vehicle):
         :param target_speed: the desired speed
         :return: an acceleration command [m/s2]
         """
+        print("salam_speed_control")
         return self.KP_A * (target_speed - self.speed)
 
     def get_routes_at_intersection(self) -> List[Route]:
