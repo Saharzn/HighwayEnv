@@ -85,7 +85,6 @@ class ControlledVehicle(Vehicle):
         :param action: a high-level action
         """
         self.follow_road()
-        print(self.action)
         if action == "keep_vel_lane":
             print("salam_1")
             self.target_speed = self.speed
