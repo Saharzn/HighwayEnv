@@ -241,7 +241,6 @@ class DiscreteMetaAction(ActionType):
         return functools.partial(MDPVehicle, target_speeds=self.target_speeds)
 
     def act(self, action: Union[int, np.ndarray]) -> None:
-        print(self.actions[int(action)])
         self.controlled_vehicle.act(self.actions[int(action)])
 
     def get_available_actions(self) -> List[int]:
@@ -253,11 +252,9 @@ class DiscreteMetaAction(ActionType):
 
         :return: the list of available actions
         """
-        print("salam")
         actions = [self.actions_indexes['keep_vel_lane']]
         network = self.controlled_vehicle.road.network
         for l_index in network.side_lanes(self.controlled_vehicle.lane_index): 
-            print("Hi")
             "Option 4"
             if l_index[2] < self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
