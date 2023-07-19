@@ -84,6 +84,7 @@ class ControlledVehicle(Vehicle):
 
         :param action: a high-level action
         """
+        print("salam_controller")
         self.follow_road()
         if action == "keep_vel_lane":
             self.target_speed = self.speed
@@ -281,9 +282,17 @@ class MDPVehicle(ControlledVehicle):
 
         :param action: a high-level action
         """
-        if action == "faster_keep_lane" or "faster_left" or "faster_right":
+        if action == "faster_keep_lane":
             self.speed_index = self.speed_to_index(self.speed) + 1
-        elif action == "slower_keep_lane" or "slower_left" or "slower_right":
+        elif action == "faster_left":
+            self.speed_index = self.speed_to_index(self.speed) + 1
+        elif action == "faster_right":
+            self.speed_index = self.speed_to_index(self.speed) + 1
+        elif action == "slower_keep_lane":
+            self.speed_index = self.speed_to_index(self.speed) - 1
+        elif action == "slower_left":
+            self.speed_index = self.speed_to_index(self.speed) - 1
+        elif action == "slower_right":
             self.speed_index = self.speed_to_index(self.speed) - 1
         else:
             super().act(action)
