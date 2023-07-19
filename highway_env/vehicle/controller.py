@@ -281,7 +281,7 @@ class MDPVehicle(ControlledVehicle):
         self.speed_index = self.speed_to_index(self.target_speed)
         self.target_speed = self.index_to_speed(self.speed_index)
 
-    def act(self, action: Union[dict, str] = None) -> None:
+    def act(self, action) -> None:
         """
         Perform a high-level action.
 
