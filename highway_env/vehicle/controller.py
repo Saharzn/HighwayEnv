@@ -86,12 +86,10 @@ class ControlledVehicle(Vehicle):
         """
         self.follow_road()
         if action == "keep_vel_lane":
-            print("salam_1")
             self.target_speed = self.speed
             self.target_lane_index = self.lane_index       
 
         if action == "keep_vel_left":
-            print("salam_2")
             self.target_speed = self.speed
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -99,7 +97,6 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
             
         if action == "keep_vel_right":
-            print("salam_3")
             self.target_speed = self.speed
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -107,12 +104,10 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
             
         if action == "slower_keep_lane":
-            print("salam_4")
             self.target_speed -= self.DELTA_SPEED
             target_lane_index = self.lane_index
         
         if action == "slower_left":
-            print("salam_5")
             self.target_speed -= self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -120,7 +115,6 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
 
         if action == "slower_right":
-            print("salam_6")
             self.target_speed -= self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -128,12 +122,10 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
 
         if action == "faster_keep_lane":
-            print("salam_7")
             self.target_speed += self.DELTA_SPEED
             target_lane_index = self.lane_index
 
         if action == "faster_left":
-            print("salam_8")
             self.target_speed += self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -141,7 +133,6 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index        
 
         if action == "faster_right":
-            print("salam_9")
             self.target_speed += self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
