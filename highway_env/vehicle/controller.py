@@ -107,7 +107,7 @@ class ControlledVehicle(Vehicle):
             self.target_speed -= self.DELTA_SPEED
             target_lane_index = self.lane_index
         
-        elif action == 554:
+        elif action == "slower_left":
             print("Hi")
             self.target_speed -= self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
