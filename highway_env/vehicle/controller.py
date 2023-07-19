@@ -85,12 +85,13 @@ class ControlledVehicle(Vehicle):
         :param action: a high-level action
         """
         self.follow_road()
+        print(action)
         if action == "keep_vel_lane":
             print("salam_1")
             self.target_speed = self.speed
             self.target_lane_index = self.lane_index       
 
-        elif action == "keep_vel_left":
+        if action == "keep_vel_left":
             print("salam_2")
             self.target_speed = self.speed
             _from, _to, _id = self.target_lane_index
@@ -98,7 +99,7 @@ class ControlledVehicle(Vehicle):
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
             
-        elif action == "keep_vel_right":
+        if action == "keep_vel_right":
             print("salam_3")
             self.target_speed = self.speed
             _from, _to, _id = self.target_lane_index
@@ -106,12 +107,12 @@ class ControlledVehicle(Vehicle):
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
             
-        elif action == "slower_keep_lane":
+        if action == "slower_keep_lane":
             print("salam_4")
             self.target_speed -= self.DELTA_SPEED
             target_lane_index = self.lane_index
         
-        elif action == "slower_left":
+        if action == "slower_left":
             print("salam_5")
             self.target_speed -= self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
@@ -119,7 +120,7 @@ class ControlledVehicle(Vehicle):
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
 
-        elif action == "slower_right":
+        if action == "slower_right":
             print("salam_6")
             self.target_speed -= self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
@@ -127,12 +128,12 @@ class ControlledVehicle(Vehicle):
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
 
-        elif action == "slower_keep_lane":
+        if action == "slower_keep_lane":
             print("salam_7")
             self.target_speed -= self.DELTA_SPEED
             target_lane_index = self.lane_index
 
-        elif action == "faster_left":
+        if action == "faster_left":
             print("salam_8")
             self.target_speed += self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
@@ -140,7 +141,7 @@ class ControlledVehicle(Vehicle):
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index        
 
-        elif action == "faster_right":
+        if action == "faster_right":
             print("salam_9")
             self.target_speed += self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
