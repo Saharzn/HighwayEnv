@@ -189,7 +189,7 @@ class DiscreteMetaAction(ActionType):
         5: 'slower_right',
         6: 'faster_keep_lane',
         7: 'faster_left',
-        8: 'faster_right',
+        8: 'faster_right'
     }
     """A mapping of action indexes to labels."""
 
@@ -241,6 +241,8 @@ class DiscreteMetaAction(ActionType):
         return functools.partial(MDPVehicle, target_speeds=self.target_speeds)
 
     def act(self, action: Union[int, np.ndarray]) -> None:
+        print(self.actions[int(action)])
+        print(self.controlled_vehicle.act(self.actions[int(action)]))
         self.controlled_vehicle.act(self.actions[int(action)])
 
     def get_available_actions(self) -> List[int]:
