@@ -85,7 +85,7 @@ class ControlledVehicle(Vehicle):
         :param action: a high-level action
         """
         self.follow_road()
-        if action == "faster_keep_lane" or "faste_left" or "faster_right":
+        if action == "faster_keep_lane" or "faster_left" or "faster_right":
             self.target_speed += self.DELTA_SPEED
         elif action == "SLOWER":
             self.target_speed -= self.DELTA_SPEED
