@@ -75,7 +75,7 @@ class ControlledVehicle(Vehicle):
             self.route = [self.lane_index]
         return self
 
-    def act(self, action: Union[dict, str] = None) -> None:
+    def act(self, action: str) -> None:
         """
         Perform a high-level action to change the desired lane or speed.
 
