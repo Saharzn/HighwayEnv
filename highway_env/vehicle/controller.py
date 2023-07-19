@@ -86,6 +86,7 @@ class ControlledVehicle(Vehicle):
         """
         self.follow_road()
         if action == "FASTER":
+            print("salam")
             self.target_speed += self.DELTA_SPEED
         elif action == "SLOWER":
             self.target_speed -= self.DELTA_SPEED
