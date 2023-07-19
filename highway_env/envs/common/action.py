@@ -185,11 +185,11 @@ class DiscreteMetaAction(ActionType):
         1: 'keep_vel_left',
         2: 'keep_vel_right',
         3: 'slower_keep_lane',
-        4: 'slower_left'
-        5: 'slower_right'
-        6: 'faster_keep_lane'
-        7: 'faster_left'
-        8: 'faster_right'
+        4: 'slower_left',
+        5: 'slower_right',
+        6: 'faster_keep_lane',
+        7: 'faster_left',
+        8: 'faster_right',
     }
     """A mapping of action indexes to labels."""
 
