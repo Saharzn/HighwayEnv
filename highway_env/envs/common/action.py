@@ -10,6 +10,7 @@ from highway_env.vehicle.behavior import IDMVehicle
 from highway_env.vehicle.dynamics import BicycleVehicle
 from highway_env.vehicle.kinematics import Vehicle
 from highway_env.vehicle.controller import MDPVehicle
+from highway_env.vehicle.controller import ControlledVehicle
 
 if TYPE_CHECKING:
     from highway_env.envs.common.abstract import AbstractEnv
@@ -234,7 +235,7 @@ class DiscreteMetaAction(ActionType):
 
     @property
     def vehicle_class(self) -> Callable:
-        return functools.partial(MDPVehicle, target_speeds=self.target_speeds)
+        return functools.partial(ControlledVehicle)
 
     def act(self, action: Union[int, np.ndarray]) -> None:
         self.controlled_vehicle.act(self.actions[int(action)])
