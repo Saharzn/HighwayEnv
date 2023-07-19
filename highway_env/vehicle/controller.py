@@ -127,9 +127,9 @@ class ControlledVehicle(Vehicle):
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
 
-        if action == "slower_keep_lane":
+        if action == "faster_keep_lane":
             print("salam_7")
-            self.target_speed -= self.DELTA_SPEED
+            self.target_speed += self.DELTA_SPEED
             target_lane_index = self.lane_index
 
         if action == "faster_left":
