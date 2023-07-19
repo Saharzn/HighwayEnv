@@ -253,6 +253,7 @@ class DiscreteMetaAction(ActionType):
 
         :return: the list of available actions
         """
+        print("salam")
         actions = [self.actions_indexes['keep_vel_lane']]
         network = self.controlled_vehicle.road.network
         for l_index in network.side_lanes(self.controlled_vehicle.lane_index): 
