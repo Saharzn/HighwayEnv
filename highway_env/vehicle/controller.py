@@ -243,6 +243,7 @@ class MDPVehicle(ControlledVehicle):
         :param action: a high-level action
         """
         if action == "FASTER":
+            print("sahar")
             self.speed_index = self.speed_to_index(self.speed) + 1
         elif action == "SLOWER":
             self.speed_index = self.speed_to_index(self.speed) - 1
