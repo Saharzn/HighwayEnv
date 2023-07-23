@@ -143,7 +143,6 @@ class ControlledVehicle(Vehicle):
         action = {"steering": self.steering_control(self.target_lane_index),
                   "acceleration": self.speed_control(self.target_speed)}
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
-        self.a = action['acceleration']
         super().act(action)
 
     def a(self):
