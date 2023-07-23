@@ -89,7 +89,6 @@ class HighwayEnv(AbstractEnv):
         """
         #We apply the action to find different values for each reward function
         rewards = self._rewards(action)
-        
         #then we sum up each reward element to get the final reward value
         reward = sum(self.config.get(name, 0) * reward for name, reward in rewards.items())
         
@@ -104,6 +103,7 @@ class HighwayEnv(AbstractEnv):
 
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
+        fuel = self.fuel
         neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
         lane = self.vehicle.target_lane_index[2] if isinstance(self.vehicle, ControlledVehicle) \
             else self.vehicle.lane_index[2]
