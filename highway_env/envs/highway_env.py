@@ -116,7 +116,7 @@ class HighwayEnv(AbstractEnv):
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
-            "fuel_reward": 1/(fuel(self)+7.7*self.vehicle.speed/10^5)
+            "fuel_reward": 1/(self.fuel(self)+7.7*self.vehicle.speed/10^5)
         }
       
     def fuel(self):
@@ -131,10 +131,10 @@ class HighwayEnv(AbstractEnv):
         n = 30/3.14*i*self.vehicle.speed/r
         T = m*r/(i*eta)*(self.ControlledVehicle.action['acceleration']+1/(2*m)*ro*s*cx*self.vehicle.speed^2+g*f)
         if T < 0:
-            fuel = 0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n^2+6.902e-06*n*T+0.0004899*T^2
+            F = 0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n^2+6.902e-06*n*T+0.0004899*T^2
         elif T >= 0:
-            fuel = 1.002-0.0004763*n-0.01355*T+7.58e-08*n^2+8.659e-06*n*T+4.649e-05*T^2
-        return fuel
+            F = 1.002-0.0004763*n-0.01355*T+7.58e-08*n^2+8.659e-06*n*T+4.649e-05*T^2
+        return F
      
     def _is_terminated(self) -> bool:
         """The episode is over if the ego vehicle crashed."""
