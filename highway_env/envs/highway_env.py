@@ -128,6 +128,7 @@ class HighwayEnv(AbstractEnv):
         f = 0.02
         i = 5.944
         eta = 0.988
+        r = 0.326
         n = 30/3.14*i*self.vehicle.speed/r
         T = m*r/(i*eta)*(self.ControlledVehicle.action['acceleration']+1/(2*m)*ro*s*cx*self.vehicle.speed^2+g*f)
         if T < 0:
