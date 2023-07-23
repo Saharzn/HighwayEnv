@@ -146,6 +146,9 @@ class ControlledVehicle(Vehicle):
         self.a = action['acceleration']
         super().act(action)
 
+    def a(self):
+        return self.speed_control(self.target_speed
+    
     def follow_road(self) -> None:
         """At the end of a lane, automatically switch to a next one."""
         if self.road.network.get_lane(self.target_lane_index).after_end(self.position):
