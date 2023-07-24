@@ -43,6 +43,7 @@ class ControlledVehicle(Vehicle):
         self.target_lane_index = target_lane_index or self.lane_index
         self.target_speed = target_speed or self.speed
         self.route = route
+        self.acc = self.speed_control(self.target_speed)
 
     @classmethod
     def create_from(cls, vehicle: "ControlledVehicle") -> "ControlledVehicle":
@@ -143,7 +144,6 @@ class ControlledVehicle(Vehicle):
         action = {"steering": self.steering_control(self.target_lane_index),
                   "acceleration": self.speed_control(self.target_speed)}
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
-        self.acc = self.speed_control(self.target_speed)
         super().act(action)
 
     def ac_sahar(self, action) -> None:
