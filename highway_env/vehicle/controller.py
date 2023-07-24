@@ -145,7 +145,7 @@ class ControlledVehicle(Vehicle):
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         super().act(action)
 
-    def a(self):
+    def a(self)-> float:
         return self.speed_control(self.target_speed)
     
     def follow_road(self) -> None:
