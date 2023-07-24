@@ -146,31 +146,31 @@ class ControlledVehicle(Vehicle):
         super().act(action)
 
     def a(self, action: Union[dict, str] = None)-> float:
-        if action == "keep_vel_lane":
+        if action == 0 :
             self.target_speed = self.speed     
 
-        if action == "keep_vel_left":
+        if action == 1":
             self.target_speed = self.speed
             
-        if action == "keep_vel_right":
+        if action == 2:
             self.target_speed = self.speed
             
-        if action == "slower_keep_lane":
+        if action == 3:
             self.target_speed -= self.DELTA_SPEED
         
-        if action == "slower_left":
+        if action == 4:
             self.target_speed -= self.DELTA_SPEED
 
-        if action == "slower_right":
+        if action == 5:
             self.target_speed -= self.DELTA_SPEED
 
-        if action == "faster_keep_lane":
+        if action == 6:
             self.target_speed += self.DELTA_SPEED
 
-        if action == "faster_left":
+        if action == 7:
             self.target_speed += self.DELTA_SPEED     
 
-        if action == "faster_right":
+        if action == 8:
             self.target_speed += self.DELTA_SPEED
         acc = self.speed_control(self.target_speed)
         return acc
