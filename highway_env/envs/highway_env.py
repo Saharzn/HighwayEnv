@@ -96,11 +96,30 @@ class HighwayEnv(AbstractEnv):
         if self.config["normalize_reward"]:
             reward = utils.lmap(reward,
                                 [self.config["collision_reward"], 
-                                 self._rewards.fuel + self.config["high_speed_reward"] + self.config["right_lane_reward"]],
+                                 self.fuel(action) + self.config["high_speed_reward"] + self.config["right_lane_reward"]],
                                 [0, 1])
         reward *= rewards['on_road_reward']
         return reward
 
+    
+    def fuel(self, action: Action) -> Dict[Text, float]:
+        m = 1400.04
+        ro = 1.206
+        s = 2.414
+        cx = 0.285
+        g = 9.8
+        f = 0.02
+        i = 5.944
+        eta = 0.988
+        r = 0.326
+        n = 30/3.14*i*self.vehicle.speed/r
+        a = self.ac_sahar(action)
+        T = m*r/(i*eta)*(a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
+        if T < 0:
+            F = 0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n**2+6.902e-06*n*T+0.0004899*T**2
+        elif T >= 0:
+            F = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
+        return F
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
         m = 1400.04
@@ -119,6 +138,7 @@ class HighwayEnv(AbstractEnv):
             F = 0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n**2+6.902e-06*n*T+0.0004899*T**2
         elif T >= 0:
             F = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
+        
         neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
         lane = self.vehicle.target_lane_index[2] if isinstance(self.vehicle, ControlledVehicle) \
             else self.vehicle.lane_index[2]
@@ -126,7 +146,6 @@ class HighwayEnv(AbstractEnv):
         # Use forward speed rather than speed, see https://github.com/eleurent/highway-env/issues/268
         forward_speed = self.vehicle.speed * np.cos(self.vehicle.heading)
         scaled_speed = utils.lmap(forward_speed, self.config["reward_speed_range"], [0, 1])
-        self.fuel = 1/(F+7.7*self.vehicle.speed/10**5)
         return {
             "collision_reward": float(self.vehicle.crashed),
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
