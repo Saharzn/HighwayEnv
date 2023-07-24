@@ -145,7 +145,7 @@ class ControlledVehicle(Vehicle):
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         super().act(action)
 
-    def a(self, action: Union[dict, str] = None-> float:
+    def a(self, action: Union[dict, str] = None)-> float:
         if action == "keep_vel_lane":
             self.target_speed = self.speed     
 
