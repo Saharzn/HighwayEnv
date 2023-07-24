@@ -96,7 +96,7 @@ class HighwayEnv(AbstractEnv):
         if self.config["normalize_reward"]:
             reward = utils.lmap(reward,
                                 [self.config["collision_reward"], 
-                                 self._rewards["fuel_reward"] + self.config["high_speed_reward"] + self.config["right_lane_reward"]],
+                                 self._rewards.fuel + self.config["high_speed_reward"] + self.config["right_lane_reward"]],
                                 [0, 1])
         reward *= rewards['on_road_reward']
         return reward
@@ -126,6 +126,7 @@ class HighwayEnv(AbstractEnv):
         # Use forward speed rather than speed, see https://github.com/eleurent/highway-env/issues/268
         forward_speed = self.vehicle.speed * np.cos(self.vehicle.heading)
         scaled_speed = utils.lmap(forward_speed, self.config["reward_speed_range"], [0, 1])
+        fuel = 1/(F+7.7*self.vehicle.speed/10**5)
         return {
             "collision_reward": float(self.vehicle.crashed),
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
