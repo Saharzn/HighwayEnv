@@ -145,16 +145,16 @@ class ControlledVehicle(Vehicle):
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         super().act(action)
 
-    def ac_sahar(self, action: Union[dict, str] = None) -> None:
-        target_speed = vehicle.speed
+    def ac_sahar(self, action) -> None:
+        target_speed = self.speed
         if action == 0 :
-            target_speed = vehicle.speed     
+            target_speed = self.speed     
 
         if action == 1:
-            target_speed = vehicle.speed
+            target_speed = self.speed
             
         if action == 2:
-            target_speed = vehicle.speed
+            target_speed = self.speed
             
         if action == 3:
             target_speed -= DELTA_SPEED
