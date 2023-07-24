@@ -145,8 +145,8 @@ class ControlledVehicle(Vehicle):
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         super().act(action)
 
-    def a(self)-> float:
-        a = self.speed_control(self.target_speed)
+    def a(self, target_speed: float)-> float:
+        a = self.speed_control(target_speed)
     
     def follow_road(self) -> None:
         """At the end of a lane, automatically switch to a next one."""
