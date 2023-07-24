@@ -113,9 +113,7 @@ class HighwayEnv(AbstractEnv):
         eta = 0.988
         r = 0.326
         n = 30/3.14*i*self.vehicle.speed/r
-        s = ControlledVehicle.sahar
-        x = s**2
-        print(action)
+        print(self.ac_sahar(action))
         #T = m*r/(i*eta)*(ControlledVehicle.a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
         #if T < 0:
          #   F = 0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n**2+6.902e-06*n*T+0.0004899*T**2
@@ -137,6 +135,42 @@ class HighwayEnv(AbstractEnv):
         }
       
      
+    
+    def ac_sahar(self, action) -> None:
+        DELTA_SPEED = 5
+        target_speed = self.vehicle.speed
+        if action == 0 :
+            target_speed = self.vehicle.speed     
+
+        if action == 1:
+            target_speed = self.vehicle.speed
+            
+        if action == 2:
+            target_speed = self.vehicle.speed
+            
+        if action == 3:
+            target_speed -= DELTA_SPEED
+        
+        if action == 4:
+            target_speed -= DELTA_SPEED
+
+        if action == 5:
+            target_speed -= DELTA_SPEED
+
+        if action == 6:
+            target_speed += DELTA_SPEED
+
+        if action == 7:
+            target_speed += self.DELTA_SPEED     
+
+        if action == 8:
+            target_speed += DELTA_SPEED
+        acc = ControlledVehicle.speed_control(target_speed)
+        return acc
+    
+    
+    
+    
     def _is_terminated(self) -> bool:
         """The episode is over if the ego vehicle crashed."""
         return (self.vehicle.crashed or
