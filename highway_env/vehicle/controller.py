@@ -147,32 +147,32 @@ class ControlledVehicle(Vehicle):
 
     def a(self, action: Union[dict, str] = None)-> float:
         if action == 0 :
-            self.target_speed = self.speed     
+            target_speed = self.speed     
 
         if action == 1:
-            self.target_speed = self.speed
+            target_speed = self.speed
             
         if action == 2:
-            self.target_speed = self.speed
+            target_speed = self.speed
             
         if action == 3:
-            self.target_speed -= self.DELTA_SPEED
+            target_speed -= self.DELTA_SPEED
         
         if action == 4:
-            self.target_speed -= self.DELTA_SPEED
+            target_speed -= self.DELTA_SPEED
 
         if action == 5:
-            self.target_speed -= self.DELTA_SPEED
+            target_speed -= self.DELTA_SPEED
 
         if action == 6:
-            self.target_speed += self.DELTA_SPEED
+            target_speed += self.DELTA_SPEED
 
         if action == 7:
-            self.target_speed += self.DELTA_SPEED     
+            target_speed += self.DELTA_SPEED     
 
         if action == 8:
-            self.target_speed += self.DELTA_SPEED
-        print(self.target_speed)
+            target_speed += self.DELTA_SPEED
+        print(target_speed)
         #acc = self.speed_control(self.target_speed)
         #return acc
     
