@@ -52,9 +52,7 @@ class ControlledVehicle(Vehicle):
                  target_lane_index: LaneIndex = None,
                  target_speed: float = None,
                  route: Route = None):
-        self.target_lane_index = target_lane_index or self.lane_index
         self.target_speed = target_speed or self.speed
-        self.route = route
         return self.speed_control(self.target_speed)
 
     @classmethod
