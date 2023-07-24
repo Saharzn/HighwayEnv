@@ -163,7 +163,7 @@ class HighwayEnv(AbstractEnv):
             target_speed += DELTA_SPEED
 
         if action == 7:
-            target_speed += self.DELTA_SPEED     
+            target_speed += DELTA_SPEED     
 
         if action == 8:
             target_speed += DELTA_SPEED
