@@ -172,8 +172,8 @@ class ControlledVehicle(Vehicle):
 
         if action == "faster_right":
             self.target_speed += self.DELTA_SPEED
-       acc = self.speed_control(self.target_speed)
-       return acc
+        acc = self.speed_control(self.target_speed)
+        return acc
     
     def follow_road(self) -> None:
         """At the end of a lane, automatically switch to a next one."""
