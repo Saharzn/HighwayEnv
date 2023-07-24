@@ -45,6 +45,20 @@ class ControlledVehicle(Vehicle):
         self.route = route
         self.acc = self.speed_control(self.target_speed)
 
+        def __init__1(self,
+                 road: Road,
+                 position: Vector,
+                 heading: float = 0,
+                 speed: float = 0,
+                 target_lane_index: LaneIndex = None,
+                 target_speed: float = None,
+                 route: Route = None):
+        super().__init__(road, position, heading, speed)
+        self.target_lane_index = target_lane_index or self.lane_index
+        self.target_speed = target_speed or self.speed
+        self.route = route
+        return self.speed_control(self.target_speed)
+
     @classmethod
     def create_from(cls, vehicle: "ControlledVehicle") -> "ControlledVehicle":
         """
