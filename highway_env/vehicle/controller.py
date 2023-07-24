@@ -146,7 +146,7 @@ class ControlledVehicle(Vehicle):
         super().act(action)
 
     def a(self)-> float:
-        return self.speed_control(self.target_speed)
+        a = self.speed_control(self.target_speed)
     
     def follow_road(self) -> None:
         """At the end of a lane, automatically switch to a next one."""
