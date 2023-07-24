@@ -168,7 +168,7 @@ class HighwayEnv(AbstractEnv):
         if action == 8:
             target_speed += DELTA_SPEED
         
-        acc = self.KP_A * (target_speed - self.vehicle.speed)
+        acc = KP_A * (target_speed - self.vehicle.speed)
         return acc
     
     
