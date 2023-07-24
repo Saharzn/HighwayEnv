@@ -145,8 +145,34 @@ class ControlledVehicle(Vehicle):
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         super().act(action)
 
-    def a(self, target_speed: float)-> float:
-        a = self.speed_control(target_speed)
+    def a(self, action: Union[dict, str] = None-> float:
+        if action == "keep_vel_lane":
+            self.target_speed = self.speed     
+
+        if action == "keep_vel_left":
+            self.target_speed = self.speed
+            
+        if action == "keep_vel_right":
+            self.target_speed = self.speed
+            
+        if action == "slower_keep_lane":
+            self.target_speed -= self.DELTA_SPEED
+        
+        if action == "slower_left":
+            self.target_speed -= self.DELTA_SPEED
+
+        if action == "slower_right":
+            self.target_speed -= self.DELTA_SPEED
+
+        if action == "faster_keep_lane":
+            self.target_speed += self.DELTA_SPEED
+
+        if action == "faster_left":
+            self.target_speed += self.DELTA_SPEED     
+
+        if action == "faster_right":
+            self.target_speed += self.DELTA_SPEED
+        return float(self.speed_control(self.target_speed))
     
     def follow_road(self) -> None:
         """At the end of a lane, automatically switch to a next one."""
