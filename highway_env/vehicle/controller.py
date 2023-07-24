@@ -44,17 +44,6 @@ class ControlledVehicle(Vehicle):
         self.target_speed = target_speed or self.speed
         self.route = route
 
-    def sahar(self,
-                 road: Road,
-                 position: Vector,
-                 heading: float = 0,
-                 speed: float = 0,
-                 target_lane_index: LaneIndex = None,
-                 target_speed: float = None,
-                 route: Route = None):
-        self.target_speed = target_speed or self.speed
-        return self.speed_control(self.target_speed)
-
     @classmethod
     def create_from(cls, vehicle: "ControlledVehicle") -> "ControlledVehicle":
         """
@@ -156,37 +145,7 @@ class ControlledVehicle(Vehicle):
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         super().act(action)
 
-    def ac_sahar(self, action) -> None:
-        target_speed = self.speed
-        if action == 0 :
-            target_speed = self.speed     
 
-        if action == 1:
-            target_speed = self.speed
-            
-        if action == 2:
-            target_speed = self.speed
-            
-        if action == 3:
-            target_speed -= DELTA_SPEED
-        
-        if action == 4:
-            target_speed -= DELTA_SPEED
-
-        if action == 5:
-            target_speed -= DELTA_SPEED
-
-        if action == 6:
-            target_speed += DELTA_SPEED
-
-        if action == 7:
-            target_speed += self.DELTA_SPEED     
-
-        if action == 8:
-            target_speed += DELTA_SPEED
-        print(target_speed)
-        #acc = self.speed_control(self.target_speed)
-        #return acc
     
     def follow_road(self) -> None:
         """At the end of a lane, automatically switch to a next one."""
