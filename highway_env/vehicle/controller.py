@@ -149,7 +149,7 @@ class ControlledVehicle(Vehicle):
         if action == 0 :
             self.target_speed = self.speed     
 
-        if action == 1":
+        if action == 1:
             self.target_speed = self.speed
             
         if action == 2:
