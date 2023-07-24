@@ -45,7 +45,7 @@ class ControlledVehicle(Vehicle):
         self.route = route
         self.acc = self.speed_control(self.target_speed)
 
-        def __init__1(self,
+    def __init__1(self,
                  road: Road,
                  position: Vector,
                  heading: float = 0,
