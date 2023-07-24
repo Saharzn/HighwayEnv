@@ -146,6 +146,7 @@ class ControlledVehicle(Vehicle):
         super().act(action)
 
     def a(self, action: Union[dict, str] = None)-> float:
+        target_speed = self.speed
         if action == 0 :
             target_speed = self.speed     
 
