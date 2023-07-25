@@ -104,42 +104,43 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
             
         if action == "slower_keep_lane":
-            self.target_speed -= self.DELTA_SPEED
+            #self.target_speed -= self.DELTA_SPEED
             target_lane_index = self.lane_index
         
         if action == "slower_left":
-            self.target_speed -= self.DELTA_SPEED
+            #self.target_speed -= self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
 
         if action == "slower_right":
-            self.target_speed -= self.DELTA_SPEED
+            #self.target_speed -= self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
 
         if action == "faster_keep_lane":
-            self.target_speed += self.DELTA_SPEED
+            #self.target_speed += self.DELTA_SPEED
             target_lane_index = self.lane_index
 
         if action == "faster_left":
-            self.target_speed += self.DELTA_SPEED
+            #self.target_speed += self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index        
 
         if action == "faster_right":
-            self.target_speed += self.DELTA_SPEED
+            #self.target_speed += self.DELTA_SPEED
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
 
-
+      
+        self.target_speed = MDPVehicle.target_speed
         action = {"steering": self.steering_control(self.target_lane_index),
                   "acceleration": self.speed_control(self.target_speed)}
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
@@ -245,7 +246,7 @@ class ControlledVehicle(Vehicle):
 class MDPVehicle(ControlledVehicle):
 
     """A controlled vehicle with a specified discrete range of allowed target speeds."""
-    DEFAULT_TARGET_SPEEDS = np.linspace(20, 30, 5)
+    DEFAULT_TARGET_SPEEDS = np.linspace(15, 30, 5)
 
     def __init__(self,
                  road: Road,
