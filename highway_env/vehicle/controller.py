@@ -75,6 +75,7 @@ class ControlledVehicle(Vehicle):
             self.route = [self.lane_index]
         return self
 
+    
     def act(self, action: Union[dict, str] = None) -> None:
         """
         Perform a high-level action to change the desired lane or speed.
@@ -86,18 +87,21 @@ class ControlledVehicle(Vehicle):
         """
         self.follow_road()
         if action == "keep_vel_lane":
-            self.target_speed = self.speed
+            #self.target_speed = self.speed
+            self.speed_index = self.speed_to_index(self.speed)
             self.target_lane_index = self.lane_index       
 
         if action == "keep_vel_left":
-            self.target_speed = self.speed
+            #self.target_speed = self.speed
+            self.speed_index = self.speed_to_index(self.speed)
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
             
         if action == "keep_vel_right":
-            self.target_speed = self.speed
+            #self.target_speed = self.speed
+            self.speed_index = self.speed_to_index(self.speed)
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
@@ -105,10 +109,12 @@ class ControlledVehicle(Vehicle):
             
         if action == "slower_keep_lane":
             #self.target_speed -= self.DELTA_SPEED
+            self.speed_index = self.speed_to_index(self.speed) - 1
             target_lane_index = self.lane_index
         
         if action == "slower_left":
             #self.target_speed -= self.DELTA_SPEED
+            self.speed_index = self.speed_to_index(self.speed) - 1
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
@@ -116,6 +122,7 @@ class ControlledVehicle(Vehicle):
 
         if action == "slower_right":
             #self.target_speed -= self.DELTA_SPEED
+            self.speed_index = self.speed_to_index(self.speed) - 1
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
@@ -123,10 +130,12 @@ class ControlledVehicle(Vehicle):
 
         if action == "faster_keep_lane":
             #self.target_speed += self.DELTA_SPEED
+            self.speed_index = self.speed_to_index(self.speed) + 1
             target_lane_index = self.lane_index
 
         if action == "faster_left":
             #self.target_speed += self.DELTA_SPEED
+            self.speed_index = self.speed_to_index(self.speed) + 1
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
@@ -134,19 +143,60 @@ class ControlledVehicle(Vehicle):
 
         if action == "faster_right":
             #self.target_speed += self.DELTA_SPEED
+            self.speed_index = self.speed_to_index(self.speed) + 1
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
                 self.target_lane_index = target_lane_index
 
       
-        self.target_speed = MDPVehicle.speed_t(action)
+        self.speed_index = int(np.clip(self.speed_index, 0, self.target_speeds.size - 1))
+        self.target_speed = self.index_to_speed(self.speed_index)
         action = {"steering": self.steering_control(self.target_lane_index),
                   "acceleration": self.speed_control(self.target_speed)}
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
-        super().act(action)
+        super().act(action)    
+    
+    def index_to_speed(self, index: int) -> float:
+        """
+        Convert an index among allowed speeds to its corresponding speed
 
+        :param index: the speed index []
+        :return: the corresponding speed [m/s]
+        """
+        return self.target_speeds[index]
 
+    def speed_to_index(self, speed: float) -> int:
+        """
+        Find the index of the closest speed allowed to a given speed.
+
+        Assumes a uniform list of target speeds to avoid searching for the closest target speed
+
+        :param speed: an input speed [m/s]
+        :return: the index of the closest speed allowed []
+        """
+        x = (speed - self.target_speeds[0]) / (self.target_speeds[-1] - self.target_speeds[0])
+        return np.int64(np.clip(np.round(x * (self.target_speeds.size - 1)), 0, self.target_speeds.size - 1))
+
+    @classmethod
+    def speed_to_index_default(cls, speed: float) -> int:
+        """
+        Find the index of the closest speed allowed to a given speed.
+
+        Assumes a uniform list of target speeds to avoid searching for the closest target speed
+
+        :param speed: an input speed [m/s]
+        :return: the index of the closest speed allowed []
+        """
+        x = (speed - cls.DEFAULT_TARGET_SPEEDS[0]) / (cls.DEFAULT_TARGET_SPEEDS[-1] - cls.DEFAULT_TARGET_SPEEDS[0])
+        return np.int64(np.clip(
+            np.round(x * (cls.DEFAULT_TARGET_SPEEDS.size - 1)), 0, cls.DEFAULT_TARGET_SPEEDS.size - 1))
+
+    @classmethod
+    def get_speed_index(cls, vehicle: Vehicle) -> int:
+        return getattr(vehicle, "speed_index", cls.speed_to_index_default(vehicle.speed))
+        
+    
     
     def follow_road(self) -> None:
         """At the end of a lane, automatically switch to a next one."""
@@ -302,26 +352,6 @@ class MDPVehicle(ControlledVehicle):
         self.target_speed = self.index_to_speed(self.speed_index)
         super().act()
 
-
-    def speed_t(self, action: Union[dict, str] = None) -> None:
-        self.target_speeds = np.array(target_speeds) if target_speeds is not None else self.DEFAULT_TARGET_SPEEDS
-        print(self.target_speeds)
-        if action == "faster_keep_lane":
-            self.speed_index = self.speed_to_index(self.speed) + 1
-        elif action == "faster_left":
-            self.speed_index = self.speed_to_index(self.speed) + 1
-        elif action == "faster_right":
-            self.speed_index = self.speed_to_index(self.speed) + 1
-        elif action == "slower_keep_lane":
-            self.speed_index = self.speed_to_index(self.speed) - 1
-        elif action == "slower_left":
-            self.speed_index = self.speed_to_index(self.speed) - 1
-        elif action == "slower_right":
-            self.speed_index = self.speed_to_index(self.speed) - 1
-        #self.speed_index = int(np.clip(self.speed_index, 0, self.target_speeds.size - 1))
-        #self.target_speed = self.index_to_speed(self.speed_index)
-        #return self.target_speed
-        return 10
     
     
     def index_to_speed(self, index: int) -> float:
