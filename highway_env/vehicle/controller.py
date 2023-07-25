@@ -304,7 +304,7 @@ class MDPVehicle(ControlledVehicle):
 
 
     def speed_t(self, action: Union[dict, str] = None) -> None:
-        print(self.target_speeds)
+        print(MDPVehicle.target_speeds)
         if action == "faster_keep_lane":
             self.speed_index = self.speed_to_index(self.speed) + 1
         elif action == "faster_left":
