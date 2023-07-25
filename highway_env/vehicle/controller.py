@@ -42,11 +42,10 @@ class ControlledVehicle(Vehicle):
                  target_speed: float = None,
                  target_speeds: Optional[Vector] = None,
                  route: Route = None):
-        super().__init__(road, position, heading, speed)
+        super().__init__(road, position, heading, speed, target_lane_index, target_speed, route)
         self.target_speeds = np.array(target_speeds) if target_speeds is not None else self.DEFAULT_TARGET_SPEEDS
         self.speed_index = self.speed_to_index(self.target_speed)
         self.target_speed = self.index_to_speed(self.speed_index)
-        self.route = route
 
     @classmethod
     def create_from(cls, vehicle: "ControlledVehicle") -> "ControlledVehicle":
