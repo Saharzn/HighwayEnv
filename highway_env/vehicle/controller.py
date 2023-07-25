@@ -30,7 +30,8 @@ class ControlledVehicle(Vehicle):
     KP_LATERAL = 1 / TAU_LATERAL  # [1/s]
     MAX_STEERING_ANGLE = np.pi / 3  # [rad]
     DELTA_SPEED = 5  # [m/s]
-
+    
+    
     def __init__(self,
                  road: Road,
                  position: Vector,
@@ -38,6 +39,7 @@ class ControlledVehicle(Vehicle):
                  speed: float = 0,
                  target_lane_index: LaneIndex = None,
                  target_speed: float = None,
+                 target_speeds: Optional[Vector] = None,
                  route: Route = None):
         super().__init__(road, position, heading, speed)
         self.target_lane_index = target_lane_index or self.lane_index
