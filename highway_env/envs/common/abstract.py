@@ -179,7 +179,7 @@ class AbstractEnv(gym.Env):
             "action": action,
             #"l_index": self.vehicle.lane_index,
             #"target_l_index": self.vehicle.target_lane_index,
-            "fuel": nnv.HighwayEnv.fuel(action),
+            #"fuel": nnv.HighwayEnv.fuel(action),
         }
         try:
             info["rewards"] = self._rewards(action)
