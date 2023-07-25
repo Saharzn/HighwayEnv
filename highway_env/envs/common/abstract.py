@@ -202,7 +202,7 @@ class AbstractEnv(gym.Env):
         a = self.ac_sahar(action)
         T = m*r/(i*eta)*(a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
         if T < 0:
-            F = 0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n**2+6.902e-06*n*T+0.0004899*T**2
+            F = abs(0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n**2+6.902e-06*n*T+0.0004899*T**2)
         elif T >= 0:
             F = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
         return F+7.7*self.vehicle.speed/10**5
