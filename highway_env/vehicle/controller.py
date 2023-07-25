@@ -324,12 +324,11 @@ class MDPVehicle(ControlledVehicle):
             self.speed_index = self.speed_to_index(self.speed) - 1
         elif action == "slower_right":
             self.speed_index = self.speed_to_index(self.speed) - 1
-        else:
-            super().act(action)
-            return
         self.speed_index = int(np.clip(self.speed_index, 0, self.target_speeds.size - 1))
         self.target_speed = self.index_to_speed(self.speed_index)
         return self.target_speed
+    
+    
     def index_to_speed(self, index: int) -> float:
         """
         Convert an index among allowed speeds to its corresponding speed
