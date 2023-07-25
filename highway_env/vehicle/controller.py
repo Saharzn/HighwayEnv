@@ -140,7 +140,7 @@ class ControlledVehicle(Vehicle):
                 self.target_lane_index = target_lane_index
 
       
-        self.target_speed = MDPVehicle.target_speed
+        self.target_speed = MDPVehicle.speed_t(action)
         action = {"steering": self.steering_control(self.target_lane_index),
                   "acceleration": self.speed_control(self.target_speed)}
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
@@ -302,6 +302,34 @@ class MDPVehicle(ControlledVehicle):
         self.target_speed = self.index_to_speed(self.speed_index)
         super().act()
 
+
+    def speed_t(self, action: Union[dict, str] = None) -> None:
+        """
+        Perform a high-level action.
+
+        - If the action is a speed change, choose speed from the allowed discrete range.
+        - Else, forward action to the ControlledVehicle handler.
+
+        :param action: a high-level action
+        """
+        if action == "faster_keep_lane":
+            self.speed_index = self.speed_to_index(self.speed) + 1
+        elif action == "faster_left":
+            self.speed_index = self.speed_to_index(self.speed) + 1
+        elif action == "faster_right":
+            self.speed_index = self.speed_to_index(self.speed) + 1
+        elif action == "slower_keep_lane":
+            self.speed_index = self.speed_to_index(self.speed) - 1
+        elif action == "slower_left":
+            self.speed_index = self.speed_to_index(self.speed) - 1
+        elif action == "slower_right":
+            self.speed_index = self.speed_to_index(self.speed) - 1
+        else:
+            super().act(action)
+            return
+        self.speed_index = int(np.clip(self.speed_index, 0, self.target_speeds.size - 1))
+        self.target_speed = self.index_to_speed(self.speed_index)
+        return self.target_speed
     def index_to_speed(self, index: int) -> float:
         """
         Convert an index among allowed speeds to its corresponding speed
