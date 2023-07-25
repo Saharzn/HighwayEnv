@@ -304,14 +304,7 @@ class MDPVehicle(ControlledVehicle):
 
 
     def speed_t(self, action: Union[dict, str] = None) -> None:
-        """
-        Perform a high-level action.
-
-        - If the action is a speed change, choose speed from the allowed discrete range.
-        - Else, forward action to the ControlledVehicle handler.
-
-        :param action: a high-level action
-        """
+        print(self.target_speeds)
         if action == "faster_keep_lane":
             self.speed_index = self.speed_to_index(self.speed) + 1
         elif action == "faster_left":
@@ -324,9 +317,10 @@ class MDPVehicle(ControlledVehicle):
             self.speed_index = self.speed_to_index(self.speed) - 1
         elif action == "slower_right":
             self.speed_index = self.speed_to_index(self.speed) - 1
-        self.speed_index = int(np.clip(self.speed_index, 0, self.target_speeds.size - 1))
-        self.target_speed = self.index_to_speed(self.speed_index)
-        return self.target_speed
+        #self.speed_index = int(np.clip(self.speed_index, 0, self.target_speeds.size - 1))
+        #self.target_speed = self.index_to_speed(self.speed_index)
+        #return self.target_speed
+        return 10
     
     
     def index_to_speed(self, index: int) -> float:
