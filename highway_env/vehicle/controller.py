@@ -32,16 +32,16 @@ class ControlledVehicle(Vehicle):
     DELTA_SPEED = 5  # [m/s]
     DEFAULT_TARGET_SPEEDS = np.linspace(15, 30, 5)
 
-    
     def __init__(self,
                  road: Road,
-                 position: Vector,
+                 position: List[float],
                  heading: float = 0,
                  speed: float = 0,
-                 target_lane_index: LaneIndex = None,
-                 target_speed: float = None,
+                 target_lane_index: Optional[LaneIndex] = None,
+                 target_speed: Optional[float] = None,
                  target_speeds: Optional[Vector] = None,
-                 route: Route = None):
+                 route: Optional[Route] = None) -> None:
+
         super().__init__(road, position, heading, speed, target_lane_index, target_speed, route)
         self.target_speeds = np.array(target_speeds) if target_speeds is not None else self.DEFAULT_TARGET_SPEEDS
         self.speed_index = self.speed_to_index(self.target_speed)
