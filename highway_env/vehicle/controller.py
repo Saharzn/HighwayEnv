@@ -30,7 +30,8 @@ class ControlledVehicle(Vehicle):
     KP_LATERAL = 1 / TAU_LATERAL  # [1/s]
     MAX_STEERING_ANGLE = np.pi / 3  # [rad]
     DELTA_SPEED = 5  # [m/s]
-    
+    DEFAULT_TARGET_SPEEDS = np.linspace(15, 30, 5)
+
     
     def __init__(self,
                  road: Road,
@@ -42,8 +43,9 @@ class ControlledVehicle(Vehicle):
                  target_speeds: Optional[Vector] = None,
                  route: Route = None):
         super().__init__(road, position, heading, speed)
-        self.target_lane_index = target_lane_index or self.lane_index
-        self.target_speed = target_speed or self.speed
+        self.target_speeds = np.array(target_speeds) if target_speeds is not None else self.DEFAULT_TARGET_SPEEDS
+        self.speed_index = self.speed_to_index(self.target_speed)
+        self.target_speed = self.index_to_speed(self.speed_index)
         self.route = route
 
     @classmethod
