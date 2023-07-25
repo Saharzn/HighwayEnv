@@ -89,7 +89,7 @@ class ContinuousAction(ActionType):
                  env: 'AbstractEnv',
                  acceleration_range: Optional[Tuple[float, float]] = None,
                  steering_range: Optional[Tuple[float, float]] = None,
-                 speed_range: Optional[Tuple[float, float]] = None,
+                 speed_range: [0, 35],
                  longitudinal: bool = True,
                  lateral: bool = True,
                  dynamical: bool = False,
