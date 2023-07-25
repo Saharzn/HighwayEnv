@@ -15,6 +15,7 @@ from highway_env.envs.common.graphics import EnvViewer
 from highway_env.vehicle.behavior import IDMVehicle, LinearVehicle
 from highway_env.vehicle.controller import MDPVehicle
 from highway_env.vehicle.kinematics import Vehicle
+import highway_env.envs.highway_env as nnv 
 
 Observation = TypeVar("Observation")
 
@@ -176,8 +177,9 @@ class AbstractEnv(gym.Env):
             "speed": self.vehicle.speed,
             "crashed": self.vehicle.crashed,
             "action": action,
-            "l_index": self.vehicle.lane_index,
-            "target_l_index": self.vehicle.target_lane_index,
+            #"l_index": self.vehicle.lane_index,
+            #"target_l_index": self.vehicle.target_lane_index,
+            "fuel": nnv.HighwayEnv.fuel(action),
         }
         try:
             info["rewards"] = self._rewards(action)
