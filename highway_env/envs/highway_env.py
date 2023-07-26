@@ -113,6 +113,8 @@ class HighwayEnv(AbstractEnv):
     
     def fuel(self, action: Action):
         max_fuel = 9.6739
+        max_torque = 300
+        min_torque = -70
         m = 1400.04
         ro = 1.206
         s = 2.414
@@ -124,7 +126,8 @@ class HighwayEnv(AbstractEnv):
         r = 0.326
         n = 30/3.14*i*self.vehicle.speed/r
         a = self.ac_sahar(action)
-        T = m*r/(i*eta)*(a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
+        T_unlimited = m*r/(i*eta)*(a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
+        T = np.clip(T_unlimited, min_torque, max_torque)
         if T < 0:
             F = abs(0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n**2+6.902e-06*n*T+0.0004899*T**2)
         elif T >= 0:
