@@ -89,7 +89,7 @@ class HighwayEnv(AbstractEnv):
         forward_speed = self.vehicle.speed * np.cos(self.vehicle.heading)
         scaled_speed = utils.lmap(forward_speed, self.config["reward_speed_range"], [0, 1])
         #print([float(self.vehicle.crashed), lane / max(len(neighbours) - 1, 1), np.clip(scaled_speed, 0, 1), 
-               float(self.vehicle.on_road),self.config["fuel_weight"]*(self.fuel(action))])
+              # float(self.vehicle.on_road),self.config["fuel_weight"]*(self.fuel(action))])
 
         
         """
