@@ -185,7 +185,7 @@ class HighwayEnv(AbstractEnv):
             target_speed += DELTA_SPEED
         
         acc_unlimited = KP_A * (target_speed - self.vehicle.speed)
-        acc = np.clip(acc_unlimited, self.MIN_ACCELERATION, self.MAX_ACCELERATION)
+        acc = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
         return acc
     
     
