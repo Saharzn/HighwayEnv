@@ -130,7 +130,7 @@ class HighwayEnv(AbstractEnv):
         elif T >= 0:
             F = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
         #return F/max_fuel + 7.7*self.vehicle.speed/10**5
-        print(F)
+        print([n,a,T,F])
         return F/max_fuel
     
     
