@@ -52,7 +52,8 @@ class HighwayEnv(AbstractEnv):
         return config
 
     def fuel_weight(self):
-        return self.config["fuel_weight"]
+        x = self.config["fuel_weight"]
+        return x
     
     def _reset(self) -> None:
         self._create_road()
