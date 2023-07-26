@@ -179,7 +179,7 @@ class AbstractEnv(gym.Env):
             "action": action,
             #"l_index": self.vehicle.lane_index,
             #"target_l_index": self.vehicle.target_lane_index,
-            "fuel": self.fuel(action),
+            "fuel": nnv.HighwayEnv.config["fuel_weight"]*(self.fuel(action)),
         }
         try:
             info["rewards"] = self._rewards(action)
@@ -189,6 +189,9 @@ class AbstractEnv(gym.Env):
 
     
     def fuel(self, action: Action):
+        max_fuel = 12
+        max_torque = 230
+        min_torque = -52
         m = 1400.04
         ro = 1.206
         s = 2.414
@@ -200,17 +203,21 @@ class AbstractEnv(gym.Env):
         r = 0.326
         n = 30/3.14*i*self.vehicle.speed/r
         a = self.ac_sahar(action)
-        T = m*r/(i*eta)*(a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
+        T_unlimited = m*r/(i*eta)*(a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
+        T = np.clip(T_unlimited, min_torque, max_torque)
         if T < 0:
             F = abs(0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n**2+6.902e-06*n*T+0.0004899*T**2)
         elif T >= 0:
             F = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
-        return F+7.7*self.vehicle.speed/10**5
+        #return F/max_fuel + 7.7*self.vehicle.speed/10**5
+        return F/max_fuel
     
     def ac_sahar(self, action) -> None:
         DELTA_SPEED = 5
         TAU_ACC = 0.6  # [s]
         KP_A = 1 / TAU_ACC 
+        MIN_ACCELERATION = -5
+        MAX_ACCELERATION = 5
         target_speed = self.vehicle.speed
         if action == 0 :
             target_speed = self.vehicle.speed     
@@ -222,7 +229,7 @@ class AbstractEnv(gym.Env):
             target_speed = self.vehicle.speed
             
         if action == 3:
-                target_speed -= DELTA_SPEED
+            target_speed -= DELTA_SPEED
         
         if action == 4:
             target_speed -= DELTA_SPEED
@@ -239,8 +246,10 @@ class AbstractEnv(gym.Env):
         if action == 8:
             target_speed += DELTA_SPEED
         
-        acc = KP_A * (target_speed - self.vehicle.speed)
+        acc_unlimited = KP_A * (target_speed - self.vehicle.speed)
+        acc = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
         return acc
+    
     
     def reset(self,
               *,
