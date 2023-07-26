@@ -99,6 +99,7 @@ class HighwayEnv(AbstractEnv):
                                  self.config["fuel_weight"]/(self.fuel(action)) + self.config["high_speed_reward"] + self.config["right_lane_reward"]],
                                 [0, 1])
         reward *= rewards['on_road_reward']
+        print(lane / max(len(neighbours) - 1, 1))
         return reward
 
     
@@ -137,7 +138,6 @@ class HighwayEnv(AbstractEnv):
             "on_road_reward": float(self.vehicle.on_road),
             "fuel_reward": self.config["fuel_weight"]/(self.fuel(action))
         }
-        print(lane / max(len(neighbours) - 1, 1))
      
     def ac_sahar(self, action) -> None:
         DELTA_SPEED = 5
