@@ -88,7 +88,7 @@ class HighwayEnv(AbstractEnv):
             else self.vehicle.lane_index[2]
         forward_speed = self.vehicle.speed * np.cos(self.vehicle.heading)
         scaled_speed = utils.lmap(forward_speed, self.config["reward_speed_range"], [0, 1])
-        print([float(self.vehicle.crashed), lane / max(len(neighbours) - 1, 1), np.clip(scaled_speed, 0, 1), 
+        #print([float(self.vehicle.crashed), lane / max(len(neighbours) - 1, 1), np.clip(scaled_speed, 0, 1), 
                float(self.vehicle.on_road),self.config["fuel_weight"]*(self.fuel(action))])
 
         
@@ -130,6 +130,7 @@ class HighwayEnv(AbstractEnv):
         elif T >= 0:
             F = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
         #return F/max_fuel + 7.7*self.vehicle.speed/10**5
+        print(F)
         return F/max_fuel
     
     
