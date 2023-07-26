@@ -154,6 +154,8 @@ class HighwayEnv(AbstractEnv):
         DELTA_SPEED = 5
         TAU_ACC = 0.6  # [s]
         KP_A = 1 / TAU_ACC 
+        MIN_ACCELERATION = -5
+        MAX_ACCELERATION = 5
         target_speed = self.vehicle.speed
         if action == 0 :
             target_speed = self.vehicle.speed     
@@ -182,7 +184,8 @@ class HighwayEnv(AbstractEnv):
         if action == 8:
             target_speed += DELTA_SPEED
         
-        acc = KP_A * (target_speed - self.vehicle.speed)
+        acc_unlimited = KP_A * (target_speed - self.vehicle.speed)
+        acc = np.clip(acc_unlimited, self.MIN_ACCELERATION, self.MAX_ACCELERATION)
         return acc
     
     
