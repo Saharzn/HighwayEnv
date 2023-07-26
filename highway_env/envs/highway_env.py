@@ -112,7 +112,7 @@ class HighwayEnv(AbstractEnv):
 
     
     def fuel(self, action: Action):
-        max_fuel = 9.6739
+        max_fuel = 12
         max_torque = 230
         min_torque = -52
         m = 1400.04
@@ -133,7 +133,8 @@ class HighwayEnv(AbstractEnv):
         elif T >= 0:
             F = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
         #return F/max_fuel + 7.7*self.vehicle.speed/10**5
-        print([n,a,T,F])
+        #print([n,a,T,F])
+        print(F/max_fuel)
         return F/max_fuel
     
     
