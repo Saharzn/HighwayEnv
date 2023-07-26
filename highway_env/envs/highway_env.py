@@ -83,15 +83,6 @@ class HighwayEnv(AbstractEnv):
                 self.road.vehicles.append(vehicle)
 
     def _reward(self, action: Action) -> float:
-        neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
-        lane = self.vehicle.target_lane_index[2] if isinstance(self.vehicle, ControlledVehicle) \
-            else self.vehicle.lane_index[2]
-        forward_speed = self.vehicle.speed * np.cos(self.vehicle.heading)
-        scaled_speed = utils.lmap(forward_speed, self.config["reward_speed_range"], [0, 1])
-        #print([float(self.vehicle.crashed), lane / max(len(neighbours) - 1, 1), np.clip(scaled_speed, 0, 1), 
-              # float(self.vehicle.on_road),self.config["fuel_weight"]*(self.fuel(action))])
-
-        
         """
         The reward is defined to foster driving at high speed, on the rightmost lanes, and to avoid collisions.
         :param action: the last action performed
@@ -133,8 +124,6 @@ class HighwayEnv(AbstractEnv):
         elif T >= 0:
             F = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
         #return F/max_fuel + 7.7*self.vehicle.speed/10**5
-        #print([n,a,T,F])
-        print(F/max_fuel)
         return F/max_fuel
     
     
