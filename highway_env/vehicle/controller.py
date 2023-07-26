@@ -31,6 +31,8 @@ class ControlledVehicle(Vehicle):
     MAX_STEERING_ANGLE = np.pi / 3  # [rad]
     DELTA_SPEED = 5  # [m/s]
     DEFAULT_TARGET_SPEEDS = np.linspace(10, 30, 2)
+    MAX_ACCELERATION = 5
+    MIN_ACCELERATION = -5
 
 
 
@@ -161,10 +163,11 @@ class ControlledVehicle(Vehicle):
         self.target_speed = self.index_to_speed(self.speed_index)
         action = {"steering": self.steering_control(self.target_lane_index),
                   "acceleration": self.speed_control(self.target_speed)}
+        action['acceleration'] = np.clip(action['acceleration'], self.MIN_ACCELERATION, self.MAX_ACCELERATION)
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
         print(action['acceleration'])
         super().act(action)    
-    
+
     def index_to_speed(self, index: int) -> float:
         """
         Convert an index among allowed speeds to its corresponding speed
