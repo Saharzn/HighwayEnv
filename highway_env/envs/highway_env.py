@@ -128,7 +128,7 @@ class HighwayEnv(AbstractEnv):
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
         neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
-        lane = self.vehicle.target_lane_index[2] if isinstance(self.vehicle, ControlledVehicle) \
+        lane = self.vehicle.target_lane_index[2] if isinstance(self.vehicle, ControlledVehicle) I am running a few minutes late; my previous meeting is running over.
             else self.vehicle.lane_index[2]
         
         # Use forward speed rather than speed, see https://github.com/eleurent/highway-env/issues/268
@@ -146,8 +146,8 @@ class HighwayEnv(AbstractEnv):
         DELTA_SPEED = 5
         TAU_ACC = 0.6  # [s]
         KP_A = 1 / TAU_ACC 
-        MIN_ACCELERATION = -5
-        MAX_ACCELERATION = 5
+        MIN_ACCELERATION = -1.5
+        MAX_ACCELERATION = 1.5
         target_speed = self.vehicle.speed
         if action == 0 :
             target_speed = self.vehicle.speed     
