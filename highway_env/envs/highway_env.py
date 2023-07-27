@@ -102,7 +102,8 @@ class HighwayEnv(AbstractEnv):
 
     
     def fuel(self, action: Action):
-        max_fuel = 12
+        max_fuel_1 = 12
+        max_fuel_2 = 10
         max_torque = 230
         min_torque = -52
         m = 1400.04
@@ -119,11 +120,11 @@ class HighwayEnv(AbstractEnv):
         T_unlimited = m*r/(i*eta)*(a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
         T = np.clip(T_unlimited, min_torque, max_torque)
         if T < 0:
-            F = abs(0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n**2+6.902e-06*n*T+0.0004899*T**2)
+            F1 = abs(0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n**2+6.902e-06*n*T+0.0004899*T**2)
         elif T >= 0:
-            F = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
-        #return F/max_fuel + 7.7*self.vehicle.speed/10**5
-        return F/max_fuel
+            F1 = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
+        F2 = 12.95-1.48*self.vehicle.speed+0.05435*self.vehicle.speed**2-0.000805*self.vehicle.speed**3
+        return F1/max_fuel_1+F2/max_fuel_2
     
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
