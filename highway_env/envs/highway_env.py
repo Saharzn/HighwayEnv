@@ -136,11 +136,11 @@ class HighwayEnv(AbstractEnv):
         scaled_speed = utils.lmap(forward_speed, self.config["reward_speed_range"], [0, 1])
         return {
             "collision_reward": float(self.vehicle.crashed),
-            #"right_lane_reward": lane / max(len(neighbours) - 1, 1),
+            "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
-            #"on_road_reward": float(self.vehicle.on_road),
-            "on_road_reward": 1,
-            "fuel_reward": -self.fuel(action)
+            "on_road_reward": float(self.vehicle.on_road),
+            #"on_road_reward": 1,
+            #"fuel_reward": -self.fuel(action)
         }
      
     def ac_sahar(self, action) -> None:
