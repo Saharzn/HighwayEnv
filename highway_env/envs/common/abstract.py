@@ -178,8 +178,8 @@ class AbstractEnv(gym.Env):
             "speed": self.vehicle.speed,
             "crashed": self.vehicle.crashed,
             "action": action,
-            "acc": acc,
-            "target_speed": target_speed,
+            "acc": self.ac_sahar(action),
+            "target_speed": self.target_sahar(action),
         }
         try:
             info["rewards"] = self._rewards(action)
@@ -225,9 +225,39 @@ class AbstractEnv(gym.Env):
             target_speed += DELTA_SPEED
         
         acc_unlimited = KP_A * (target_speed - self.vehicle.speed)
-        acc1 = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
-        acc2 = target_speed
-        return acc1, acc2 
+        acc = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
+        return acc
+
+
+    def target_sahar(self, action) -> None:
+        target_speed = self.vehicle.speed
+        if action == 0 :
+            target_speed = self.vehicle.speed     
+
+        if action == 1:
+            target_speed = self.vehicle.speed
+            
+        if action == 2:
+            target_speed = self.vehicle.speed
+            
+        if action == 3:
+            target_speed -= DELTA_SPEED
+        
+        if action == 4:
+            target_speed -= DELTA_SPEED
+
+        if action == 5:
+            target_speed -= DELTA_SPEED
+
+        if action == 6:
+            target_speed += DELTA_SPEED
+
+        if action == 7:
+            target_speed += DELTA_SPEED     
+
+        if action == 8:
+            target_speed += DELTA_SPEED
+        return target_speed
     
     
     def reset(self,
