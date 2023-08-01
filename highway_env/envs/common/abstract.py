@@ -173,7 +173,6 @@ class AbstractEnv(gym.Env):
         :param action: current action
         :return: info dict
         """
-        acc, target_speed = self.ac_sahar(action)
         info = {
             "speed": self.vehicle.speed,
             "crashed": self.vehicle.crashed,
@@ -228,7 +227,35 @@ class AbstractEnv(gym.Env):
         acc = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
         return acc
 
+    def target_sahar(self, action) -> None:
+        target_speed = self.vehicle.speed
+        if action == 0 :
+            target_speed = self.vehicle.speed     
 
+        if action == 1:
+            target_speed = self.vehicle.speed
+            
+        if action == 2:
+            target_speed = self.vehicle.speed
+            
+        if action == 3:
+            target_speed -= DELTA_SPEED
+        
+        if action == 4:
+            target_speed -= DELTA_SPEED
+
+        if action == 5:
+            target_speed -= DELTA_SPEED
+
+        if action == 6:
+            target_speed += DELTA_SPEED
+
+        if action == 7:
+            target_speed += DELTA_SPEED     
+
+        if action == 8:
+            target_speed += DELTA_SPEED
+        return target_speed 
     
     
     def reset(self,
