@@ -228,6 +228,7 @@ class AbstractEnv(gym.Env):
         return acc
 
     def target_sahar(self, action) -> None:
+        DELTA_SPEED = 1.5
         target_speed = self.vehicle.speed
         if action == 0 :
             target_speed = self.vehicle.speed     
