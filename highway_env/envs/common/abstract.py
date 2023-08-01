@@ -190,7 +190,7 @@ class AbstractEnv(gym.Env):
     
     
     def ac_sahar(self, action) -> None:
-        DELTA_SPEED = 1.5
+        DELTA_SPEED = 5
         TAU_ACC = 0.6  # [s]
         KP_A = 1 / TAU_ACC 
         MIN_ACCELERATION = -1.5
@@ -228,7 +228,7 @@ class AbstractEnv(gym.Env):
         return acc
 
     def target_sahar(self, action) -> None:
-        DELTA_SPEED = 1.5
+        DELTA_SPEED = 5
         target_speed = self.vehicle.speed
         if action == 0 :
             target_speed = self.vehicle.speed     
