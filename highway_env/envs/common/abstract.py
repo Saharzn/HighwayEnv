@@ -178,7 +178,7 @@ class AbstractEnv(gym.Env):
             "crashed": self.vehicle.crashed,
             "action": action,
             "acc": self.ac_sahar(action),
-            #"target_l_index": self.vehicle.target_lane_index,
+            "target_speed": self.target_speed,
         }
         try:
             info["rewards"] = self._rewards(action)
@@ -197,31 +197,31 @@ class AbstractEnv(gym.Env):
         MAX_ACCELERATION = 1.5
         target_speed = self.vehicle.speed
         if action == 0 :
-            target_speed = self.vehicle.speed     
+            self.target_speed = self.vehicle.speed     
 
         if action == 1:
-            target_speed = self.vehicle.speed
+            self.target_speed = self.vehicle.speed
             
         if action == 2:
             target_speed = self.vehicle.speed
             
         if action == 3:
-            target_speed -= DELTA_SPEED
+            self.target_speed -= DELTA_SPEED
         
         if action == 4:
-            target_speed -= DELTA_SPEED
+            self.target_speed -= DELTA_SPEED
 
         if action == 5:
-            target_speed -= DELTA_SPEED
+            self.target_speed -= DELTA_SPEED
 
         if action == 6:
-            target_speed += DELTA_SPEED
+            self.target_speed += DELTA_SPEED
 
         if action == 7:
-            target_speed += DELTA_SPEED     
+            self.target_speed += DELTA_SPEED     
 
         if action == 8:
-            target_speed += DELTA_SPEED
+            self.target_speed += DELTA_SPEED
         
         acc_unlimited = KP_A * (target_speed - self.vehicle.speed)
         acc = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
