@@ -173,12 +173,13 @@ class AbstractEnv(gym.Env):
         :param action: current action
         :return: info dict
         """
+        acc, target_speed = self.ac_sahar(action)
         info = {
             "speed": self.vehicle.speed,
             "crashed": self.vehicle.crashed,
             "action": action,
-            "acc": self.ac_sahar(action),
-            "target_speed": self.ac_sahar.target_speed,
+            "acc": acc,
+            "target_speed": target_speed,
         }
         try:
             info["rewards"] = self._rewards(action)
@@ -197,35 +198,36 @@ class AbstractEnv(gym.Env):
         MAX_ACCELERATION = 1.5
         target_speed = self.vehicle.speed
         if action == 0 :
-            self.target_speed = self.vehicle.speed     
+            target_speed = self.vehicle.speed     
 
         if action == 1:
-            self.target_speed = self.vehicle.speed
+            target_speed = self.vehicle.speed
             
         if action == 2:
             target_speed = self.vehicle.speed
             
         if action == 3:
-            self.target_speed -= DELTA_SPEED
+            target_speed -= DELTA_SPEED
         
         if action == 4:
-            self.target_speed -= DELTA_SPEED
+            target_speed -= DELTA_SPEED
 
         if action == 5:
-            self.target_speed -= DELTA_SPEED
+            target_speed -= DELTA_SPEED
 
         if action == 6:
-            self.target_speed += DELTA_SPEED
+            target_speed += DELTA_SPEED
 
         if action == 7:
-            self.target_speed += DELTA_SPEED     
+            target_speed += DELTA_SPEED     
 
         if action == 8:
-            self.target_speed += DELTA_SPEED
+            target_speed += DELTA_SPEED
         
         acc_unlimited = KP_A * (target_speed - self.vehicle.speed)
-        acc = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
-        return acc
+        acc1 = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
+        acc2 = target_speed
+        return acc1, acc2 
     
     
     def reset(self,
