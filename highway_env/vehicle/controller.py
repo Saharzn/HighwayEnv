@@ -29,7 +29,7 @@ class ControlledVehicle(Vehicle):
     KP_HEADING = 1 / TAU_HEADING
     KP_LATERAL = 1 / TAU_LATERAL  # [1/s]
     MAX_STEERING_ANGLE = np.pi / 3  # [rad]
-    DELTA_SPEED = 1.5  # [m/s]
+    DELTA_SPEED = 5  # [m/s]
     DEFAULT_TARGET_SPEEDS = np.linspace(10, 30, 2)
     MAX_ACCELERATION = 1.5
     MIN_ACCELERATION = -1.5
