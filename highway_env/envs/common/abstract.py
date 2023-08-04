@@ -174,7 +174,7 @@ class AbstractEnv(gym.Env):
         :return: info dict
         """
         info = {
-            #"speed": self.vehicle.speed,
+            "speed": self.vehicle.speed,
             #"crashed": self.vehicle.crashed,
             #"action": action,
             #"acc": self.ac_sahar(action),
