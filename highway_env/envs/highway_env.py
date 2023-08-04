@@ -137,7 +137,7 @@ class HighwayEnv(AbstractEnv):
         return {
             "collision_reward": float(self.vehicle.crashed),
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
-            "high_speed_reward": 2*np.clip(scaled_speed, 0, 1),
+            "high_speed_reward": 0.5*np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
             #"fuel_reward": -self.fuel(action)
         }
