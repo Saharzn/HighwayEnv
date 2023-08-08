@@ -181,6 +181,7 @@ class AbstractEnv(gym.Env):
             "target_speed": self.target_sahar(action),
             "time": self.time, 
             "fuel": self.fuel(action),
+            "pos": self.vehicle.position,
         }
         try:
             info["rewards"] = self._rewards(action)
