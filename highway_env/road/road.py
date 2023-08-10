@@ -220,7 +220,7 @@ class RoadNetwork(object):
                               start: float = 0,
                               length: float = 10000,
                               angle: float = 0,
-                              speed_limit: float = 30,
+                              speed_limit: float = 35,
                               nodes_str: Optional[Tuple[str, str]] = None,
                               net: Optional['RoadNetwork'] = None) \
             -> 'RoadNetwork':
