@@ -31,8 +31,8 @@ class ControlledVehicle(Vehicle):
     MAX_STEERING_ANGLE = np.pi / 3  # [rad]
     DELTA_SPEED = 5  # [m/s]
     DEFAULT_TARGET_SPEEDS = np.linspace(10, 30, 2)
-    MAX_ACCELERATION = 1.5
-    MIN_ACCELERATION = -1.5
+    MAX_ACCELERATION = 2
+    MIN_ACCELERATION = -2
 
 
 
