@@ -146,8 +146,8 @@ class HighwayEnv(AbstractEnv):
         DELTA_SPEED = 5
         TAU_ACC = 0.6  # [s]
         KP_A = 1 / TAU_ACC 
-        MIN_ACCELERATION = -1.5
-        MAX_ACCELERATION = 1.5
+        MIN_ACCELERATION = -2
+        MAX_ACCELERATION = 2
         target_speed = self.vehicle.speed
         if action == 0 :
             target_speed = self.vehicle.speed     
