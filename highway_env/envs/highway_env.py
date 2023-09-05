@@ -102,8 +102,8 @@ class HighwayEnv(AbstractEnv):
 
     
     def fuel(self, action: Action):
-        # max_fuel_1 = 20
-        # max_fuel_2 = 10
+        max_fuel_1 = 20
+        max_fuel_2 = 10
         max_fuel = 30
         max_torque = 230
         min_torque = -52
@@ -125,7 +125,7 @@ class HighwayEnv(AbstractEnv):
         elif T >= 0:
             F1 = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
         F2 = -0.0008051*self.vehicle.speed**3+0.05435*self.vehicle.speed**2-1.148*self.vehicle.speed+12.95
-        return (F1+F2)/max_fuel
+        return F1/max_fuel_1+F2/max_fuel_2
     
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
