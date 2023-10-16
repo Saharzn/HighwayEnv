@@ -128,7 +128,7 @@ class HighwayEnv(AbstractEnv):
         if Force < 0: 
             F1 = abs(1.121-0.2974*vehicle.speed-0.00117*Force+0.008702*vehicle.speed**2-0.0002958*Force*vehicle.speed-3.697e-6*Force**2)
         elif Force >= 0:
-            F1 = 0.7119-0.147*vehicle.speed-0.0002227*Force+0.007622*vehicle.speed**2+3.697e-5*Force*vehicle.speed+1.704e-8*Force**2
+            F1 = abs(0.7119-0.147*vehicle.speed-0.0002227*Force+0.007622*vehicle.speed**2+3.697e-5*Force*vehicle.speed+1.704e-8*Force**2)
             
         F2 = -0.0008051*self.vehicle.speed**3+0.05435*self.vehicle.speed**2-1.148*self.vehicle.speed+12.95
         return F1/max_fuel_1+F2/max_fuel_2
