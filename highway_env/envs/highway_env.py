@@ -126,7 +126,7 @@ class HighwayEnv(AbstractEnv):
         #elif T >= 0:
          #   F1 = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
         if Force < 0: 
-            F1 = 1.121-0.2974*vehicle.speed-0.00117*Force+0.008702*vehicle.speed**2-0.0002958*Force*vehicle.speed
+            F1 = abs(1.121-0.2974*vehicle.speed-0.00117*Force+0.008702*vehicle.speed**2-0.0002958*Force*vehicle.speed-3.697e-6*Force**2)
         elif Force >= 0:
             F1 = 0.7119-0.147*vehicle.speed-0.0002227*Force+0.007622*vehicle.speed**2+3.697e-5*Force*vehicle.speed+1.704e-8*Force**2
             
