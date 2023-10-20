@@ -181,7 +181,7 @@ class AbstractEnv(gym.Env):
             "target_speed": self.target_sahar(action),
             "time": self.time, 
             #"fuel": self.fuel(action),
-            "fuel": 2,
+            "fuel": self.fuel1(action),
             "pos": self.vehicle.position[0],
         }
         try:
@@ -192,7 +192,7 @@ class AbstractEnv(gym.Env):
 
 
 
-    def fuel(self, action: Action):
+    def fuel1(self, action: Action):
         max_fuel_1 = 20
         max_fuel_2 = 10
         max_fuel = 30
@@ -222,7 +222,7 @@ class AbstractEnv(gym.Env):
             F1 = abs(0.7119-0.147*self.vehicle.speed-0.0002227*Force+0.007622*self.vehicle.speed**2+3.697e-5*Force*self.vehicle.speed+1.704e-8*Force**2)
             
         F2 = -0.0008051*self.vehicle.speed**3+0.05435*self.vehicle.speed**2-1.148*self.vehicle.speed+12.95
-        return 2 
+        return F1+F2 
     
     
     
