@@ -177,7 +177,7 @@ class AbstractEnv(gym.Env):
             "speed": self.vehicle.speed,
             #"crashed": self.vehicle.crashed,
             #"action": action,
-            "acc": self.ac_sahar(action),
+            "acc": self.ac_sahar1(action),
             "target_speed": self.target_sahar(action),
             "time": self.time, 
             "fuel": self.fuel1(action),
@@ -207,7 +207,7 @@ class AbstractEnv(gym.Env):
         eta = 0.988
         r = 0.326
         n = 30/3.14*i*self.vehicle.speed/r
-        a = self.ac_sahar(action)
+        a = self.ac_sahar1(action)
         T_unlimited = m*r/(i*eta)*(a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
         T = np.clip(T_unlimited, min_torque, max_torque)
         Force = m*(a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
@@ -225,7 +225,7 @@ class AbstractEnv(gym.Env):
     
     
     
-    def ac_sahar(self, action) -> None:
+    def ac_sahar1(self, action) -> None:
         DELTA_SPEED = 5
         TAU_ACC = 0.6  # [s]
         KP_A = 1 / TAU_ACC 
