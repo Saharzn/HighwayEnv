@@ -131,7 +131,7 @@ class HighwayEnv(AbstractEnv):
             F1 = abs(0.7119-0.147*self.vehicle.speed-0.0002227*Force+0.007622*self.vehicle.speed**2+3.697e-5*Force*self.vehicle.speed+1.704e-8*Force**2)
             
         F2 = -0.0008051*self.vehicle.speed**3+0.05435*self.vehicle.speed**2-1.148*self.vehicle.speed+12.95
-        return F1/max_fuel_1+F2/max_fuel_2
+        return F1
     
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
@@ -146,7 +146,7 @@ class HighwayEnv(AbstractEnv):
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
-            "fuel_reward": 0.8/self.fuel(action)
+            "fuel_reward": 5/self.fuel(action)
         }
      
     def ac_sahar(self, action) -> None:
