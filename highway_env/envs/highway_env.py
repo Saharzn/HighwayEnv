@@ -46,7 +46,8 @@ class HighwayEnv(AbstractEnv):
             "lane_change_reward": 0,   # The reward received at each lane change action.
             "reward_speed_range": [15, 30],
             "normalize_reward": True,
-            "offroad_terminal": False
+            "offroad_terminal": False,
+            "Z": 0
         })
         return config
     
@@ -131,7 +132,6 @@ class HighwayEnv(AbstractEnv):
             F1 = abs(0.7119-0.147*self.vehicle.speed-0.0002227*Force+0.007622*self.vehicle.speed**2+3.697e-5*Force*self.vehicle.speed+1.704e-8*Force**2)
             
         F2 = -0.0008051*self.vehicle.speed**3+0.05435*self.vehicle.speed**2-1.148*self.vehicle.speed+12.95
-        global Z 
         if Z == 0:
             F11 = 10**100
         else:
