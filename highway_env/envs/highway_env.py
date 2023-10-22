@@ -146,7 +146,7 @@ class HighwayEnv(AbstractEnv):
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
-            "fuel_reward": 5/self.fuel(action)[0] + 0.5/self.fuel(action)[1]
+            "fuel_reward": 5/self.fuel(action)[0] + 0.25/self.fuel(action)[1]
         }
      
     def ac_sahar(self, action) -> None:
