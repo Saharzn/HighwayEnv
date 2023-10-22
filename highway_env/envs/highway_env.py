@@ -133,7 +133,7 @@ class HighwayEnv(AbstractEnv):
         F2 = -0.0008051*self.vehicle.speed**3+0.05435*self.vehicle.speed**2-1.148*self.vehicle.speed+12.95
         
         global Z
-        if Z = 0:
+        if Z == 0:
             F11 = 10**100
         else:
             F11 = F1 
