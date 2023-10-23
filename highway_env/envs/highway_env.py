@@ -138,7 +138,7 @@ class HighwayEnv(AbstractEnv):
         else:
             F11 = F1
             F22 = F2
-        return F11, F12
+        return F11, F22
     
     
     
