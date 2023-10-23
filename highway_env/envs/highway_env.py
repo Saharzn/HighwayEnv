@@ -47,7 +47,7 @@ class HighwayEnv(AbstractEnv):
             "reward_speed_range": [15, 30],
             "normalize_reward": True,
             "offroad_terminal": False,
-            "Z": 1
+            "Z": 0
         })
         return config
     
