@@ -132,13 +132,13 @@ class HighwayEnv(AbstractEnv):
             F1 = abs(0.7119-0.147*self.vehicle.speed-0.0002227*Force+0.007622*self.vehicle.speed**2+3.697e-5*Force*self.vehicle.speed+1.704e-8*Force**2)
             
         F2 = -0.0008051*self.vehicle.speed**3+0.05435*self.vehicle.speed**2-1.148*self.vehicle.speed+12.95
-        #if self.config["Z"] == 0:
-         #   F11 = 0
-          #  F22 = 0
-        #else:
-         #   F11 = F1
-          #  F22 = F2
-        return F1, F2
+        if self.config["Z"] == 0:
+            F11 = 10**100
+            F22 = 0
+        else:
+            F11 = F1
+            F22 = F2
+        return F11, F12
     
     
     
