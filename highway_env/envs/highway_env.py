@@ -164,7 +164,11 @@ class HighwayEnv(AbstractEnv):
         MIN_ACCELERATION = -2
         MAX_ACCELERATION = 2
         DEFAULT_TARGET_SPEEDS = np.linspace(10, 30, 2)
-        target_speed = self.vehicle.speed
+        self.target_speeds = DEFAULT_TARGET_SPEEDS
+        self.target_speed = self.vehicle.speed
+        self.speed_index = self.speed_to_index(self.target_speed)
+        self.target_speed = self.index_to_speed(self.speed_index) 
+        
         if action == 0 :
             self.speed_index = self.speed_to_index(self.vehicle.speed)   
 
