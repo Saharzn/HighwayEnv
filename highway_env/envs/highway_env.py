@@ -47,7 +47,7 @@ class HighwayEnv(AbstractEnv):
             "reward_speed_range": [15, 30],
             "normalize_reward": True,
             "offroad_terminal": False,
-            "Z": 1
+            "Z": 0
         })
         return config
     
@@ -136,7 +136,7 @@ class HighwayEnv(AbstractEnv):
         else:
             F11 = F1
             F22 = F2
-        return F1/max_fuel_1
+        return F11/max_fuel_1
     
     
     
