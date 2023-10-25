@@ -236,7 +236,7 @@ class HighwayEnv(AbstractEnv):
 
     @classmethod
     def get_speed_index(cls, vehicle: Vehicle) -> int:
-        return getattr(vehicle, "speed_index", cls.speed_to_index_default(vehicle.speed)
+        return getattr(vehicle, "speed_index", cls.speed_to_index_default(vehicle.speed))
 
 
 
