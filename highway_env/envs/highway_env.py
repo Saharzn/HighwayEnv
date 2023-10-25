@@ -138,7 +138,7 @@ class HighwayEnv(AbstractEnv):
         else:
             F11 = F1
             F22 = F2
-        return F11/max_fuel_1+ F22/max_fuel_2
+        return F11/max_fuel_1
     
     
     
