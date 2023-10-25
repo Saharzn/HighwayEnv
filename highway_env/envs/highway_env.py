@@ -103,7 +103,7 @@ class HighwayEnv(AbstractEnv):
 
     
     def fuel(self, action: Action):
-        max_fuel_1 = 20
+        max_fuel_1 = 8
         max_fuel_2 = 10
         max_fuel = 30
         max_torque = 230
