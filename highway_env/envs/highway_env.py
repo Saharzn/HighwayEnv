@@ -47,7 +47,7 @@ class HighwayEnv(AbstractEnv):
             "reward_speed_range": [15, 30],
             "normalize_reward": True,
             "offroad_terminal": False,
-            "Z": 0
+            "Z": 1
         })
         return config
     
@@ -103,9 +103,7 @@ class HighwayEnv(AbstractEnv):
 
     
     def fuel(self, action: Action):
-        max_fuel_1 = 8
-        max_fuel_2 = 10
-        max_fuel = 30
+        max_fuel_1 = 5
         max_torque = 230
         min_torque = -52
         m = 1400.04
@@ -138,7 +136,7 @@ class HighwayEnv(AbstractEnv):
         else:
             F11 = F1
             F22 = F2
-        return F11/max_fuel_1
+        return F1/max_fuel_1
     
     
     
@@ -165,38 +163,83 @@ class HighwayEnv(AbstractEnv):
         KP_A = 1 / TAU_ACC 
         MIN_ACCELERATION = -2
         MAX_ACCELERATION = 2
+        DEFAULT_TARGET_SPEEDS = np.linspace(10, 30, 2)
         target_speed = self.vehicle.speed
         if action == 0 :
-            target_speed = self.vehicle.speed     
+            self.speed_index = self.speed_to_index(self.vehicle.speed)   
 
         if action == 1:
-            target_speed = self.vehicle.speed
+            self.speed_index = self.speed_to_index(self.vehicle.speed)
             
         if action == 2:
-            target_speed = self.vehicle.speed
+            self.speed_index = self.speed_to_index(self.vehicle.speed)
             
         if action == 3:
-            target_speed -= DELTA_SPEED
+            self.speed_index = self.speed_to_index(self.vehicle.speed) - 1
         
         if action == 4:
-            target_speed -= DELTA_SPEED
+            self.speed_index = self.speed_to_index(self.vehicle.speed) - 1
 
         if action == 5:
-            target_speed -= DELTA_SPEED
+            self.speed_index = self.speed_to_index(self.vehicle.speed) - 1
 
         if action == 6:
-            target_speed += DELTA_SPEED
+            self.speed_index = self.speed_to_index(self.vehicle.speed) + 1
 
         if action == 7:
-            target_speed += DELTA_SPEED     
+            self.speed_index = self.speed_to_index(self.vehicle.speed) + 1   
 
         if action == 8:
-            target_speed += DELTA_SPEED
+            self.speed_index = self.speed_to_index(self.vehicle.speed) + 1
         
+        self.speed_index = int(np.clip(self.speed_index, 0, self.target_speeds.size - 1))
+        self.target_speed = self.index_to_speed(self.speed_index)
         acc_unlimited = KP_A * (target_speed - self.vehicle.speed)
         acc = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
         return acc
-    
+       
+
+    def index_to_speed(self, index: int) -> float:
+        """
+        Convert an index among allowed speeds to its corresponding speed
+
+        :param index: the speed index []
+        :return: the corresponding speed [m/s]
+        """
+        return self.target_speeds[index]
+
+    def speed_to_index(self, speed: float) -> int:
+        """
+        Find the index of the closest speed allowed to a given speed.
+
+        Assumes a uniform list of target speeds to avoid searching for the closest target speed
+
+        :param speed: an input speed [m/s]
+        :return: the index of the closest speed allowed []
+        """
+        x = (speed - self.target_speeds[0]) / (self.target_speeds[-1] - self.target_speeds[0])
+        return np.int64(np.clip(np.round(x * (self.target_speeds.size - 1)), 0, self.target_speeds.size - 1))
+
+    @classmethod
+    def speed_to_index_default(cls, speed: float) -> int:
+        """
+        Find the index of the closest speed allowed to a given speed.
+
+        Assumes a uniform list of target speeds to avoid searching for the closest target speed
+
+        :param speed: an input speed [m/s]
+        :return: the index of the closest speed allowed []
+        """
+        x = (speed - cls.DEFAULT_TARGET_SPEEDS[0]) / (cls.DEFAULT_TARGET_SPEEDS[-1] - cls.DEFAULT_TARGET_SPEEDS[0])
+        return np.int64(np.clip(
+            np.round(x * (cls.DEFAULT_TARGET_SPEEDS.size - 1)), 0, cls.DEFAULT_TARGET_SPEEDS.size - 1))
+
+    @classmethod
+    def get_speed_index(cls, vehicle: Vehicle) -> int:
+        return getattr(vehicle, "speed_index", cls.speed_to_index_default(vehicle.speed)
+
+
+
     
     
     
