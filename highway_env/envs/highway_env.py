@@ -157,94 +157,45 @@ class HighwayEnv(AbstractEnv):
             "fuel_reward": -self.fuel(action)
         }
      
+
     def ac_sahar(self, action) -> None:
-        DELTA_SPEED = 5
+        DELTA_SPEED = 2
         TAU_ACC = 0.6  # [s]
         KP_A = 1 / TAU_ACC 
         MIN_ACCELERATION = -2
         MAX_ACCELERATION = 2
-        DEFAULT_TARGET_SPEEDS = np.linspace(10, 30, 2)
-        self.target_speeds = DEFAULT_TARGET_SPEEDS
-        self.target_speed = self.vehicle.speed
-        self.speed_index = self.speed_to_index(self.target_speed)
-        self.target_speed = self.index_to_speed(self.speed_index) 
-        
+        target_speed = self.vehicle.speed
         if action == 0 :
-            self.speed_index = self.speed_to_index(self.vehicle.speed)   
+            target_speed = self.vehicle.speed     
 
         if action == 1:
-            self.speed_index = self.speed_to_index(self.vehicle.speed)
+            target_speed = self.vehicle.speed
             
         if action == 2:
-            self.speed_index = self.speed_to_index(self.vehicle.speed)
+            target_speed = self.vehicle.speed
             
         if action == 3:
-            self.speed_index = self.speed_to_index(self.vehicle.speed) - 1
+            target_speed -= DELTA_SPEED
         
         if action == 4:
-            self.speed_index = self.speed_to_index(self.vehicle.speed) - 1
+            target_speed -= DELTA_SPEED
 
         if action == 5:
-            self.speed_index = self.speed_to_index(self.vehicle.speed) - 1
+            target_speed -= DELTA_SPEED
 
         if action == 6:
-            self.speed_index = self.speed_to_index(self.vehicle.speed) + 1
+            target_speed += DELTA_SPEED
 
         if action == 7:
-            self.speed_index = self.speed_to_index(self.vehicle.speed) + 1   
+            target_speed += DELTA_SPEED     
 
         if action == 8:
-            self.speed_index = self.speed_to_index(self.vehicle.speed) + 1
+            target_speed += DELTA_SPEED
         
-        self.speed_index = int(np.clip(self.speed_index, 0, self.target_speeds.size - 1))
-        self.target_speed = self.index_to_speed(self.speed_index)
-        acc_unlimited = KP_A * (self.target_speed - self.vehicle.speed)
+        acc_unlimited = KP_A * (target_speed - self.vehicle.speed)
         acc = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
         return acc
-       
 
-    def index_to_speed(self, index: int) -> float:
-        """
-        Convert an index among allowed speeds to its corresponding speed
-
-        :param index: the speed index []
-        :return: the corresponding speed [m/s]
-        """
-        return self.target_speeds[index]
-
-    def speed_to_index(self, speed: float) -> int:
-        """
-        Find the index of the closest speed allowed to a given speed.
-
-        Assumes a uniform list of target speeds to avoid searching for the closest target speed
-
-        :param speed: an input speed [m/s]
-        :return: the index of the closest speed allowed []
-        """
-        x = (speed - self.target_speeds[0]) / (self.target_speeds[-1] - self.target_speeds[0])
-        return np.int64(np.clip(np.round(x * (self.target_speeds.size - 1)), 0, self.target_speeds.size - 1))
-
-    @classmethod
-    def speed_to_index_default(cls, speed: float) -> int:
-        """
-        Find the index of the closest speed allowed to a given speed.
-
-        Assumes a uniform list of target speeds to avoid searching for the closest target speed
-
-        :param speed: an input speed [m/s]
-        :return: the index of the closest speed allowed []
-        """
-        x = (speed - cls.DEFAULT_TARGET_SPEEDS[0]) / (cls.DEFAULT_TARGET_SPEEDS[-1] - cls.DEFAULT_TARGET_SPEEDS[0])
-        return np.int64(np.clip(
-            np.round(x * (cls.DEFAULT_TARGET_SPEEDS.size - 1)), 0, cls.DEFAULT_TARGET_SPEEDS.size - 1))
-
-    @classmethod
-    def get_speed_index(cls, vehicle: Vehicle) -> int:
-        return getattr(vehicle, "speed_index", cls.speed_to_index_default(vehicle.speed))
-
-
-
-    
     
     
     def _is_terminated(self) -> bool:
