@@ -259,7 +259,8 @@ class DiscreteMetaAction(ActionType):
             "Option 4"
             if l_index[2] < self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
-                    and self.controlled_vehicle.speed_index > 0 \
+                    #and self.controlled_vehicle.speed_index > 0 \
+                    and self.controlled_vehicle.target_speed < self.controlled_vehicle.speed \
                     and self.lateral and self.longitudinal:
                 actions.append(self.actions_indexes['slower_left'])
                 print("Hi1")
@@ -267,7 +268,8 @@ class DiscreteMetaAction(ActionType):
             "Option 5"
             if l_index[2] > self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
-                    and self.controlled_vehicle.speed_index > 0 \
+                    and self.controlled_vehicle.target_speed < self.controlled_vehicle.speed \
+                    #and self.controlled_vehicle.speed_index > 0 \
                     and self.lateral and self.longitudinal:
                 actions.append(self.actions_indexes['slower_right'])
                 print("Hi2")
@@ -275,7 +277,8 @@ class DiscreteMetaAction(ActionType):
             "Option 7"
             if l_index[2] < self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
-                    and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
+                    #and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
+                    and self.controlled_vehicle.speed < self.controlled_vehicle.target_speed \
                     and self.lateral and self.longitudinal:
                 actions.append(self.actions_indexes['faster_left'])
                 print("Hi3")
@@ -283,7 +286,8 @@ class DiscreteMetaAction(ActionType):
             "Option 8"
             if l_index[2] > self.controlled_vehicle.lane_index[2] \
                     and network.get_lane(l_index).is_reachable_from(self.controlled_vehicle.position) \
-                    and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
+                    #and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
+                    and self.controlled_vehicle.speed < self.controlled_vehicle.target_speed \
                     and self.lateral and self.longitudinal:
                 actions.append(self.actions_indexes['faster_right'])
                 print("Hi4")
@@ -306,14 +310,16 @@ class DiscreteMetaAction(ActionType):
                 
             "Option 3"
             if self.controlled_vehicle.lane_index == self.controlled_vehicle.target_lane_index \
-                    and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
+                    #and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
+                    and self.controlled_vehicle.speed > self.controlled_vehicle.target_speed \
                     and self.lateral and self.longitudinal:
                 actions.append(self.actions_indexes['slower_keep_lane'])
                 print("Hi7")
                 
             "Option 6"
             if self.controlled_vehicle.lane_index == self.controlled_vehicle.target_lane_index \
-                    and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
+                    #and self.controlled_vehicle.speed_index < self.controlled_vehicle.target_speeds.size - 1 \
+                    and self.controlled_vehicle.speed < self.controlled_vehicle.target_speed \
                     and self.lateral and self.longitudinal:
                 actions.append(self.actions_indexes['faster_keep_lane'])
                 print("Hi8")
