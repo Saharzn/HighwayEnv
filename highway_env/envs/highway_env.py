@@ -136,7 +136,7 @@ class HighwayEnv(AbstractEnv):
         else:
             F11 = F1
             F22 = F2
-        return F1/max_fuel_1
+        return F1
     
     
     
@@ -153,7 +153,7 @@ class HighwayEnv(AbstractEnv):
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
-            "fuel_reward": -self.fuel(action)
+            "fuel_reward": 5/self.fuel(action)
         }
      
 
