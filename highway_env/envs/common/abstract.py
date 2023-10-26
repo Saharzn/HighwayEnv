@@ -226,7 +226,7 @@ class AbstractEnv(gym.Env):
     
     
     def ac_sahar1(self, action) -> None:
-        DELTA_SPEED = 5
+        DELTA_SPEED = 2
         TAU_ACC = 0.6  # [s]
         KP_A = 1 / TAU_ACC 
         MIN_ACCELERATION = -2
