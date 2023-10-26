@@ -45,7 +45,7 @@ class HighwayEnv(AbstractEnv):
                                        # lower speeds according to config["reward_speed_range"].
             "lane_change_reward": 0,   # The reward received at each lane change action.
             "reward_speed_range": [15, 30],
-            "normalize_reward": True,
+            "normalize_reward": False,
             "offroad_terminal": False,
             "Z": 0
         })
@@ -131,12 +131,12 @@ class HighwayEnv(AbstractEnv):
             
         F2 = -0.0008051*self.vehicle.speed**3+0.05435*self.vehicle.speed**2-1.148*self.vehicle.speed+12.95
         if self.config["Z"] == 0:
-            F11 = 10**100
+            F11 = 0
             F22 = 0
         else:
             F11 = F1
             F22 = F2
-        return F11
+        return F1/max_fuel_1
     
     
     
@@ -153,7 +153,7 @@ class HighwayEnv(AbstractEnv):
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
-            "fuel_reward": 5/self.fuel(action)
+            "fuel_reward": -self.fuel(action)
         }
      
 
