@@ -45,7 +45,7 @@ class HighwayEnv(AbstractEnv):
                                        # lower speeds according to config["reward_speed_range"].
             "lane_change_reward": 0,   # The reward received at each lane change action.
             "fuel_reward": 0.8,
-            "reward_speed_range": [15, 35],
+            "reward_speed_range": [15, 30],
             "normalize_reward": False,
             "offroad_terminal": False,
             "Z": 0
