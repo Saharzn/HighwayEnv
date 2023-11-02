@@ -34,21 +34,21 @@ class HighwayEnv(AbstractEnv):
             "lanes_count": 4,
             "vehicles_count": 50,
             "controlled_vehicles": 1,
-            "initial_lane_id": 0,
+            "initial_lane_id": 2,
             "duration": 40,  # [s]
             "ego_spacing": 2,
             "vehicles_density": 1,
             "collision_reward": -1,    # The reward received when colliding with a vehicle.
-            "right_lane_reward": 1,  # The reward received when driving on the right-most lanes, linearly mapped to
+            "right_lane_reward": 0.1,  # The reward received when driving on the right-most lanes, linearly mapped to
                                        # zero for other lanes.
-            "high_speed_reward": 1,  # The reward received when driving at full speed, linearly mapped to zero for
+            "high_speed_reward": 0.8,  # The reward received when driving at full speed, linearly mapped to zero for
                                        # lower speeds according to config["reward_speed_range"].
             "lane_change_reward": 0,   # The reward received at each lane change action.
-            "fuel_reward": 0.8,
+            "fuel_reward": 0.38,
             "reward_speed_range": [15, 30],
             "normalize_reward": False,
             "offroad_terminal": False,
-            "Z": 0
+            "Z": 1
         })
         return config
     
