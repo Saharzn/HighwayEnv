@@ -34,7 +34,7 @@ class HighwayEnv(AbstractEnv):
             "lanes_count": 4,
             "vehicles_count": 50,
             "controlled_vehicles": 1,
-            "initial_lane_id": 2,
+            "initial_lane_id": 1,
             "duration": 40,  # [s]
             "ego_spacing": 2,
             "vehicles_density": 1,
