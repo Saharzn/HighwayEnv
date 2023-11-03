@@ -175,7 +175,7 @@ class AbstractEnv(gym.Env):
         """
         info = {
             "speed": self.vehicle.speed,
-            #"crashed": self.vehicle.crashed,
+            "crashed": self.vehicle.crashed,
             #"action": action,
             "acc": self.ac_sahar1(action),
             #"target_speed": self.target_sahar(action),
