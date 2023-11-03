@@ -211,14 +211,14 @@ class AbstractEnv(gym.Env):
         T_unlimited = m*r/(i*eta)*(a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
         T = np.clip(T_unlimited, min_torque, max_torque)
         Force = m*(a+1/(2*m)*ro*s*cx*self.vehicle.speed**2+g*f)
-        if T < 0:
-            F1 = abs(0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n**2+6.902e-06*n*T+0.0004899*T**2)
-        elif T >= 0:
-            F1 = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
-        #if Force < 0: 
-         #   F1 = abs(1.121-0.2974*self.vehicle.speed-0.00117*Force+0.008702*self.vehicle.speed**2-0.0002958*Force*self.vehicle.speed-3.697e-6*Force**2)
-        #elif Force >= 0:
-         #   F1 = abs(0.7119-0.147*self.vehicle.speed-0.0002227*Force+0.007622*self.vehicle.speed**2+3.697e-5*Force*self.vehicle.speed+1.704e-8*Force**2)
+        #if T < 0:
+         #   F1 = abs(0.02975+9.162e-06*n+0.004067*T+ 2.752e-08*n**2+6.902e-06*n*T+0.0004899*T**2)
+        #elif T >= 0:
+         #   F1 = 1.002-0.0004763*n-0.01355*T+7.58e-08*n**2+8.659e-06*n*T+4.649e-05*T**2  
+        if Force < 0: 
+            F1 = abs(1.121-0.2974*self.vehicle.speed-0.00117*Force+0.008702*self.vehicle.speed**2-0.0002958*Force*self.vehicle.speed-3.697e-6*Force**2)
+        elif Force >= 0:
+            F1 = abs(0.7119-0.147*self.vehicle.speed-0.0002227*Force+0.007622*self.vehicle.speed**2+3.697e-5*Force*self.vehicle.speed+1.704e-8*Force**2)
             
         F2 = -0.0008051*self.vehicle.speed**3+0.05435*self.vehicle.speed**2-1.148*self.vehicle.speed+12.95
         return F1, F2 
