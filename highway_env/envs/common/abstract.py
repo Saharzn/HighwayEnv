@@ -262,6 +262,10 @@ class AbstractEnv(gym.Env):
         # acc_unlimited = KP_A * (target_speed - self.vehicle.speed)
         # acc = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
 
+        #
+
+        MIN_ACCELERATION = -2
+        MAX_ACCELERATION = 2
         acc = np.clip(action[0], MIN_ACCELERATION, MAX_ACCELERATION)
         return acc
 
