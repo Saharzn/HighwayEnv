@@ -79,7 +79,7 @@ class ContinuousAction(ActionType):
     The space intervals are always [-1, 1], but are mapped to throttle/steering intervals through configurations.
     """
 
-    ACCELERATION_RANGE = (-5, 5.0)
+    ACCELERATION_RANGE = (-2, 2.0)
     """Acceleration range: [-x, x], in m/s²."""
 
     STEERING_RANGE = (-np.pi / 4, np.pi / 4)
