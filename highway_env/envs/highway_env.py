@@ -159,41 +159,46 @@ class HighwayEnv(AbstractEnv):
      
 
     def ac_sahar(self, action) -> None:
-        DELTA_SPEED = 2
-        TAU_ACC = 0.6  # [s]
-        KP_A = 1 / TAU_ACC 
+        # DELTA_SPEED = 2
+        # TAU_ACC = 0.6  # [s]
+        # KP_A = 1 / TAU_ACC 
+        # MIN_ACCELERATION = -2
+        # MAX_ACCELERATION = 2
+        # target_speed = self.vehicle.speed
+        # if action == 0 :
+        #     target_speed = self.vehicle.speed     
+
+        # if action == 1:
+        #     target_speed = self.vehicle.speed
+            
+        # if action == 2:
+        #     target_speed = self.vehicle.speed
+            
+        # if action == 3:
+        #     target_speed -= DELTA_SPEED
+        
+        # if action == 4:
+        #     target_speed -= DELTA_SPEED
+
+        # if action == 5:
+        #     target_speed -= DELTA_SPEED
+
+        # if action == 6:
+        #     target_speed += DELTA_SPEED
+
+        # if action == 7:
+        #     target_speed += DELTA_SPEED     
+
+        # if action == 8:
+        #     target_speed += DELTA_SPEED
+        
+        # acc_unlimited = KP_A * (target_speed - self.vehicle.speed)
+        # acc = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
+
+
         MIN_ACCELERATION = -2
         MAX_ACCELERATION = 2
-        target_speed = self.vehicle.speed
-        if action == 0 :
-            target_speed = self.vehicle.speed     
-
-        if action == 1:
-            target_speed = self.vehicle.speed
-            
-        if action == 2:
-            target_speed = self.vehicle.speed
-            
-        if action == 3:
-            target_speed -= DELTA_SPEED
-        
-        if action == 4:
-            target_speed -= DELTA_SPEED
-
-        if action == 5:
-            target_speed -= DELTA_SPEED
-
-        if action == 6:
-            target_speed += DELTA_SPEED
-
-        if action == 7:
-            target_speed += DELTA_SPEED     
-
-        if action == 8:
-            target_speed += DELTA_SPEED
-        
-        acc_unlimited = KP_A * (target_speed - self.vehicle.speed)
-        acc = np.clip(acc_unlimited, MIN_ACCELERATION, MAX_ACCELERATION)
+        acc = np.clip(action[0], MIN_ACCELERATION, MAX_ACCELERATION)
         return acc
 
     
