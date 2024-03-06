@@ -158,13 +158,7 @@ class ContinuousAction(ActionType):
         
         if self.longitudinal and self.lateral:   
 
-            steer_discretized = ControlledVehicle.discrete_steering(action)
-
             class_a_instance = ControlledVehicle()
-            
-
-
-
             
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
