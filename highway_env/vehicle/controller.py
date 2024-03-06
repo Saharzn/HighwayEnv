@@ -588,7 +588,7 @@ class ControlledVehicle(Vehicle):
                 np_random=self.road.np_random,
             )
 
-def steering_control(self, target_lane_index: LaneIndex) -> float:
+    def steering_control(self, target_lane_index: LaneIndex) -> float:
         """
         Steer the vehicle to follow the center of an given lane.
 
@@ -635,7 +635,7 @@ def steering_control(self, target_lane_index: LaneIndex) -> float:
     
 
 
-def discrete_steering(self,action):
+    def discrete_steering(self,action):
 
   
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
@@ -663,7 +663,7 @@ def discrete_steering(self,action):
           
         return s 
 
-def speed_control(self, target_speed: float) -> float:
+    def speed_control(self, target_speed: float) -> float:
         """
         Control the speed of the vehicle.
 
@@ -674,7 +674,7 @@ def speed_control(self, target_speed: float) -> float:
         """
         return self.KP_A * (target_speed - self.speed)
 
-def get_routes_at_intersection(self) -> List[Route]:
+    def get_routes_at_intersection(self) -> List[Route]:
         """Get the list of routes that can be followed at the next intersection."""
         if not self.route:
             return []
