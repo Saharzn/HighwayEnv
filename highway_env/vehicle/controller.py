@@ -588,7 +588,7 @@ class ControlledVehicle(Vehicle):
                 np_random=self.road.np_random,
             )
 
-    def steering_control(self, target_lane_index: LaneIndex) -> float:
+def steering_control(self, target_lane_index: LaneIndex) -> float:
         """
         Steer the vehicle to follow the center of an given lane.
 
@@ -632,7 +632,38 @@ class ControlledVehicle(Vehicle):
         )
         return float(steering_angle)
 
-    def speed_control(self, target_speed: float) -> float:
+    
+
+
+def discrete_steering(self,action,steering_angle):
+
+  
+        STEERING_RANGE = (-np.pi / 4, np.pi / 4)
+  
+        if action[1]<0 and action[1]>min(STEERING_RANGE):  
+          
+          #change to left
+          _from, _to, _id = self.target_lane_index
+          target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+            self.target_lane_index = target_lane_index
+            s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
+
+
+        elif action[1]>0 and action[1]<max(self.steering_range): 
+          # change to right 
+          _from, _to, _id = self.target_lane_index
+          target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+            self.target_lane_index = target_lane_index
+            s = np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
+            
+        elif action[1] == 0:
+          s = 0,
+          
+        return s 
+
+def speed_control(self, target_speed: float) -> float:
         """
         Control the speed of the vehicle.
 
