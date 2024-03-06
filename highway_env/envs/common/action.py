@@ -11,6 +11,10 @@ from highway_env.vehicle.dynamics import BicycleVehicle
 from highway_env.vehicle.kinematics import Vehicle
 from highway_env.vehicle.controller import MDPVehicle
 from highway_env.vehicle.controller import ControlledVehicle
+from highway_env.envs.highway_env import HighwayEnv
+from highway_env.road.road import LaneIndex, Road, Route
+
+
 
 if TYPE_CHECKING:
     from highway_env.envs.common.abstract import AbstractEnv
@@ -79,6 +83,19 @@ class ContinuousAction(ActionType):
     The space intervals are always [-1, 1], but are mapped to throttle/steering intervals through configurations.
     """
 
+    """Characteristic time"""
+    TAU_ACC = 0.6  # [s]
+    TAU_HEADING = 0.2  # [s]
+    TAU_LATERAL = 0.6  # [s]
+
+    TAU_PURSUIT = 0.5 * TAU_HEADING  # [s]
+    KP_A = 1 / TAU_ACC
+    KP_HEADING = 1 / TAU_HEADING
+    KP_LATERAL = 1 / TAU_LATERAL  # [1/s]
+    MAX_STEERING_ANGLE = np.pi / 4  # [rad]
+
+
+    
     ACCELERATION_RANGE = (-2, 2.0)
     """Acceleration range: [-x, x], in m/s²."""
 
@@ -93,6 +110,8 @@ class ContinuousAction(ActionType):
                  longitudinal: bool = True,
                  lateral: bool = True,
                  dynamical: bool = False,
+                 target_lane_index: LaneIndex = None,
+                 route: Route = None,
                  clip: bool = True,
                  **kwargs) -> None:
         """
@@ -113,6 +132,11 @@ class ContinuousAction(ActionType):
         self.speed_range = speed_range
         self.lateral = lateral
         self.longitudinal = longitudinal
+        self.target_lane_index = target_lane_index or self.lane_index
+        self.route = route
+
+
+                     
         if not self.lateral and not self.longitudinal:
             raise ValueError("Either longitudinal and/or lateral control must be enabled")
         self.dynamical = dynamical
@@ -123,7 +147,7 @@ class ContinuousAction(ActionType):
     def space(self) -> spaces.Box:
         return spaces.Box(-1., 1., shape=(self.size,), dtype=np.float32)
 
-    @property
+    @property    
     def vehicle_class(self) -> Callable:
         return Vehicle if not self.dynamical else BicycleVehicle
 
@@ -133,10 +157,37 @@ class ContinuousAction(ActionType):
         if self.speed_range:
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
         if self.longitudinal and self.lateral:
+            
+            if action[1]<0 and action[1]>min(self.steering_range):  
+                #change to left
+                _from, _to, _id = self.target_lane_index
+                target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+                if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                    self.target_lane_index = target_lane_index
+                
+                s =  np.clip(self.ControlledVehicle.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
+
+
+            elif action[1]>0 and action[1]<max(self.steering_range): 
+                # change to right 
+                _from, _to, _id = self.target_lane_index
+                target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+                if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+                    self.target_lane_index = target_lane_index
+                s = np.clip(self.ControlledVehicle.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
+            
+            elif action[1] == 0:
+                s = 0,
+            
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-                "steering": utils.lmap(action[1], [-1, 1], self.steering_range),
+                "steering": s,
             })
+
+
+        # step = (max(self.steering_range)-min(self.steering_range))/self.HighwayEnv.config["lanes_count"],
+
+        
         elif self.longitudinal:
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
