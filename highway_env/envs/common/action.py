@@ -159,7 +159,7 @@ class ContinuousAction(ActionType):
         if self.longitudinal and self.lateral:   
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-                "steering": ControlledVehicle.discrete_steering(action),
+                "steering": ControlledVehicle.discrete_steering,
             })
         # step = (max(self.steering_range)-min(self.steering_range))/self.HighwayEnv.config["lanes_count"],
 
