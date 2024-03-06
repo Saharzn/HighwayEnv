@@ -475,7 +475,7 @@ class ControlledVehicle(Vehicle):
     KP_A = 1 / TAU_ACC
     KP_HEADING = 1 / TAU_HEADING
     KP_LATERAL = 1 / TAU_LATERAL  # [1/s]
-    MAX_STEERING_ANGLE = np.pi / 3  # [rad]
+    MAX_STEERING_ANGLE = np.pi / 4  # [rad]
     DELTA_SPEED = 5  # [m/s]
 
     def __init__(
@@ -635,7 +635,7 @@ def steering_control(self, target_lane_index: LaneIndex) -> float:
     
 
 
-def discrete_steering(self,action,steering_angle):
+def discrete_steering(self,action):
 
   
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
@@ -650,7 +650,7 @@ def discrete_steering(self,action,steering_angle):
             s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
 
 
-        elif action[1]>0 and action[1]<max(self.steering_range): 
+        elif action[1]>0 and action[1]<max(STEERING_RANGE): 
           # change to right 
           _from, _to, _id = self.target_lane_index
           target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
