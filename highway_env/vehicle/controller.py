@@ -662,7 +662,7 @@ class ControlledVehicle(Vehicle):
         elif action[1] == 0:
           s = 0,
           
-        return float(s) 
+        return s 
 
     def speed_control(self, target_speed: float) -> float:
         """
