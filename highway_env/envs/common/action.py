@@ -109,7 +109,12 @@ class ContinuousAction(ActionType):
                  longitudinal: bool = True,
                  lateral: bool = True,
                  dynamical: bool = False,
+                 road: Road,
+                 position: Vector,
+                 heading: float = 0,
+                 speed: float = 0,
                  target_lane_index: LaneIndex = None,
+                 target_speed: float = None,
                  route: Route = None,
                  clip: bool = True,
                  **kwargs) -> None:
@@ -125,13 +130,13 @@ class ContinuousAction(ActionType):
         :param dynamical: whether to simulate dynamics (i.e. friction) rather than kinematics
         :param clip: clip action to the defined range
         """
-        super().__init__(env)
+        super().__init__(env, road, position, heading, speed)
         self.acceleration_range = acceleration_range if acceleration_range else self.ACCELERATION_RANGE
         self.steering_range = steering_range if steering_range else self.STEERING_RANGE
         self.speed_range = speed_range
         self.lateral = lateral
         self.longitudinal = longitudinal
-        self.target_lane_index = target_lane_index or ControlledVehicle.lane_index
+        self.target_lane_index = target_lane_index or self.lane_index
         self.route = route
 
 
