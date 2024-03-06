@@ -11,7 +11,6 @@ from highway_env.vehicle.dynamics import BicycleVehicle
 from highway_env.vehicle.kinematics import Vehicle
 from highway_env.vehicle.controller import MDPVehicle
 from highway_env.vehicle.controller import ControlledVehicle
-from highway_env.envs.highway_env import HighwayEnv
 from highway_env.road.road import LaneIndex, Road, Route
 
 
