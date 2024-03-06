@@ -132,7 +132,7 @@ class ContinuousAction(ActionType):
         self.speed_range = speed_range
         self.lateral = lateral
         self.longitudinal = longitudinal
-        self.target_lane_index = target_lane_index or self.controlled_vehicle.lane_index
+        self.target_lane_index = target_lane_index 
         self.route = route
 
 
