@@ -674,7 +674,7 @@ def speed_control(self, target_speed: float) -> float:
         """
         return self.KP_A * (target_speed - self.speed)
 
-    def get_routes_at_intersection(self) -> List[Route]:
+def get_routes_at_intersection(self) -> List[Route]:
         """Get the list of routes that can be followed at the next intersection."""
         if not self.route:
             return []
