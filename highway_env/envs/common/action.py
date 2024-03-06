@@ -157,36 +157,10 @@ class ContinuousAction(ActionType):
             self.controlled_vehicle.MIN_SPEED, self.controlled_vehicle.MAX_SPEED = self.speed_range
         
         if self.longitudinal and self.lateral:   
-
-            s = 0,
-            
-            if action[1]<0 and action[1]>min(self.steering_range):  
-                #change to left
-                _from, _to, _id = self.controlled_vehicle.target_lane_index
-                target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.controlled_vehicle.road.network.graph[_from][_to]) - 1)
-                if self.controlled_vehicle.road.network.get_lane(target_lane_index).is_reachable_from(self.controlled_vehicle.position):
-                    self.target_lane_index = target_lane_index
-                
-                s =  np.clip(self.ControlledVehicle.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
-
-
-            elif action[1]>0 and action[1]<max(self.steering_range): 
-                # change to right 
-                _from, _to, _id = self.target_lane_index
-                target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.controlled_vehicle.road.network.graph[_from][_to]) - 1)
-                if self.controlled_vehicle.road.network.get_lane(target_lane_index).is_reachable_from(self.controlled_vehicle.position):
-                    self.target_lane_index = target_lane_index
-                s = np.clip(self.ControlledVehicle.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE),
-            
-            elif action[1] == 0:
-                s = 0,
-            
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
-                "steering": s,
+                "steering": self.controlled_vehicle.discrete_steering(action),
             })
-
-
         # step = (max(self.steering_range)-min(self.steering_range))/self.HighwayEnv.config["lanes_count"],
 
         
