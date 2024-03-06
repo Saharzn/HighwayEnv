@@ -660,7 +660,7 @@ class ControlledVehicle(Vehicle):
             
         elif action[1] == 0:
           s = 0,
-        self.discrete_steering = s  
+        self.discrete_steering = float(s)  
         return s 
 
     def speed_control(self, target_speed: float) -> float:
