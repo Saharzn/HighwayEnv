@@ -639,7 +639,8 @@ class ControlledVehicle(Vehicle):
 
   
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
-  
+      
+        s = 0
         if action[1]<0 and action[1]>min(STEERING_RANGE):  
           
           #change to left
