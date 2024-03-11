@@ -659,7 +659,7 @@ class ControlledVehicle(Vehicle):
             self.target_lane_index = target_lane_index
             s = np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
             
-        elif action[1]>-0.5 andd action[1]<0.5:
+        elif action[1]>-0.5 and action[1]<0.5:
           s = 0
           
         return s 
