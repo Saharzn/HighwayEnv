@@ -641,7 +641,7 @@ class ControlledVehicle(Vehicle):
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
       
         s = 0
-        if action[1]<0 and action[1]>min(STEERING_RANGE):  
+        if action[1]<-0.5:  
           
           #change to left
           _from, _to, _id = self.target_lane_index
@@ -651,7 +651,7 @@ class ControlledVehicle(Vehicle):
             s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
 
 
-        elif action[1]>0 and action[1]<max(STEERING_RANGE): 
+        elif action[1]>0.5: 
           # change to right 
           _from, _to, _id = self.target_lane_index
           target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
@@ -659,7 +659,7 @@ class ControlledVehicle(Vehicle):
             self.target_lane_index = target_lane_index
             s = np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
             
-        elif action[1] == 0:
+        elif action[1]>-0.5 andd action[1]<0.5:
           s = 0
           
         return s 
