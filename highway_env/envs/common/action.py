@@ -110,7 +110,7 @@ class ContinuousAction(ActionType):
                  lateral: bool = True,
                  dynamical: bool = False,
                  target_lane_index: LaneIndex = None,
-                 clip: bool = True,
+                 clip: bool = False,
                  **kwargs) -> None:
 
         
