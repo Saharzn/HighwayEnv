@@ -643,28 +643,20 @@ class ControlledVehicle(Vehicle):
         s = 0
       
         if action[1]<0:
-          target_lane_index = 0
-          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-            self.target_lane_index = target_lane_index
-            s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE) 
+          self.target_lane_index = 0
+          s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE) 
             
         elif action[1]>= 0 and action[1]<1:
-          target_lane_index = 0
-          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-            self.target_lane_index = target_lane_index
-            s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+          self.target_lane_index = 0
+          s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
             
         elif action[1]>=1 and action[1]<2:
-          target_lane_index = 1
-          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-            self.target_lane_index = target_lane_index
-            s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+          self.target_lane_index = 1
+          s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
             
         elif action[1]>=2:
-          target_lane_index = 2
-          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-            self.target_lane_index = target_lane_index
-            s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+          self.target_lane_index = 2
+          s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
       
       
         # if action[1]<-0.5:  
