@@ -642,21 +642,25 @@ class ControlledVehicle(Vehicle):
       
         s = 0
       
-        if action[1]<0 and ControlledVehicle.on_road:
+        if action[1]<=0:
           self.target_lane_index = ("0","1",0)
           s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE) 
-            
-        elif action[1]>= 0 and action[1]<1 and ControlledVehicle.on_road:
-          self.target_lane_index = ("0","1",0)
-          s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
-            
-        elif action[1]>=1 and action[1]<2 and ControlledVehicle.on_road:
+
+        elif action[1]>0:
           self.target_lane_index = ("0","1",1)
-          s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+          s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE) 
             
-        elif action[1]>=2 and ControlledVehicle.on_road:
-          self.target_lane_index = ("0","1",2)
-          s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+        # elif action[1]>= 0 and action[1]<1 and ControlledVehicle.on_road:
+        #   self.target_lane_index = ("0","1",0)
+        #   s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+            
+        # elif action[1]>=1 and action[1]<2 and ControlledVehicle.on_road:
+        #   self.target_lane_index = ("0","1",1)
+        #   s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+            
+        # elif action[1]>=2 and ControlledVehicle.on_road:
+        #   self.target_lane_index = ("0","1",2)
+        #   s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
       
       
         # if action[1]<-0.5:  
