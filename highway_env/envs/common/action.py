@@ -161,7 +161,7 @@ class ContinuousAction(ActionType):
             self.controlled_vehicle.act({
                 "acceleration": utils.lmap(action[0], [-1, 1], self.acceleration_range),
                 #"steering": utils.lmap(class_a_instance.discrete_steering(action), [-1, 1], self.steering_range),
-                "steering": utils.lmap(class_a_instance.discrete_steering(action), [-1, 1], self.steering_range),
+                "steering": class_a_instance.discrete_steering(action),
                 
 
 
