@@ -641,14 +641,6 @@ class ControlledVehicle(Vehicle):
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
       
         s = 0
-      
-        if action[1]<=0:
-          self.target_lane_index = ("0","1",0)
-          s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE) 
-
-        elif action[1]>0:
-          self.target_lane_index = ("0","1",1)
-          s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE) 
             
         # elif action[1]>= 0 and action[1]<1 and ControlledVehicle.on_road:
         #   self.target_lane_index = ("0","1",0)
@@ -663,30 +655,26 @@ class ControlledVehicle(Vehicle):
         #   s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
       
       
-        # if action[1]<-0.5:  
+        if action[1]<0:  
           
-        #   #change to left
-        #   _from, _to, _id = self.target_lane_index
-        #   target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-        #   if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-        #     self.target_lane_index = target_lane_index
-        #     s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+          #change to left
+          _from, _to, _id = self.target_lane_index
+          target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+            self.target_lane_index = target_lane_index
+            s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
 
 
-        # elif action[1]>0.5: 
-        #   # change to right 
-        #   _from, _to, _id = self.target_lane_index
-        #   target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-        #   if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
-        #     self.target_lane_index = target_lane_index
-        #     s = np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+        elif action[1]>0: 
+          # change to right 
+          _from, _to, _id = self.target_lane_index
+          target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
+          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
+            self.target_lane_index = target_lane_index
+            s = np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
             
-        # elif action[1]>-0.5 and action[1]<0.5:
-        #   s = 0
-
-
-      
-          
+        elif action[1] == 0:
+          s = 0
         return s 
 
     def speed_control(self, target_speed: float) -> float:
