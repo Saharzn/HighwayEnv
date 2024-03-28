@@ -662,7 +662,7 @@ class ControlledVehicle(Vehicle):
           target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
             self.target_lane_index = target_lane_index
-            s =  np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+            s =  self.steering_control(self.target_lane_index)
 
 
         elif action[1]>0.05: 
@@ -671,7 +671,7 @@ class ControlledVehicle(Vehicle):
           target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
             self.target_lane_index = target_lane_index
-            s = np.clip(self.steering_control(self.target_lane_index), -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+            s = self.steering_control(self.target_lane_index)
             
         elif action[1] > -0.05 and action[1]<0.05:
           s = 0
