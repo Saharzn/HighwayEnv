@@ -675,7 +675,8 @@ class ControlledVehicle(Vehicle):
             
         elif action[1] > -0.05 and action[1]<0.05:
           s = 0
-        return s 
+          
+        return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
 
     def speed_control(self, target_speed: float) -> float:
         """
