@@ -453,7 +453,6 @@ from highway_env import utils
 from highway_env.road.road import LaneIndex, Road, Route
 from highway_env.utils import Vector
 from highway_env.vehicle.kinematics import Vehicle
-from highway_env.envs.highway_env import HighwayEnv
 
 
 class ControlledVehicle(Vehicle):
@@ -649,7 +648,7 @@ class ControlledVehicle(Vehicle):
           #change to left
           _from, _to, _id = self.target_lane_index
           target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position) and HighwayEnv.vehicle.on_road:
+          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position) and Vehicle.on_road:
             self.target_lane_index = target_lane_index
             s =  self.steering_control(self.target_lane_index)
 
@@ -658,7 +657,7 @@ class ControlledVehicle(Vehicle):
           # change to right 
           _from, _to, _id = self.target_lane_index
           target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
-          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position) and HighwayEnv.vehicle.on_road:
+          if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position) and Vehicle.on_road:
             self.target_lane_index = target_lane_index
             s = self.steering_control(self.target_lane_index)
             
