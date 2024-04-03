@@ -671,7 +671,7 @@ class ControlledVehicle(Vehicle):
           if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
             self.target_lane_index = target_lane_index
             s = self.steering_control(self.target_lane_index)
-        elif action[1]<=0:
+        elif self.lane_index == 0  and action[1]<=0:
             s = 0
             
         # right_lane
