@@ -642,7 +642,8 @@ class ControlledVehicle(Vehicle):
         s = 0
       
 
-        # middle lane 
+        # middle lane
+        print(action)
         if self.lane_index == 1 and action[1]<-0.05:          
           #change to left
           _from, _to, _id = self.target_lane_index
