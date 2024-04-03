@@ -643,9 +643,9 @@ class ControlledVehicle(Vehicle):
       
 
         # middle lane
-        print(action)
         if self.lane_index == 1 and action[1]<-0.05:          
           #change to left
+          print("Hi")
           _from, _to, _id = self.target_lane_index
           target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
