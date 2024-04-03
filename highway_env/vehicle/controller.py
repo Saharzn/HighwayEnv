@@ -643,7 +643,7 @@ class ControlledVehicle(Vehicle):
       
 
         # middle lane
-        if self.lane_index == 1 and action[1]<-0.05:          
+        if self.lane_index[2] == 1 and action[1]<-0.05:          
           #change to left
           print("Hi1")
           _from, _to, _id = self.target_lane_index
@@ -653,7 +653,7 @@ class ControlledVehicle(Vehicle):
             s =  self.steering_control(self.target_lane_index)
 
 
-        elif self.lane_index == 1 and action[1]>0.05: 
+        elif self.lane_index[2] == 1 and action[1]>0.05: 
           # change to right 
           print("Hi2")
           _from, _to, _id = self.target_lane_index
@@ -662,12 +662,12 @@ class ControlledVehicle(Vehicle):
             self.target_lane_index = target_lane_index
             s = self.steering_control(self.target_lane_index)
             
-        elif self.lane_index == 1 and action[1] >= -0.05 and action[1]<=0.05:
+        elif self.lane_index[2] == 1 and action[1] >= -0.05 and action[1]<=0.05:
           s = 0
           print("Hi3")
           
         # left_lane
-        if self.lane_index == 0 and action[1]>0: 
+        if self.lane_index[2] == 0 and action[1]>0: 
           # change to right 
           print("Hi4")
           _from, _to, _id = self.target_lane_index
@@ -675,15 +675,15 @@ class ControlledVehicle(Vehicle):
           if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
             self.target_lane_index = target_lane_index
             s = self.steering_control(self.target_lane_index)
-        elif self.lane_index == 0  and action[1]<=0:
+        elif self.lane_index[2] == 0  and action[1]<=0:
             print("Hi5")
             s = 0
             
         # right_lane
-        if self.lane_index == 2 and action[1]>=0:
+        if self.lane_index[2] == 2 and action[1]>=0:
             s = 0
             print("Hi6")
-        elif self.lane_index == 2 and action[1]<0:
+        elif self.lane_index[2] == 2 and action[1]<0:
             #change to left
             print("Hi7")
             _from, _to, _id = self.target_lane_index
