@@ -645,7 +645,7 @@ class ControlledVehicle(Vehicle):
         # middle lane
         if self.lane_index[2] == 1 and action[1]<-0.05:          
           #change to left
-          _from, _to, _id = self.target_lane_index
+          _from, _to, _id = self.lane_index
           target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
             self.target_lane_index = target_lane_index
@@ -654,7 +654,7 @@ class ControlledVehicle(Vehicle):
 
         elif self.lane_index[2] == 1 and action[1]>0.05: 
           # change to right 
-          _from, _to, _id = self.target_lane_index
+          _from, _to, _id = self.lane_index
           target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
             self.target_lane_index = target_lane_index
@@ -664,9 +664,9 @@ class ControlledVehicle(Vehicle):
           s = 0
           
         # left_lane
-        if self.lane_index[2] == 0 and action[1]>0: 
+        if self.lane_index[2] == 0 and action[1]>0.1: 
           # change to right 
-          _from, _to, _id = self.target_lane_index
+          _from, _to, _id = self.lane_index
           target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
             self.target_lane_index = target_lane_index
@@ -677,9 +677,9 @@ class ControlledVehicle(Vehicle):
         # right_lane
         if self.lane_index[2] == 2 and action[1]>=0.1:
             s = 0
-        elif self.lane_index[2] == 2 and action[1]<0:
+        elif self.lane_index[2] == 2 and action[1]<0.1:
             #change to left
-            _from, _to, _id = self.target_lane_index
+            _from, _to, _id = self.lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
               self.target_lane_index = target_lane_index
