@@ -177,10 +177,10 @@ class AbstractEnv(gym.Env):
             "speed": self.vehicle.speed,
             "crashed": self.vehicle.crashed,
             #"action": action,
-            "acc": self.ac_sahar1(action),
+            #"acc": self.ac_sahar1(action),
             #"target_speed": self.target_sahar(action),
             "time": self.time, 
-            "fuel": self.fuel1(action),
+            #"fuel": self.fuel1(action),
             "pos": self.vehicle.position[0],
             "index": self.vehicle.lane_index
         }
