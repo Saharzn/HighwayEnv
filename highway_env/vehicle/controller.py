@@ -671,7 +671,7 @@ class ControlledVehicle(Vehicle):
           if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
             self.target_lane_index = target_lane_index
             s = self.steering_control(self.target_lane_index)
-        elif self.lane_index[2] == 0  and action[1]<=0.1:
+        elif self.lane_index[2] == 0  and action[1]<=0.1 and Vehicle.on_road:
             s = 0
             
         # right_lane
@@ -684,7 +684,6 @@ class ControlledVehicle(Vehicle):
             if self.road.network.get_lane(target_lane_index).is_reachable_from(self.position):
               self.target_lane_index = target_lane_index
               s =  self.steering_control(self.target_lane_index)
-        s = 0
         return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
 
     def speed_control(self, target_speed: float) -> float:
