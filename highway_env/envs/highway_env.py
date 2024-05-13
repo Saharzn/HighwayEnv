@@ -153,7 +153,7 @@ class HighwayEnv(AbstractEnv):
         scaled_speed = utils.lmap(forward_speed, self.config["reward_speed_range"], [0, 1])
         return {
             #"collision_reward": float(self.vehicle.crashed),
-            "collision_reward": class_a_instance.collision_modified('RoadObject',0.1),
+            "collision_reward": class_a_instance.collision_modified(other: "RoadObject",0.1),
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
