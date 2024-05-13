@@ -145,6 +145,7 @@ class HighwayEnv(AbstractEnv):
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
         neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
+        class_a_instance = RoadObject(ABC)
         lane = self.vehicle.target_lane_index[2] if isinstance(self.vehicle, ControlledVehicle) \
             else self.vehicle.lane_index[2]
         # Use forward speed rather than speed, see https://github.com/eleurent/highway-env/issues/268
@@ -152,11 +153,7 @@ class HighwayEnv(AbstractEnv):
         scaled_speed = utils.lmap(forward_speed, self.config["reward_speed_range"], [0, 1])
         return {
             #"collision_reward": float(self.vehicle.crashed),
-
-            class_a_instance = RoadObject(ABC),
             "collision_reward": class_a_instance.collision_modified(other: 'RoadObject', dt: float = 0),
-
-            
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
