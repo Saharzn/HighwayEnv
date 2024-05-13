@@ -10,6 +10,7 @@ from highway_env.utils import near_split
 from highway_env.vehicle.controller import ControlledVehicle
 from highway_env.vehicle.kinematics import Vehicle
 from highway_env.vehicle.objects import RoadObject
+from highway_env.vehicle.behavior import IDMVehicle
 
 
 Observation = np.ndarray
@@ -144,12 +145,13 @@ class HighwayEnv(AbstractEnv):
     
     
     def collision_modified(self,dt): 
-        class_a_instance = RoadObject(self.road, self.vehicle.position, self.vehicle.heading, self.vehicle.speed)
+        class_a_instance = RoadObject(self.road, vehicle.position, vehicle.heading, vehicle.speed)
+        class_b_instance = ControlledVehicle(self.controlled_vehicle.road,self.controlled_vehicle.position)
         # Longitudinal: IDM
-        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.vehicle.lane_index)
+        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, vehicle.lane_index)
         # When changing lane, check both current and target lanes
-        if self.vehicle.lane_index != self.vehicle.target_lane_index:
-            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.vehicle.target_lane_index)
+        if vehicle.lane_index != ControlledVehicle.target_lane_index:
+            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, ControlledVehicle.target_lane_index)
         d = class_a_instance.lane_distance_to(front_vehicle)
         return (d-20)*(-5)/((self.diagonal + other.diagonal) / 2 + self.speed * dt-20)
     
