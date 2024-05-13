@@ -1,4 +1,5 @@
 from abc import ABC
+from highway_env.road.road import Road, Route, LaneIndex
 from typing import Sequence, Tuple, TYPE_CHECKING, Optional
 import numpy as np
 
@@ -107,7 +108,7 @@ class RoadObject(ABC):
 
 
 
-    def collision_modified(self,other,dt): 
+    def collision_modified(self,dt): 
 
         # Longitudinal: IDM
         front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
