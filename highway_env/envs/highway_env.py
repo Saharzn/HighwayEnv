@@ -9,6 +9,7 @@ from highway_env.road.road import Road, RoadNetwork
 from highway_env.utils import near_split
 from highway_env.vehicle.controller import ControlledVehicle
 from highway_env.vehicle.kinematics import Vehicle
+from highway_env.vehicle.objects import other
 
 Observation = np.ndarray
 
@@ -150,7 +151,11 @@ class HighwayEnv(AbstractEnv):
         forward_speed = self.vehicle.speed * np.cos(self.vehicle.heading)
         scaled_speed = utils.lmap(forward_speed, self.config["reward_speed_range"], [0, 1])
         return {
-            "collision_reward": float(self.vehicle.crashed),
+            #"collision_reward": float(self.vehicle.crashed),
+
+            "collision_reward": (np.linalg.norm(other.position - self.position)-20)*(-5)/((self.diagonal + other.diagonal) / 2 + self.speed * dt-20),
+
+            
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
