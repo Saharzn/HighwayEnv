@@ -108,7 +108,17 @@ class RoadObject(ABC):
 
 
     def collision_modified(self,other,dt): 
-        return (np.linalg.norm(other.position - self.position)-20)*(-5)/((self.diagonal + other.diagonal) / 2 + self.speed * dt-20)
+
+        # Longitudinal: IDM
+        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
+        # When changing lane, check both current and target lanes
+        if self.lane_index != self.target_lane_index:
+            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
+            target_idm_acceleration = self.acceleration(ego_vehicle=self,
+                                                        front_vehicle=front_vehicle,
+                                                        rear_vehicle=rear_vehicle)
+        d = lane_distance_to(self.front_vehicle)
+        return (d-20)*(-5)/((self.diagonal + other.diagonal) / 2 + self.speed * dt-20)
 
     # Just added for sake of compatibility
     def to_dict(self, origin_vehicle=None, observe_intentions=True):
