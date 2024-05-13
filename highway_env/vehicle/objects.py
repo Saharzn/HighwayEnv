@@ -105,6 +105,11 @@ class RoadObject(ABC):
         # Accurate rectangular check
         return utils.are_polygons_intersecting(self.polygon(), other.polygon(), self.velocity * dt, other.velocity * dt)
 
+
+
+    def collision_modified(self,other,dt): 
+        return (np.linalg.norm(other.position - self.position)-20)*(-5)/((self.diagonal + other.diagonal) / 2 + self.speed * dt-20)
+
     # Just added for sake of compatibility
     def to_dict(self, origin_vehicle=None, observe_intentions=True):
         d = {
