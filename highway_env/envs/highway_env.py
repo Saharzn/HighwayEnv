@@ -1,7 +1,7 @@
 from typing import Dict, Text
 
 import numpy as np
-
+from abc import ABC
 from highway_env import utils
 from highway_env.envs.common.abstract import AbstractEnv
 from highway_env.envs.common.action import Action
@@ -9,7 +9,7 @@ from highway_env.road.road import Road, RoadNetwork
 from highway_env.utils import near_split
 from highway_env.vehicle.controller import ControlledVehicle
 from highway_env.vehicle.kinematics import Vehicle
-from highway_env.vehicle.objects import other
+from highway_env.vehicle.objects import RoadObject
 
 Observation = np.ndarray
 
@@ -153,7 +153,8 @@ class HighwayEnv(AbstractEnv):
         return {
             #"collision_reward": float(self.vehicle.crashed),
 
-            "collision_reward": (np.linalg.norm(other.position - self.position)-20)*(-5)/((self.diagonal + other.diagonal) / 2 + self.speed * dt-20),
+            class_a_instance = RoadObject(ABC),
+            "collision_reward": class_a_instance.collision_modified(other: 'RoadObject', dt: float = 0),
 
             
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
