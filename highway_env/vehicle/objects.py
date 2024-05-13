@@ -1,5 +1,4 @@
 from abc import ABC
-from highway_env.road.road import Road, Route, LaneIndex
 from typing import Sequence, Tuple, TYPE_CHECKING, Optional
 import numpy as np
 
