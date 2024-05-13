@@ -145,7 +145,7 @@ class HighwayEnv(AbstractEnv):
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
         neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
-        class_a_instance = RoadObject(self.road, self.position, self.heading, self.speed)
+        class_a_instance = RoadObject(self.road, vehicle.position, vehicle.heading, vehicle.speed)
         lane = self.vehicle.target_lane_index[2] if isinstance(self.vehicle, ControlledVehicle) \
             else self.vehicle.lane_index[2]
         # Use forward speed rather than speed, see https://github.com/eleurent/highway-env/issues/268
