@@ -146,13 +146,10 @@ class HighwayEnv(AbstractEnv):
     def collision_modified(self,dt): 
         class_a_instance = RoadObject(self.road, self.vehicle.position, self.vehicle.heading, self.vehicle.speed)
         # Longitudinal: IDM
-        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
+        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.vehicle.lane_index)
         # When changing lane, check both current and target lanes
-        if self.lane_index != self.target_lane_index:
-            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
-            target_idm_acceleration = self.acceleration(ego_vehicle=self,
-                                                        front_vehicle=front_vehicle,
-                                                        rear_vehicle=rear_vehicle)
+        if self.vehicle.lane_index != self.vehicle.target_lane_index:
+            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.vehicle.target_lane_index)
         d = class_a_instance.lane_distance_to(front_vehicle)
         return (d-20)*(-5)/((self.diagonal + other.diagonal) / 2 + self.speed * dt-20)
     
