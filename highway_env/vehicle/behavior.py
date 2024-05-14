@@ -7,6 +7,7 @@ from highway_env.utils import Vector
 from highway_env.vehicle.controller import ControlledVehicle
 from highway_env import utils
 from highway_env.vehicle.kinematics import Vehicle
+from highway_env.vehicle.objects import RoadObject
 
 
 class IDMVehicle(ControlledVehicle):
@@ -112,6 +113,22 @@ class IDMVehicle(ControlledVehicle):
         action['acceleration'] = np.clip(action['acceleration'], -self.ACC_MAX, self.ACC_MAX)
         Vehicle.act(self, action)  # Skip ControlledVehicle.act(), or the command will be overriden.
 
+    
+    
+    def reward_collision(self,dt)
+    
+        class_a_instance = RoadObject(self.road, self.ego_vehicle.position, self.ego_vehicle.heading, self.ego_vehicle.speed)
+        # Longitudinal: IDM
+        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
+        # When changing lane, check both current and target lanes
+        if self.lane_index != self.target_lane_index:
+           front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
+        d = class_a_instance.lane_distance_to(front_vehicle)
+        return d
+    
+    
+    
+    
     def step(self, dt: float):
         """
         Step the simulation.
