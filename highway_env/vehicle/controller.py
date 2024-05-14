@@ -684,7 +684,7 @@ class ControlledVehicle(Vehicle):
         return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
 
 
-    def collision_modified(self,dt): 
+    def collision_reward(self,dt): 
         class_a_instance = RoadObject(self.road, self.ego_vehicle.position, self.ego_vehicle.heading, self.ego_vehicle.speed)
         # Longitudinal: IDM
         front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
