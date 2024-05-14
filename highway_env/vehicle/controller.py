@@ -685,7 +685,7 @@ class ControlledVehicle(Vehicle):
 
 
     def collision_reward(self,dt): 
-        class_a_instance = RoadObject(self.road, self.ego_vehicle.position, self.ego_vehicle.heading, self.ego_vehicle.speed)
+        class_a_instance = RoadObject(self.road, self.position, self.heading, self.speed)
         # Longitudinal: IDM
         front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
         # When changing lane, check both current and target lanes
