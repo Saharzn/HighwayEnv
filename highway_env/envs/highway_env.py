@@ -148,7 +148,7 @@ class HighwayEnv(AbstractEnv):
         class_a_instance = RoadObject(self.road, self.vehicle.position, self.vehicle.heading, self.vehicle.speed)
         class_b_instance = ControlledVehicle(self.road,self.vehicle.position)
         # Longitudinal: IDM
-        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, vehicle.lane_index)
+        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.vehicle.lane_index)
         # When changing lane, check both current and target lanes
         #if ControlledVehicle.lane_index != ControlledVehicle.target_lane_index:
          #   front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, ControlledVehicle.target_lane_index)
