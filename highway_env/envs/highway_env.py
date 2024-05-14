@@ -147,7 +147,7 @@ class HighwayEnv(AbstractEnv):
     
     def collision_modified(self,dt):
         class_a_instance = ControlledVehicle(self.vehicle.road,self.vehicle.position)
-        return class_b_instance.collision_reward(dt)
+        return class_a_instance.collision_reward(dt)
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
         neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
