@@ -145,7 +145,25 @@ class HighwayEnv(AbstractEnv):
     
     
     def collision_modified(self,dt): 
-        class_b_instance = ControlledVehicle(self.road,self.vehicle.position)
+        #class_a_instance = RoadObject(self.road, self.ego_vehicle.position, self.ego_vehicle.heading, self.ego_vehicle.speed)
+        # Longitudinal: IDM
+        #front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
+        # When changing lane, check both current and target lanes
+        #if self.lane_index != self.target_lane_index:
+         #  front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
+        #d = class_a_instance.lane_distance_to(front_vehicle)
+        return ControlledVehicle.lane_index
+
+
+
+
+
+
+
+
+
+        
+        class_b_instance = IDMVehicl(self.road,self.vehicle.position)
         return class_b_instance.reward_collision(dt)
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
