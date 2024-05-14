@@ -11,6 +11,7 @@ from highway_env.vehicle.controller import ControlledVehicle
 from highway_env.vehicle.kinematics import Vehicle
 from highway_env.vehicle.objects import RoadObject
 from highway_env.vehicle.behavior import IDMVehicle
+from highway_env.vehicle.controller import MDPVehicle
 
 
 Observation = np.ndarray
@@ -144,27 +145,9 @@ class HighwayEnv(AbstractEnv):
     
     
     
-    def collision_modified(self,dt): 
-        #class_a_instance = RoadObject(self.road, self.ego_vehicle.position, self.ego_vehicle.heading, self.ego_vehicle.speed)
-        # Longitudinal: IDM
-        #front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
-        # When changing lane, check both current and target lanes
-        #if self.lane_index != self.target_lane_index:
-         #  front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
-        #d = class_a_instance.lane_distance_to(front_vehicle)
-        return ControlledVehicle.lane_index
-
-
-
-
-
-
-
-
-
-        
-        class_b_instance = IDMVehicl(self.road,self.vehicle.position)
-        return class_b_instance.reward_collision(dt)
+    def collision_modified(self,dt):
+        class_a_instance = ControlledVehicle(self.controlled_vehicle.road,self.controlled_vehicle.position)
+        return class_b_instance.collision_reward(dt)
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
         neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
