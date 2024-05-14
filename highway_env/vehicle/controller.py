@@ -453,6 +453,7 @@ from highway_env import utils
 from highway_env.road.road import LaneIndex, Road, Route
 from highway_env.utils import Vector
 from highway_env.vehicle.kinematics import Vehicle
+from highway_env.vehicle.objects import RoadObject
 
 
 class ControlledVehicle(Vehicle):
@@ -682,6 +683,17 @@ class ControlledVehicle(Vehicle):
             s =  self.steering_control(self.target_lane_index)
         return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
 
+
+    def collision_modified(self,dt): 
+        class_a_instance = RoadObject(self.road, self.ego_vehicle.position, self.ego_vehicle.heading, self.ego_vehicle.speed)
+        # Longitudinal: IDM
+        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
+        # When changing lane, check both current and target lanes
+        if self.lane_index != self.target_lane_index:
+           front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
+        d = class_a_instance.lane_distance_to(front_vehicle)
+        return d
+    
     def speed_control(self, target_speed: float) -> float:
         """
         Control the speed of the vehicle.
