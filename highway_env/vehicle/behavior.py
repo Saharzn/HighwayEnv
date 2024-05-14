@@ -115,7 +115,7 @@ class IDMVehicle(ControlledVehicle):
 
     
     
-    def reward_collision(self,dt)
+    def reward_collision(self,dt):
     
         class_a_instance = RoadObject(self.road, self.ego_vehicle.position, self.ego_vehicle.heading, self.ego_vehicle.speed)
         # Longitudinal: IDM
