@@ -112,7 +112,7 @@ class IDMVehicle(ControlledVehicle):
         # action['acceleration'] = self.recover_from_stop(action['acceleration'])
         action['acceleration'] = np.clip(action['acceleration'], -self.ACC_MAX, self.ACC_MAX)
         Vehicle.act(self, action)  # Skip ControlledVehicle.act(), or the command will be overriden.
-        print(ego_vehicle.lane_distance_to(front_vehicle))
+        print(ControlledVehicle.lane_distance_to(front_vehicle))
 
     def collision_reward(self,dt): 
         # Longitudinal: IDM
