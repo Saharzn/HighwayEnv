@@ -127,7 +127,7 @@ class IDMVehicle(ControlledVehicle):
         else:
             d = 1000
         print(d)
-        return 1
+        return d
  
     
     def step(self, dt: float):
