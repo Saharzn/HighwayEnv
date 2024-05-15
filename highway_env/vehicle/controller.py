@@ -692,7 +692,7 @@ class ControlledVehicle(Vehicle):
         if self.lane_index != self.target_lane_index:
            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
         #d = class_a_instance.lane_distance_to(front_vehicle)
-        d = RoadObject.lane_distance_to(front_vehicle)
+        d = front_vehicle.position[0] - self.position[0]
         print(d)
         return d
     
