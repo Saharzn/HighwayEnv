@@ -113,10 +113,7 @@ class IDMVehicle(ControlledVehicle):
         action['acceleration'] = np.clip(action['acceleration'], -self.ACC_MAX, self.ACC_MAX)
         Vehicle.act(self, action)  # Skip ControlledVehicle.act(), or the command will be overriden.
 
-    def collision_reward(self,
-                     ego_vehicle: ControlledVehicle,
-                     front_vehicle: Vehicle = None,
-                     rear_vehicle: Vehicle = None) -> float:
+    def collision_reward(self, ego_vehicle: ControlledVehicle):
         # Longitudinal: IDM
         front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
         # When changing lane, check both current and target lanes
