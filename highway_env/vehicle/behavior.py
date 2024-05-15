@@ -111,6 +111,8 @@ class IDMVehicle(ControlledVehicle):
             action['acceleration'] = min(action['acceleration'], target_idm_acceleration)
         # action['acceleration'] = self.recover_from_stop(action['acceleration'])
         action['acceleration'] = np.clip(action['acceleration'], -self.ACC_MAX, self.ACC_MAX)
+        print(front_vehicle.position)
+        print(self.position)
         Vehicle.act(self, action)  # Skip ControlledVehicle.act(), or the command will be overriden.
 
     def collision_reward(self,dt): 
@@ -121,8 +123,8 @@ class IDMVehicle(ControlledVehicle):
            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
         #d = class_a_instance.lane_distance_to(front_vehicle)
         d = front_vehicle.position[0] - self.position[0]
-        print(front_vehicle.position)
-        print(self.position)
+        #print(front_vehicle.position)
+        #print(self.position)
         return 1
  
     
