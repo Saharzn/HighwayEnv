@@ -1,4 +1,4 @@
-f.from typing import Dict, Text
+from typing import Dict, Text
 
 import numpy as np
 
