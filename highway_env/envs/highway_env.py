@@ -148,6 +148,7 @@ class HighwayEnv(AbstractEnv):
     def collision_modified(self,dt):
         class_a_instance = IDMVehicle(self.vehicle.road,self.vehicle.position)
         d = class_a_instance.collision_continous()
+        print(d)
         return d
         #return self.config["collision_reward"]/(dt*self.vehicle.speed-20)*(d-20)
         #return self.config["collision_reward"]*(20-d)/20
