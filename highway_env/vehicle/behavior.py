@@ -113,7 +113,7 @@ class IDMVehicle(ControlledVehicle):
         action['acceleration'] = np.clip(action['acceleration'], -self.ACC_MAX, self.ACC_MAX)
         Vehicle.act(self, action)  # Skip ControlledVehicle.act(), or the command will be overriden.
 
-    def collision_continous():
+    def collision_continous(self):
         return 1
 
  
