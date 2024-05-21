@@ -152,8 +152,6 @@ class HighwayEnv(AbstractEnv):
             return self.config["collision_reward"]*(8-d)/8
         else:
             return 0
-        #return self.config["collision_reward"]/(dt*self.vehicle.speed-20)*(d-20)
-        #return self.config["collision_reward"]*(20-d)/20
     
     def _rewards(self, action: Action) -> Dict[Text, float]:
         neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
