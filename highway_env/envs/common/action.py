@@ -163,11 +163,9 @@ class ContinuousAction(ActionType):
                 "steering": utils.lmap(class_a_instance.discrete_steering(action), [-1, 1], self.steering_range),
                 #"steering": utils.lmap(action[1], [-1, 1], self.steering_range),
                 
-
-
-                
             })
-        # step = (max(self.steering_range)-min(self.steering_range))/self.HighwayEnv.config["lanes_count"],
+            print("steering")
+        
 
         
         elif self.longitudinal:
