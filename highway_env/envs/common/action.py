@@ -164,7 +164,6 @@ class ContinuousAction(ActionType):
                 #"steering": utils.lmap(action[1], [-1, 1], self.steering_range),
                 
             })
-            print(utils.lmap(class_a_instance.discrete_steering(action), [-1, 1], self.steering_range))
         
 
         
