@@ -126,6 +126,13 @@ class IDMVehicle(ControlledVehicle):
         return d
  
     
+    def lane_center(self):
+
+        target_lane = self.road.network.get_lane(target_lane_index)
+        lane_coords = target_lane.local_coordinates(self.position)
+        return lane_coords[1]
+        
+    
     def step(self, dt: float):
         """
         Step the simulation.
