@@ -153,6 +153,12 @@ class HighwayEnv(AbstractEnv):
         else:
             return 0
     
+    def center_lane_reward(self):
+
+        class_a_instance = IDMVehicle(self.vehicle.road,self.vehicle.position)
+        return class_a_instance.lane_center()
+    
+    
     def _rewards(self, action: Action) -> Dict[Text, float]:
         neighbours = self.road.network.all_side_lanes(self.vehicle.lane_index)
         
@@ -167,7 +173,8 @@ class HighwayEnv(AbstractEnv):
             "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
-            "fuel_reward": -self.fuel(action)
+            "fuel_reward": -self.fuel(action),
+            "centerlane": lane_coords = target_lane.local_coordinates(self.position)
         }
      
 
