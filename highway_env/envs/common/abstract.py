@@ -186,6 +186,7 @@ class AbstractEnv(gym.Env):
             "pos": self.vehicle.position[0],
             "index": self.vehicle.lane_index,
             "steering":utils.lmap(class_a_instance.discrete_steering(action), [-1, 1], (-np.pi / 4, np.pi / 4)),
+            "heading":self.vehicle.heading
         }
         try:
             info["rewards"] = self._rewards(action)
