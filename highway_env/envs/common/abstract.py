@@ -16,6 +16,7 @@ from highway_env.vehicle.behavior import IDMVehicle, LinearVehicle
 from highway_env.vehicle.controller import MDPVehicle
 from highway_env.vehicle.kinematics import Vehicle
 import highway_env.envs.highway_env as nnv 
+from highway_env.vehicle.controller import ControlledVehicle
 
 Observation = TypeVar("Observation")
 
@@ -173,6 +174,7 @@ class AbstractEnv(gym.Env):
         :param action: current action
         :return: info dict
         """
+        class_a_instance = ControlledVehicle(self.controlled_vehicle.road,self.controlled_vehicle.position)
         info = {
             "speed": self.vehicle.speed,
             "crashed": self.vehicle.crashed,
@@ -182,7 +184,8 @@ class AbstractEnv(gym.Env):
             "time": self.time, 
             #"fuel": self.fuel1(action),
             "pos": self.vehicle.position[0],
-            "index": self.vehicle.lane_index
+            "index": self.vehicle.lane_index,
+            "steering":utils.lmap(class_a_instance.discrete_steering(action), [-1, 1], (-np.pi / 4, np.pi / 4)),
         }
         try:
             info["rewards"] = self._rewards(action)
