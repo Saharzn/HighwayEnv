@@ -174,7 +174,7 @@ class AbstractEnv(gym.Env):
         :param action: current action
         :return: info dict
         """
-        class_a_instance = ControlledVehicle(self.controlled_vehicle.road,self.controlled_vehicle.position)
+        class_a_instance = ControlledVehicle(self.vehicle.road,self.vehicle.position)
         info = {
             "speed": self.vehicle.speed,
             "crashed": self.vehicle.crashed,
