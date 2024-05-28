@@ -660,7 +660,7 @@ class ControlledVehicle(Vehicle):
           s = self.steering_control(self.target_lane_index)
             
         elif self.lane_index[2] == 1 and action[1] >= -0.5 and action[1]<=0.5 and Vehicle.on_road:
-          s = 0
+          s = self.steering_control(self.lane_index)
           
         # left_lane
         if self.lane_index[2] == 0 and action[1]>0.5 and Vehicle.on_road: 
@@ -670,11 +670,11 @@ class ControlledVehicle(Vehicle):
           self.target_lane_index = target_lane_index
           s = self.steering_control(self.target_lane_index)
         elif self.lane_index[2] == 0  and action[1]<=0.5 and Vehicle.on_road:
-            s = 0
+            s = self.steering_control(self.lane_index)
             
         # right_lane
         if self.lane_index[2] == 2 and action[1]>=-0.5 and Vehicle.on_road:
-            s = 0
+            s = self.steering_control(self.lane_index)
         elif self.lane_index[2] == 2 and action[1]<-0.5 and Vehicle.on_road:
             #change to left
             _from, _to, _id = self.target_lane_index
