@@ -650,7 +650,6 @@ class ControlledVehicle(Vehicle):
           target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           self.target_lane_index = target_lane_index
           s =  self.steering_control(self.target_lane_index)
-          print("1")
 
 
         elif self.lane_index[2] == 1 and action[1]>0.5 and Vehicle.on_road: 
@@ -659,14 +658,13 @@ class ControlledVehicle(Vehicle):
           target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           self.target_lane_index = target_lane_index
           s = self.steering_control(self.target_lane_index)
-          print("2")
             
         elif self.lane_index[2] == 1 and action[1] >= -0.5 and action[1]<=0.5 and Vehicle.on_road:
           #s = self.steering_control(self.lane_index)
          target_lane = self.road.network.get_lane(self.lane_index)
          lane_coords = target_lane.local_coordinates(self.position)
          s = 0
-         print(print("3"))
+         print(lane_coords[1])
           
         # left_lane
         if self.lane_index[2] == 0 and action[1]>0.5 and Vehicle.on_road: 
@@ -675,26 +673,26 @@ class ControlledVehicle(Vehicle):
           target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           self.target_lane_index = target_lane_index
           s = self.steering_control(self.target_lane_index)
-          print("4")
+
         elif self.lane_index[2] == 0  and action[1]<=0.5 and Vehicle.on_road:
          target_lane = self.road.network.get_lane(self.lane_index)
          lane_coords = target_lane.local_coordinates(self.position)
          s = 0
-         print("5")
+         print(lane_coords[1])
             
         # right_lane
         if self.lane_index[2] == 2 and action[1]>=-0.5 and Vehicle.on_road:
          target_lane = self.road.network.get_lane(self.lane_index)
          lane_coords = target_lane.local_coordinates(self.position)
          s = 0
-         print("6")
+         print(lane_coords[1])
+          
         elif self.lane_index[2] == 2 and action[1]<-0.5 and Vehicle.on_road:
             #change to left
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             self.target_lane_index = target_lane_index
             s =  self.steering_control(self.target_lane_index)
-            print("7")
         return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
 
     
