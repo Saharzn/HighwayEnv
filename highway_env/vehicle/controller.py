@@ -640,7 +640,7 @@ class ControlledVehicle(Vehicle):
 
   
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
-        s = self.steering_control(self.target_lane_index)
+        s = self.steering_control(self.lane_index)
       
 
         # middle lane
