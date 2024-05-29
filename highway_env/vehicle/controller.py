@@ -640,7 +640,7 @@ class ControlledVehicle(Vehicle):
 
   
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
-        s = 0
+        self.follow_road()
       
 
         # middle lane
@@ -659,19 +659,19 @@ class ControlledVehicle(Vehicle):
           self.target_lane_index = target_lane_index
           s = self.steering_control(self.target_lane_index)
             
-        elif self.lane_index[2] == 1 and action[1] >= -0.5 and action[1]<=0.5 and Vehicle.on_road:
+        #elif self.lane_index[2] == 1 and action[1] >= -0.5 and action[1]<=0.5 and Vehicle.on_road:
           #s = self.steering_control(self.lane_index)
-          target_lane = self.road.network.get_lane(self.lane_index)
-          lane_coords = target_lane.local_coordinates(self.position)
-          lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
-          lane_future_heading = target_lane.heading_at(lane_next_coords)
-          lateral_speed_command = -self.KP_LATERAL * lane_coords[1]
-          heading_command = np.arcsin(np.clip(lateral_speed_command / utils.not_zero(self.speed), -1, 1))
-          heading_ref = lane_future_heading + np.clip(heading_command, -np.pi / 4, np.pi / 4)
-          heading_rate_command = self.KP_HEADING * utils.wrap_to_pi(heading_ref - self.heading)
-          slip_angle = np.arcsin(np.clip(self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command,-1,1,))
-          steering_angle = np.arctan(2 * np.tan(slip_angle))
-          s = np.clip(steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+         # target_lane = self.road.network.get_lane(self.lane_index)
+          #lane_coords = target_lane.local_coordinates(self.position)
+          #lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
+          #lane_future_heading = target_lane.heading_at(lane_next_coords)
+          #lateral_speed_command = -self.KP_LATERAL * lane_coords[1]
+          #heading_command = np.arcsin(np.clip(lateral_speed_command / utils.not_zero(self.speed), -1, 1))
+          #heading_ref = lane_future_heading + np.clip(heading_command, -np.pi / 4, np.pi / 4)
+          #heading_rate_command = self.KP_HEADING * utils.wrap_to_pi(heading_ref - self.heading)
+          #slip_angle = np.arcsin(np.clip(self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command,-1,1,))
+          #steering_angle = np.arctan(2 * np.tan(slip_angle))
+          #s = np.clip(steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
           
         # left_lane
         if self.lane_index[2] == 0 and action[1]>0.5 and Vehicle.on_road: 
@@ -681,34 +681,34 @@ class ControlledVehicle(Vehicle):
           self.target_lane_index = target_lane_index
           s = self.steering_control(self.target_lane_index)
 
-        elif self.lane_index[2] == 0  and action[1]<=0.5 and Vehicle.on_road:
-          target_lane = self.road.network.get_lane(self.lane_index)
-          lane_coords = target_lane.local_coordinates(self.position)
-          lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
-          lane_future_heading = target_lane.heading_at(lane_next_coords)
-          lateral_speed_command = -self.KP_LATERAL * lane_coords[1]
-          heading_command = np.arcsin(np.clip(lateral_speed_command / utils.not_zero(self.speed), -1, 1))
-          heading_ref = lane_future_heading + np.clip(heading_command, -np.pi / 4, np.pi / 4)
-          heading_rate_command = self.KP_HEADING * utils.wrap_to_pi(heading_ref - self.heading)
-          slip_angle = np.arcsin(np.clip(self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command,-1,1,))
-          steering_angle = np.arctan(2 * np.tan(slip_angle))
-          s = np.clip(steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+        #elif self.lane_index[2] == 0  and action[1]<=0.5 and Vehicle.on_road:
+         # target_lane = self.road.network.get_lane(self.lane_index)
+          #lane_coords = target_lane.local_coordinates(self.position)
+          #lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
+          #lane_future_heading = target_lane.heading_at(lane_next_coords)
+          #lateral_speed_command = -self.KP_LATERAL * lane_coords[1]
+          #heading_command = np.arcsin(np.clip(lateral_speed_command / utils.not_zero(self.speed), -1, 1))
+          #heading_ref = lane_future_heading + np.clip(heading_command, -np.pi / 4, np.pi / 4)
+          #heading_rate_command = self.KP_HEADING * utils.wrap_to_pi(heading_ref - self.heading)
+          #slip_angle = np.arcsin(np.clip(self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command,-1,1,))
+          #steering_angle = np.arctan(2 * np.tan(slip_angle))
+          #s = np.clip(steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
             
         # right_lane
-        if self.lane_index[2] == 2 and action[1]>=-0.5 and Vehicle.on_road:
-          target_lane = self.road.network.get_lane(self.lane_index)
-          lane_coords = target_lane.local_coordinates(self.position)
-          lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
-          lane_future_heading = target_lane.heading_at(lane_next_coords)
-          lateral_speed_command = -self.KP_LATERAL * lane_coords[1]
-          heading_command = np.arcsin(np.clip(lateral_speed_command / utils.not_zero(self.speed), -1, 1))
-          heading_ref = lane_future_heading + np.clip(heading_command, -np.pi / 4, np.pi / 4)
-          heading_rate_command = self.KP_HEADING * utils.wrap_to_pi(heading_ref - self.heading)
-          slip_angle = np.arcsin(np.clip(self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command,-1,1,))
-          steering_angle = np.arctan(2 * np.tan(slip_angle))
-          s = np.clip(steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+        #if self.lane_index[2] == 2 and action[1]>=-0.5 and Vehicle.on_road:
+         # target_lane = self.road.network.get_lane(self.lane_index)
+          #lane_coords = target_lane.local_coordinates(self.position)
+          #lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
+          #lane_future_heading = target_lane.heading_at(lane_next_coords)
+          #lateral_speed_command = -self.KP_LATERAL * lane_coords[1]
+          #heading_command = np.arcsin(np.clip(lateral_speed_command / utils.not_zero(self.speed), -1, 1))
+          #heading_ref = lane_future_heading + np.clip(heading_command, -np.pi / 4, np.pi / 4)
+          #heading_rate_command = self.KP_HEADING * utils.wrap_to_pi(heading_ref - self.heading)
+          #slip_angle = np.arcsin(np.clip(self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command,-1,1,))
+          #steering_angle = np.arctan(2 * np.tan(slip_angle))
+          #s = np.clip(steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
           
-        elif self.lane_index[2] == 2 and action[1]<-0.5 and Vehicle.on_road:
+        if self.lane_index[2] == 2 and action[1]<-0.5 and Vehicle.on_road:
             #change to left
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
