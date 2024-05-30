@@ -129,8 +129,8 @@ class Vehicle(RoadObject):
             self.crashed = True
             self.impact = None
         self.heading += self.speed * np.sin(beta) / (self.LENGTH / 2) * dt
-        if abs(self.heading)<0.01:
-            self.heading = 0
+        #if abs(self.heading)<0.01:
+         #   self.heading = 0
         self.speed += self.action['acceleration'] * dt
         self.on_state_update()
 
