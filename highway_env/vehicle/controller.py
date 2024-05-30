@@ -473,8 +473,8 @@ class ControlledVehicle(Vehicle):
     #TAU_LATERAL = 0.6  # [s]
 
 
-    TAU_HEADING = 0.5  # [s]
-    TAU_LATERAL = 0.6  # [s]
+    TAU_HEADING = 2.5  # [s]
+    TAU_LATERAL = 2.6  # [s]
 
     TAU_PURSUIT = 0.5 * TAU_HEADING  # [s]
     KP_A = 1 / TAU_ACC
