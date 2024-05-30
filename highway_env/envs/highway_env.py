@@ -244,7 +244,7 @@ class HighwayEnvFast(HighwayEnv):
     def default_config(cls) -> dict:
         cfg = super().default_config()
         cfg.update({
-            "simulation_frequency": 5,
+            "simulation_frequency": 3,
             "lanes_count": 3,
             "vehicles_count": 20,
             "duration": 30,  # [s]
