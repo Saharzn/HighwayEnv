@@ -174,7 +174,7 @@ class HighwayEnv(AbstractEnv):
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
             "fuel_reward": -self.fuel(action),
-            "centerlane": -2*abs(self.center_lane_reward())
+            "centerlane": -4*abs(self.center_lane_reward())
         }
      
 
