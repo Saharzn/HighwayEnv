@@ -175,6 +175,7 @@ class HighwayEnv(AbstractEnv):
             "on_road_reward": float(self.vehicle.on_road),
             "fuel_reward": -self.fuel(action),
             "centerlane": -4*abs(self.center_lane_reward())
+            print(self.collision_modified(0.1))
         }
      
 
