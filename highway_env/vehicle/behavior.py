@@ -123,6 +123,7 @@ class IDMVehicle(ControlledVehicle):
             d = ego_vehicle.lane_distance_to(front_vehicle)
         else:
             d = 1000
+        print(d)
         return d
  
     
