@@ -149,7 +149,7 @@ class HighwayEnv(AbstractEnv):
 
         front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.vehicle.lane_index)
         if front_vehicle:
-            d = self.lane_distance_to(front_vehicle)
+            d = front_vehicle.position[0]-self.vehicle.position[0]
         else:
             d = 1000
         #class_a_instance = IDMVehicle(self.vehicle.road,self.vehicle.position)
