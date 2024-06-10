@@ -123,8 +123,8 @@ class IDMVehicle(ControlledVehicle):
             d = self.lane_distance_to(front_vehicle)
         else:
             d = 1000
-        print(front_vehicle.position)[0])
-        print((self.position)[0])
+        print(front_vehicle.position)
+        print(self.position)
         return d
  
     def lane_distance_to(self, other: "RoadObject", lane: "AbstractLane" = None) -> float:
