@@ -198,7 +198,6 @@ class IDMVehicle(ControlledVehicle):
                 np.power(self.desired_gap(ego_vehicle, front_vehicle) / utils.not_zero(d), 2)
         else:
             d = 1000
-        print(d)
         return acceleration
 
     def desired_gap(self, ego_vehicle: Vehicle, front_vehicle: Vehicle = None, projected: bool = True) -> float:
