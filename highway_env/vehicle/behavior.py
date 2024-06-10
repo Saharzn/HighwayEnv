@@ -130,8 +130,6 @@ class IDMVehicle(ControlledVehicle):
 
         :param action: the action
         """
-        if self.crashed:
-            return
         action = {}
         # Lateral: MOBIL
         self.follow_road()
