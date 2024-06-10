@@ -129,17 +129,7 @@ class IDMVehicle(ControlledVehicle):
     
     
     def collision_reward_1(self):
-        self.follow_road()
-        # Longitudinal: IDM
-        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
-        # When changing lane, check both current and target lanes
-        if self.lane_index != self.target_lane_index:
-            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
-        if front_vehicle:
-            d = self.lane_distance_to(front_vehicle)
-        else:
-            d = 1000
-        return d   
+        return 5   
         
     
     #def collision_reward(self, ego_vehicle: ControlledVehicle):
