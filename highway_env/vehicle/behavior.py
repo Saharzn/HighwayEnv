@@ -63,8 +63,8 @@ class IDMVehicle(ControlledVehicle):
         self.front_vehicle, self.rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
         if self.lane_index != self.target_lane_index:
             self.front_vehicle, self.rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
-        print(self.front_vehicle.position)
-        print(self.vehicle.position)
+        print(self.front_vehicle)
+        print(self.vehicle)
 
     def randomize_behavior(self):
         self.DELTA = self.road.np_random.uniform(low=self.DELTA_RANGE[0], high=self.DELTA_RANGE[1])
