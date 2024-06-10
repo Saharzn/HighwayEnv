@@ -145,7 +145,7 @@ class HighwayEnv(AbstractEnv):
     
     
     
-    def collision_modified(self,dt):
+    def collision_modified(self,action: Action):
         class_a_instance = IDMVehicle(self.vehicle.road,self.vehicle.position)
         d = class_a_instance.act(action)
         if (d<=8):
@@ -170,7 +170,7 @@ class HighwayEnv(AbstractEnv):
         #print(self.collision_modified(0.1))
         return {
             #"collision_reward": float(self.vehicle.crashed),
-            "collision_reward": 1*self.collision_modified(0.1),
+            "collision_reward": 1*self.collision_modified(action),
             "right_lane_reward": 0.65*lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
