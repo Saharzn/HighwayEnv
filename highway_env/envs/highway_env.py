@@ -147,7 +147,7 @@ class HighwayEnv(AbstractEnv):
     
     def collision_modified(self,action: Action):
         class_a_instance = IDMVehicle(self.vehicle.road,self.vehicle.position)
-        d = IDMVehicle.act(action)
+        d = IDMVehicle.collision_reward(action)
         print(d)
         if (d<=8):
             return self.config["collision_reward"]*(8-d)/8
