@@ -59,6 +59,11 @@ class IDMVehicle(ControlledVehicle):
         super().__init__(road, position, heading, speed, target_lane_index, target_speed, route)
         self.enable_lane_change = enable_lane_change
         self.timer = timer or (np.sum(self.position)*np.pi) % self.LANE_CHANGE_DELAY
+                     
+        self.front_vehicle, self.rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
+        if self.lane_index != self.target_lane_index:
+            self.front_vehicle, self.rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
+        
 
     def randomize_behavior(self):
         self.DELTA = self.road.np_random.uniform(low=self.DELTA_RANGE[0], high=self.DELTA_RANGE[1])
@@ -98,13 +103,13 @@ class IDMVehicle(ControlledVehicle):
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
 
         # Longitudinal: IDM
-        self.front_vehicle, self.rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
+        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
         action['acceleration'] = self.acceleration(ego_vehicle=self,
                                                    front_vehicle=front_vehicle,
                                                    rear_vehicle=rear_vehicle)
         # When changing lane, check both current and target lanes
         if self.lane_index != self.target_lane_index:
-            self.front_vehicle, self.rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
+            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
             target_idm_acceleration = self.acceleration(ego_vehicle=self,
                                                         front_vehicle=front_vehicle,
                                                         rear_vehicle=rear_vehicle)
