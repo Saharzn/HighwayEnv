@@ -123,11 +123,10 @@ class IDMVehicle(ControlledVehicle):
             d = self.lane_distance_to(front_vehicle)
         else:
             d = 1000
-        print(front_vehicle)
+        print(self.road.local_coordinates(front_vehicle.position)[0]- self.road.local_coordinates(self.position)[0])
         return d
  
-    def lane_distance_to(
-        self, other: "RoadObject", lane: "AbstractLane" = None) -> float:
+    def lane_distance_to(self, other: "RoadObject", lane: "AbstractLane" = None) -> float:
         """
         Compute the signed distance to another object along a lane.
 
