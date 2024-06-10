@@ -115,7 +115,8 @@ class IDMVehicle(ControlledVehicle):
             action['acceleration'] = min(action['acceleration'], target_idm_acceleration)
         # action['acceleration'] = self.recover_from_stop(action['acceleration'])
         action['acceleration'] = np.clip(action['acceleration'], -self.ACC_MAX, self.ACC_MAX)
-                
+        print(self.front_vehicle)
+        print(self.position)        
         Vehicle.act(self, action)  # Skip ControlledVehicle.act(), or the command will be overriden.
 
         
@@ -132,8 +133,6 @@ class IDMVehicle(ControlledVehicle):
             d = self.lane_distance_to(self.front_vehicle)
         else:
             d = 1000
-        print(self.front_vehicle)
-        print(self.position)
         return d
         
 
