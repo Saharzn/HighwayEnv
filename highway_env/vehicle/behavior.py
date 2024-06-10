@@ -116,20 +116,12 @@ class IDMVehicle(ControlledVehicle):
         else:
             d = 1000
         Vehicle.act(self, action)  # Skip ControlledVehicle.act(), or the command will be overriden.
-        return d
+
 
     
     
     
-    def collision_reward(self, action: Union[dict, str] = None):
-        """
-        Execute an action.
-
-        For now, no action is supported because the vehicle takes all decisions
-        of acceleration and lane changes on its own, based on the IDM and MOBIL models.
-
-        :param action: the action
-        """
+    def collision_reward(self, action):
         action = {}
         # Lateral: MOBIL
         self.follow_road()
