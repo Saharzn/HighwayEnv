@@ -194,11 +194,11 @@ class IDMVehicle(ControlledVehicle):
             max(ego_vehicle.speed, 0) / abs(utils.not_zero(ego_target_speed)), self.DELTA))
 
         if front_vehicle:
-            d = ego_vehicle.lane_distance_to(front_vehicle)
+            self.d = ego_vehicle.lane_distance_to(front_vehicle)
             acceleration -= self.COMFORT_ACC_MAX * \
                 np.power(self.desired_gap(ego_vehicle, front_vehicle) / utils.not_zero(d), 2)
         else:
-            d = 1000
+            self.d = 1000
         return acceleration
 
     def desired_gap(self, ego_vehicle: Vehicle, front_vehicle: Vehicle = None, projected: bool = True) -> float:
