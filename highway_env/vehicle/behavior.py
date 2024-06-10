@@ -116,39 +116,11 @@ class IDMVehicle(ControlledVehicle):
         else:
             d = 1000
         Vehicle.act(self, action)  # Skip ControlledVehicle.act(), or the command will be overriden.
-
-
-    
-    
-    
-    def collision_reward(self, action):
-        action = {}
-        # Lateral: MOBIL
-        self.follow_road()
-        if self.enable_lane_change:
-            self.change_lane_policy()
-        action['steering'] = self.steering_control(self.target_lane_index)
-        action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
-
-        # Longitudinal: IDM
-        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
-        action['acceleration'] = self.acceleration(ego_vehicle=self,
-                                                   front_vehicle=front_vehicle,
-                                                   rear_vehicle=rear_vehicle)
-        # When changing lane, check both current and target lanes
-        if self.lane_index != self.target_lane_index:
-            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
-            target_idm_acceleration = self.acceleration(ego_vehicle=self,
-                                                        front_vehicle=front_vehicle,
-                                                        rear_vehicle=rear_vehicle)
-            action['acceleration'] = min(action['acceleration'], target_idm_acceleration)
-        # action['acceleration'] = self.recover_from_stop(action['acceleration'])
-        action['acceleration'] = np.clip(action['acceleration'], -self.ACC_MAX, self.ACC_MAX)
-        if front_vehicle:
-            d = self.lane_distance_to(front_vehicle)
-        else:
-            d = 1000
         return d
+
+
+    
+    
     
     
     def collision_reward_1(self):
