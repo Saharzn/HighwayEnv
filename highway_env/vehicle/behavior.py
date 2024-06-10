@@ -126,6 +126,23 @@ class IDMVehicle(ControlledVehicle):
         print(front_vehicle)
         return d
  
+    def lane_distance_to(
+        self, other: "RoadObject", lane: "AbstractLane" = None) -> float:
+        """
+        Compute the signed distance to another object along a lane.
+
+        :param other: the other object
+        :param lane: a lane
+        :return: the distance to the other other [m]
+        """
+        if not other:
+            return np.nan
+        if not lane:
+            lane = self.lane
+        return (
+            lane.local_coordinates(other.position)[0]
+            - lane.local_coordinates(self.position)[0]
+        )
     
     def lane_center(self):
 
