@@ -128,7 +128,7 @@ class IDMVehicle(ControlledVehicle):
     
     
     
-    def collision_reward_1(self):
+    def collision_reward(self):
         return 5   
         
     
