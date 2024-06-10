@@ -98,13 +98,13 @@ class IDMVehicle(ControlledVehicle):
         action['steering'] = np.clip(action['steering'], -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
 
         # Longitudinal: IDM
-        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
+        self.front_vehicle, self.rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
         action['acceleration'] = self.acceleration(ego_vehicle=self,
                                                    front_vehicle=front_vehicle,
                                                    rear_vehicle=rear_vehicle)
         # When changing lane, check both current and target lanes
         if self.lane_index != self.target_lane_index:
-            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
+            self.front_vehicle, self.rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
             target_idm_acceleration = self.acceleration(ego_vehicle=self,
                                                         front_vehicle=front_vehicle,
                                                         rear_vehicle=rear_vehicle)
@@ -118,14 +118,14 @@ class IDMVehicle(ControlledVehicle):
         
     
     def collision_reward(self, ego_vehicle: ControlledVehicle):
-        self.follow_road()
+        #self.follow_road()
         # Longitudinal: IDM
-        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
+        #front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
         # When changing lane, check both current and target lanes
-        if self.lane_index != self.target_lane_index:
-            front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
-        if front_vehicle:
-            d = self.lane_distance_to(front_vehicle)
+        #if self.lane_index != self.target_lane_index:
+         #   front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
+        if self.front_vehicle:
+            d = self.lane_distance_to(self.front_vehicle)
         else:
             d = 1000
         print(d)
