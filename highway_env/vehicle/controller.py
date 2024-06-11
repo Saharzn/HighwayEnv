@@ -514,8 +514,45 @@ class ControlledVehicle(Vehicle):
             route=vehicle.route,
         )
         return v
+    def collision_reward(self, action):
+        
+        self.follow_road()
+        if self.enable_lane_change:
+            self.change_lane_policy()
 
-    def plan_route_to(self, destination: str) -> "ControlledVehicle":
+        # Longitudinal: IDM
+        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
+        # When changing lane, check both current and target lanes
+        #if self.lane_index != self.target_lane_index:
+         #   front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.target_lane_index)
+        if front_vehicle:
+            d = self.lane_distance_to(front_vehicle)
+        else:
+            d = 1000
+        print(front_vehicle)
+        print(self.position)
+        return d
+        
+
+ 
+    def lane_distance_to(self, other: "RoadObject", lane: "AbstractLane" = None) -> float:
+        """
+        Compute the signed distance to another object along a lane.
+
+        :param other: the other object
+        :param lane: a lane
+        :return: the distance to the other other [m]
+        """
+        if not other:
+            return np.nan
+        if not lane:
+            lane = self.lane
+        return (
+            lane.local_coordinates(other.position)[0]
+            - lane.local_coordinates(self.position)[0]
+        )
+    
+  def plan_route_to(self, destination: str) -> "ControlledVehicle":
         """
         Plan a route to a destination in the road network
 
