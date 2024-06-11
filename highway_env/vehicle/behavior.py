@@ -117,8 +117,8 @@ class IDMVehicle(ControlledVehicle):
             d = 1000
         #print(d)
         Vehicle.act(self, action)  # Skip ControlledVehicle.act(), or the command will be overriden.
-        print(d)
         return d
+        print(d)
 
 
         
