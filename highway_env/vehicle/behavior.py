@@ -158,6 +158,7 @@ class IDMVehicle(ControlledVehicle):
         else:
             d = 1000
         print(d)
+        Vehicle.act(self, action) 
         return d
     
     
