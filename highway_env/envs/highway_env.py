@@ -148,7 +148,7 @@ class HighwayEnv(AbstractEnv):
     
     def collision_modified(self,action):
         class_a_instance = IDMVehicle(self.road,self.vehicle.position)
-        print("h:", self.road)
+        print("h:", self.vehicle.position)
         #class_a_instance = ControlledVehicle(self.road,self.vehicle.position)
         d = class_a_instance.act(action)
         #print(d)
