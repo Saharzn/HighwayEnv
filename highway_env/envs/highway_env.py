@@ -146,7 +146,7 @@ class HighwayEnv(AbstractEnv):
     
     
     
-def collision_modified(self,dt):
+    def collision_modified(self,dt):
         class_a_instance = IDMVehicle(self.vehicle.road,self.vehicle.position)
         d = class_a_instance.collision_reward(self.vehicle)
         if (d<=8):
