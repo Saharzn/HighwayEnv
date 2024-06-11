@@ -112,7 +112,7 @@ class IDMVehicle(ControlledVehicle):
         # action['acceleration'] = self.recover_from_stop(action['acceleration'])
         action['acceleration'] = np.clip(action['acceleration'], -self.ACC_MAX, self.ACC_MAX)
         if front_vehicle:
-            d = ego_vehicle.lane_distance_to(front_vehicle)
+            d = vehicle.lane_distance_to(front_vehicle)
         else:
             d = 1000
         print(d)
