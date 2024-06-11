@@ -52,7 +52,8 @@ class HighwayEnv(AbstractEnv):
             "reward_speed_range": [15, 30],
             "normalize_reward": False,
             "offroad_terminal": False,
-            "Z": 0
+            "Z": 0,
+            "centerlane": 2
         })
         return config
     
@@ -171,14 +172,14 @@ class HighwayEnv(AbstractEnv):
         forward_speed = self.vehicle.speed * np.cos(self.vehicle.heading)
         scaled_speed = utils.lmap(forward_speed, self.config["reward_speed_range"], [0, 1])
         #print(self.collision_modified(0.1))
+        #"collision_reward": 1*self.collision_modified(),
         return {
-            #"collision_reward": float(self.vehicle.crashed),
-            "collision_reward": 1*self.collision_modified(),
-            "right_lane_reward": 0.65*lane / max(len(neighbours) - 1, 1),
+            "collision_reward": float(self.vehicle.crashed),
+            "right_lane_reward": lane / max(len(neighbours) - 1, 1),
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
             "fuel_reward": -self.fuel(action),
-            "centerlane": -0*abs(self.center_lane_reward())
+            "centerlane": -abs(self.center_lane_reward()
         }
      
 
