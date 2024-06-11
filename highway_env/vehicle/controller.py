@@ -552,7 +552,7 @@ class ControlledVehicle(Vehicle):
             - lane.local_coordinates(self.position)[0]
         )
     
-  def plan_route_to(self, destination: str) -> "ControlledVehicle":
+    def plan_route_to(self, destination: str) -> "ControlledVehicle":
         """
         Plan a route to a destination in the road network
 
