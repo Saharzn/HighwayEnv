@@ -517,8 +517,6 @@ class ControlledVehicle(Vehicle):
     def collision_reward(self):
         
         self.follow_road()
-        if self.enable_lane_change:
-            self.change_lane_policy()
 
         # Longitudinal: IDM
         front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.lane_index)
