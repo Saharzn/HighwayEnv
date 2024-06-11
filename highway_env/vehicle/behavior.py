@@ -135,6 +135,7 @@ class IDMVehicle(ControlledVehicle):
             d = self.lane_distance_to(front_vehicle)
         else:
             d = 1000
+        print("h:", d)
         return d
         
 
