@@ -138,6 +138,7 @@ class IDMVehicle(ControlledVehicle):
         else:
             d = 1000
         print(front_vehicle)
+        print(self.vehicle)
         return d
         
 
