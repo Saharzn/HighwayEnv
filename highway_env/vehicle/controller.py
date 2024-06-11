@@ -514,7 +514,7 @@ class ControlledVehicle(Vehicle):
             route=vehicle.route,
         )
         return v
-    def collision_reward(self, action):
+    def collision_reward(self):
         
         self.follow_road()
         if self.enable_lane_change:
