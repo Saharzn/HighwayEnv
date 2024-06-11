@@ -115,7 +115,7 @@ class IDMVehicle(ControlledVehicle):
             d = self.lane_distance_to(front_vehicle)
         else:
             d = 1000
-        print("hh:", self.position)
+        print("hh:", d)
         Vehicle.act(self, action)  # Skip ControlledVehicle.act(), or the command will be overriden.
         return 5
 
