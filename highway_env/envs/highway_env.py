@@ -153,7 +153,7 @@ class HighwayEnv(AbstractEnv):
         
         class_a_instance = ContinuousAction(AbstractEnv)
         d = class_a_instance.collision_reward(self.vehicle,self.vehicle.road,self.vehicle.position)
-        #print("env:",d)
+        print("env:",d)
         if (d<=8):
             return self.config["collision_reward"]*(8-d)/8
         else:
