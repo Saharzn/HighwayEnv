@@ -189,7 +189,7 @@ class ContinuousAction(ActionType):
          # front_vehicle, rear_vehicle = Road.neighbour_vehicles(VEHICLE, self.target_lane_index)
         if front_vehicle:
             #d = self.lane_distance_to(VEHICLE,front_vehicle)
-            d = abs(other.position[0]-VEHICLE.position[0])
+            d = abs(front_vehicle.position[0]-VEHICLE.position[0])
         else:
             d = 1000
         return d
