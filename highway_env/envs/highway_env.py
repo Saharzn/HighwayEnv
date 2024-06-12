@@ -149,7 +149,7 @@ class HighwayEnv(AbstractEnv):
     
     def collision_modified(self,dt):
         #class_a_instance = IDMVehicle(self.vehicle.road,self.vehicle.position)
-        class_a_instance = ContinuousAction(self.env)
+        class_a_instance = ContinuousAction(env:AbstractEnv)
         #d = class_a_instance.collision_reward(self.vehicle)
         d = class_a_instance.collision_reward(self.vehicle)
         print(d)
