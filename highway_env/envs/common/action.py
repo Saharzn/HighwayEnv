@@ -185,12 +185,12 @@ class ContinuousAction(ActionType):
         # Longitudinal: IDM
         front_vehicle, rear_vehicle = Road.neighbour_vehicles(self, class_a_instance.lane_index)
         # When changing lane, check both current and target lanes
-        #if class_a_instance.lane_index != self.target_lane_index:
-         # front_vehicle, rear_vehicle = Road.neighbour_vehicles(self, self.target_lane_index)
+        if class_a_instance.lane_index != self.target_lane_index:
+          front_vehicle, rear_vehicle = Road.neighbour_vehicles(self, self.target_lane_index)
         #if front_vehicle:
          #   d = ControlledVehicle.lane_distance_to(front_vehicle)
         #else:
-            d = 1000
+        d = 1000
         return d
 
 
