@@ -182,33 +182,21 @@ class ContinuousAction(ActionType):
 
     def collision_reward(self, VEHICLE, Road, Position):
         class_a_instance = ControlledVehicle(Road,Position)
+        
         # Longitudinal: IDM
         front_vehicle, rear_vehicle = Road.neighbour_vehicles(VEHICLE, class_a_instance.lane_index)
+        
         # When changing lane, check both current and target lanes
-        #if class_a_instance.lane_index != self.target_lane_index:
-         # front_vehicle, rear_vehicle = Road.neighbour_vehicles(VEHICLE, self.target_lane_index)
+        if class_a_instance.lane_index != self.target_lane_index:
+          front_vehicle, rear_vehicle = Road.neighbour_vehicles(VEHICLE, self.target_lane_index)
+            
         if front_vehicle:
-            #d = self.lane_distance_to(VEHICLE,front_vehicle)
             d = abs(front_vehicle.position[0]-VEHICLE.position[0])
         else:
             d = 1000
+        print("action:",d)
         return d
-    def lane_distance_to(VEHICLE, other: "RoadObject", lane: "AbstractLane" = None) -> float:
-        """
-        Compute the signed distance to another object along a lane.
 
-        :param other: the other object
-        :param lane: a lane
-        :return: the distance to the other other [m]
-        """
-        if not other:
-            return np.nan
-        if not lane:
-            lane = self.lane
-        return (
-            lane.local_coordinates(other.position)[0]
-            - lane.local_coordinates(VEHICLE.position)[0]
-        )
 
 
 class DiscreteAction(ContinuousAction):
