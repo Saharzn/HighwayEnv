@@ -187,10 +187,10 @@ class ContinuousAction(ActionType):
         # When changing lane, check both current and target lanes
         #if class_a_instance.lane_index != self.target_lane_index:
          # front_vehicle, rear_vehicle = Road.neighbour_vehicles(VEHICLE, self.target_lane_index)
-        #if front_vehicle:
-         #   d = ControlledVehicle.lane_distance_to(front_vehicle)
-        #else:
-        d = 1000
+        if front_vehicle:
+            d = ControlledVehicle.lane_distance_to(front_vehicle)
+        else:
+            d = 1000
         return d
 
 
