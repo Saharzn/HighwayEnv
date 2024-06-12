@@ -5,6 +5,7 @@ import numpy as np
 from highway_env import utils
 from highway_env.envs.common.abstract import AbstractEnv
 from highway_env.envs.common.action import Action
+from highway_env.envs.common.action import ContinuousAction
 from highway_env.road.road import Road, RoadNetwork
 from highway_env.utils import near_split
 from highway_env.vehicle.controller import ControlledVehicle
@@ -148,7 +149,8 @@ class HighwayEnv(AbstractEnv):
     
     def collision_modified(self,dt):
         class_a_instance = IDMVehicle(self.vehicle.road,self.vehicle.position)
-        d = class_a_instance.collision_reward(self.vehicle)
+        #d = class_a_instance.collision_reward(self.vehicle)
+        d = ContinuousAction.collision_reward(self.vehicle)
         print(d)
         if (d<=8):
             return self.config["collision_reward"]*(8-d)/8
