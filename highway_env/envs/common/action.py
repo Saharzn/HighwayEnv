@@ -180,14 +180,12 @@ class ContinuousAction(ActionType):
             }) 
         self.last_action = action
 
-    def collision_reward(self, ego_vehicle: ControlledVehicle):
+    def collision_reward(self, Road):
         # Longitudinal: IDM
-        front_vehicle, rear_vehicle = self.controlled_vehicle.road.neighbour_vehicles(self, self.controlled_vehicle.lane_index)
+        front_vehicle, rear_vehicle = Road.neighbour_vehicles(self, self.controlled_vehicle.lane_index)
         # When changing lane, check both current and target lanes
-        #if self.lane_index != self.target_lane_index:
-          # front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self, self.controlled_vehicle.target_lane_index)
         if self.controlled_vehicle.lane_index != self.controlled_vehicle.target_lane_index:
-          front_vehicle, rear_vehicle = self.controlled_vehicle.road.neighbour_vehicles(self, self.controlled_vehicle.target_lane_index)
+          front_vehicle, rear_vehicle = Road.neighbour_vehicles(self, self.controlled_vehicle.target_lane_index)
         if front_vehicle:
             d = ControlledVehicle.lane_distance_to(front_vehicle)
         else:
