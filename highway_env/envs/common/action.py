@@ -1,4 +1,4 @@
-cimport functools
+import functools
 import itertools
 from typing import TYPE_CHECKING, Optional, Union, Tuple, Callable, List
 from gymnasium import spaces
