@@ -181,8 +181,9 @@ class ContinuousAction(ActionType):
         self.last_action = action
 
     def collision_reward(self, Road):
+        class_a_instance = ControlledVehicle(Road,Position)
         # Longitudinal: IDM
-        front_vehicle, rear_vehicle = Road.neighbour_vehicles(self, ControlledVehicle.lane_index)
+        front_vehicle, rear_vehicle = Road.neighbour_vehicles(self, class_a_instance.lane_index)
         # When changing lane, check both current and target lanes
         if ControlledVehicle.lane_index != self.target_lane_index:
           front_vehicle, rear_vehicle = Road.neighbour_vehicles(self, self.target_lane_index)
