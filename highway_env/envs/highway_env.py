@@ -145,19 +145,32 @@ class HighwayEnv(AbstractEnv):
             F22 = F2
         return F11/max_fuel_1
     
-    
-    
     def collision_modified(self,dt):
-        #class_a_instance = IDMVehicle(self.vehicle.road,self.vehicle.position)
-        #d = class_a_instance.collision_reward(self.vehicle)
+        class_a_instance = ControlledVehicle(self.road,self.position)
+        # Longitudinal: IDM
+        front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.lane_index)
+
+        # When changing lane, check both current and target lanes
+        if class_a_instance.lane_index != class_a_instance.target_lane_index:
+          front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.target_lane_index)
         
-        class_a_instance = ContinuousAction(AbstractEnv)
-        d = class_a_instance.collision_reward(self.vehicle,self.vehicle.road,self.vehicle.position)
-        #print("env:",d)
+        if front_vehicle:
+            d = abs(front_vehicle.position[0]-self.position[0])
+        else:
+            d = 1000
+
         if (d<=30):
             return self.config["collision_reward"]*(30-d)/30
         else:
             return 1
+        
+        
+        #class_a_instance = IDMVehicle(self.vehicle.road,self.vehicle.position)
+        #d = class_a_instance.collision_reward(self.vehicle)
+        
+        #class_a_instance = ContinuousAction(AbstractEnv)
+        #d = class_a_instance.collision_reward(self.vehicle,self.vehicle.road,self.vehicle.position)
+        #print("env:",d)
     
     def center_lane_reward(self):
 
