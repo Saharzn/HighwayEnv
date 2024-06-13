@@ -146,7 +146,7 @@ class HighwayEnv(AbstractEnv):
         return F11/max_fuel_1
     
     def collision_modified(self,dt):
-        class_a_instance = ControlledVehicle(self.road,self.position)
+        class_a_instance = ControlledVehicle(self.road,self.vehicle.position)
         # Longitudinal: IDM
         front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.lane_index)
 
@@ -155,7 +155,7 @@ class HighwayEnv(AbstractEnv):
           front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.target_lane_index)
         
         if front_vehicle:
-            d = abs(front_vehicle.position[0]-self.position[0])
+            d = abs(front_vehicle.position[0]-self.vehicle.position[0])
         else:
             d = 1000
 
