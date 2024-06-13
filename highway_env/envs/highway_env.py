@@ -157,7 +157,7 @@ class HighwayEnv(AbstractEnv):
         if (d<=30):
             return self.config["collision_reward"]*(30-d)/30
         else:
-            return 0
+            return 1
     
     def center_lane_reward(self):
 
