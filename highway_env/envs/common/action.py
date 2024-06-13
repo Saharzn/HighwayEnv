@@ -194,7 +194,7 @@ class ContinuousAction(ActionType):
             d = abs(front_vehicle.position[0]-VEHICLE.position[0])
         else:
             d = 1000
-        #print("action:",d)
+        print("front:", front_vehicle, "ev:", VEHICLE)
         return d
 
 
