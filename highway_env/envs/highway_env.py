@@ -98,7 +98,9 @@ class HighwayEnv(AbstractEnv):
         #We apply the action to find different values for each reward function
         rewards = self._rewards(action)
         #then we sum up each reward element to get the final reward value
-        reward = sum(self.config.get(name, 0) * reward for name, reward in rewards.items())
+        #reward = sum(self.config.get(name, 0) * reward for name, reward in rewards.items())
+        reward = sum(self.config.get(name, 0) * reward for name, reward in rewards.items())*self.collision_modified(0.1)
+        #normalize the reward
         #normalize the reward
         if self.config["normalize_reward"]:
             reward = utils.lmap(reward,
@@ -151,8 +153,8 @@ class HighwayEnv(AbstractEnv):
         front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.lane_index)
 
         # When changing lane, check both current and target lanes
-        #if class_a_instance.lane_index != class_a_instance.target_lane_index:
-         # front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.target_lane_index)
+        if class_a_instance.lane_index != class_a_instance.target_lane_index:
+          front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.target_lane_index)
         
         if front_vehicle:
             d = abs(front_vehicle.position[0]-self.vehicle.position[0])
@@ -162,7 +164,7 @@ class HighwayEnv(AbstractEnv):
         if d>=8:
             return 1
         else:
-            return -3
+            return 0
 
         #if (d<=30):
          #   return self.config["collision_reward"]*(30-d)/30
