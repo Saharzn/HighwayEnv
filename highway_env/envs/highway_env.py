@@ -151,18 +151,26 @@ class HighwayEnv(AbstractEnv):
         front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.lane_index)
 
         # When changing lane, check both current and target lanes
-        if class_a_instance.lane_index != class_a_instance.target_lane_index:
-          front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.target_lane_index)
+        #if class_a_instance.lane_index != class_a_instance.target_lane_index:
+         # front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.target_lane_index)
         
         if front_vehicle:
             d = abs(front_vehicle.position[0]-self.vehicle.position[0])
         else:
             d = 1000
-
-        if (d<=30):
-            return self.config["collision_reward"]*(30-d)/30
-        else:
+        
+        if d>=10:
             return 1
+        elif 5<=d<10:
+            return -1
+        else:
+            return -3
+
+        #if (d<=30):
+         #   return self.config["collision_reward"]*(30-d)/30
+        #else:
+         #return 1
+
         
         
         #class_a_instance = IDMVehicle(self.vehicle.road,self.vehicle.position)
