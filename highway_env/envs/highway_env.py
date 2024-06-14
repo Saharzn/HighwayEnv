@@ -159,12 +159,10 @@ class HighwayEnv(AbstractEnv):
         else:
             d = 1000
         
-        if d>=10:
+        if d>=8:
             return 1
-        elif 5<=d<10:
-            return -1
         else:
-            return -3
+            return -1
 
         #if (d<=30):
          #   return self.config["collision_reward"]*(30-d)/30
@@ -203,7 +201,7 @@ class HighwayEnv(AbstractEnv):
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
             "fuel_reward": -self.fuel(action),
-            "centerlane": -abs(self.center_lane_reward())
+            #"centerlane": -abs(self.center_lane_reward())
         }
      
 
