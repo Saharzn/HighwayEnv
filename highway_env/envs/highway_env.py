@@ -162,7 +162,7 @@ class HighwayEnv(AbstractEnv):
         if d>=8:
             return 1
         else:
-            return -1
+            return -3
 
         #if (d<=30):
          #   return self.config["collision_reward"]*(30-d)/30
