@@ -98,8 +98,7 @@ class HighwayEnv(AbstractEnv):
         #We apply the action to find different values for each reward function
         rewards = self._rewards(action)
         #then we sum up each reward element to get the final reward value
-        #reward = sum(self.config.get(name, 0) * reward for name, reward in rewards.items())
-        reward = sum(self.config.get(name, 0) * reward for name, reward in rewards.items())*self.collision_modified(0.1)
+        reward = sum(self.config.get(name, 0) * reward for name, reward in rewards.items())
         #normalize the reward
         #normalize the reward
         if self.config["normalize_reward"]:
@@ -164,7 +163,7 @@ class HighwayEnv(AbstractEnv):
         if d>=8:
             return 1
         else:
-            return 0
+            return -3
 
         #if (d<=30):
          #   return self.config["collision_reward"]*(30-d)/30
@@ -203,7 +202,7 @@ class HighwayEnv(AbstractEnv):
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
             "fuel_reward": -self.fuel(action),
-            "centerlane": -abs(self.center_lane_reward())
+            #"centerlane": -abs(self.center_lane_reward())
         }
      
 
