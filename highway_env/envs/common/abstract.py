@@ -182,7 +182,7 @@ class AbstractEnv(gym.Env):
             #"acc": self.ac_sahar1(action),
             #"target_speed": self.target_sahar(action),
             "time": self.time, 
-            #"fuel": self.fuel1(action),
+            "fuel": self.fuel1(action),
             "pos": self.vehicle.position[0],
             "index": self.vehicle.lane_index,
             "steering":utils.lmap(class_a_instance.discrete_steering(action), [-1, 1], (-np.pi / 4, np.pi / 4)),
