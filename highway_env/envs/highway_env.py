@@ -152,8 +152,8 @@ class HighwayEnv(AbstractEnv):
         front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.lane_index)
 
         # When changing lane, check both current and target lanes
-        if class_a_instance.lane_index != class_a_instance.target_lane_index:
-          front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.target_lane_index)
+        #if class_a_instance.lane_index != class_a_instance.target_lane_index:
+         # front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.target_lane_index)
         
         if front_vehicle:
             d = abs(front_vehicle.position[0]-self.vehicle.position[0])
@@ -202,7 +202,7 @@ class HighwayEnv(AbstractEnv):
             "high_speed_reward": np.clip(scaled_speed, 0, 1),
             "on_road_reward": float(self.vehicle.on_road),
             "fuel_reward": -self.fuel(action),
-            #"centerlane": -abs(self.center_lane_reward())
+            "centerlane": -abs(self.center_lane_reward())
         }
      
 
