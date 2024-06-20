@@ -152,8 +152,8 @@ class HighwayEnv(AbstractEnv):
         front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.lane_index)
 
         # When changing lane, check both current and target lanes
-        if class_a_instance.lane_index != class_a_instance.target_lane_index:
-          front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.target_lane_index)
+        #if class_a_instance.lane_index != class_a_instance.target_lane_index:
+         # front_vehicle, rear_vehicle = self.road.neighbour_vehicles(self.vehicle, class_a_instance.target_lane_index)
         
         if front_vehicle:
             d = abs(front_vehicle.position[0]-self.vehicle.position[0])
