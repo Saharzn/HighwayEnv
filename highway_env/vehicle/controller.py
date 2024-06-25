@@ -632,7 +632,7 @@ class ControlledVehicle(Vehicle):
         steering_angle = np.arctan(2 * np.tan(slip_angle))
         target_lane = self.road.network.get_lane(target_lane_index)
         lane_coords = target_lane.local_coordinates(self.position)
-        steering_angle = 0.1*lane_coords[1]
+        steering_angle = 0.01*lane_coords[1]
         steering_angle = np.clip(
             steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE
         )
