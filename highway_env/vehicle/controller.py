@@ -620,6 +620,7 @@ class ControlledVehicle(Vehicle):
             heading_ref - self.heading
         )
         # Heading rate to steering angle
+        self.LENGTH = 4
         slip_angle = np.arcsin(
             np.clip(
                 self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command,
