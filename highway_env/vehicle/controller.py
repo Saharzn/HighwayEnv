@@ -620,23 +620,18 @@ class ControlledVehicle(Vehicle):
             heading_ref - self.heading
         )
         # Heading rate to steering angle
-        #slip_angle = np.arcsin(
-         #   np.clip(
-          #      self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command,
-           #     -1,
-            #    1,
-            #)
-        #)
-
-
         slip_angle = np.arcsin(
             np.clip(
-                4 / 2 / utils.not_zero(self.speed) * heading_rate_command,
+                self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command,
                 -1,
                 1,
             )
         )
+
         steering_angle = np.arctan(2 * np.tan(slip_angle))
+
+        class_a_instance = IDMVehicle(self.road,self.position)
+        steering_angle = 0.1*class_a_instance.lane_center()
         steering_angle = np.clip(
             steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE
         )
