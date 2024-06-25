@@ -161,7 +161,7 @@ class HighwayEnv(AbstractEnv):
         else:
             d = 1000
         
-        if d>=5+0.2*self.vehicle.speed:
+        if d>=5+0.3*self.vehicle.speed:
             return 1
         else:
             return -3
