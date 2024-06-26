@@ -19,7 +19,7 @@ class RegulatedRoad(Road):
         self.steps = 0
 
     def step(self, dt: float) -> None:
-        dt = 0.05
+        dt = 0.25
         self.steps += 1
         if self.steps % int(1 / dt / self.REGULATION_FREQUENCY) == 0:
             self.enforce_road_rules()
