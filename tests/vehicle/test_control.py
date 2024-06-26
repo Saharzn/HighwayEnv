@@ -4,7 +4,7 @@ from highway_env.road.lane import StraightLane
 from highway_env.road.road import Road, RoadNetwork
 from highway_env.vehicle.controller import ControlledVehicle
 
-FPS = 15
+FPS = 20
 
 
 def test_step():
