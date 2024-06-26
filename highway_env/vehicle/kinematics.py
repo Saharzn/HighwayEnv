@@ -133,7 +133,6 @@ class Vehicle(RoadObject):
         if abs(self.heading)<0.02:
             self.heading = 0
         self.speed += self.action['acceleration'] * dt
-        print(dt)
         self.on_state_update()
 
     def clip_actions(self) -> None:
