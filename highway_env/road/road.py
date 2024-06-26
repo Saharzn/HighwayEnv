@@ -342,6 +342,7 @@ class Road(object):
 
         :param dt: timestep [s]
         """
+        dt = 0.1
         for vehicle in self.vehicles:
             vehicle.step(dt)
         for i, vehicle in enumerate(self.vehicles):
