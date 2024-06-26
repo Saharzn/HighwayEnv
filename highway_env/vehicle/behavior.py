@@ -168,7 +168,7 @@ class IDMVehicle(ControlledVehicle):
 
         :param dt: timestep
         """
-        dt = 0.3
+        dt = 0.25
         self.timer += dt
         super().step(dt)
 
