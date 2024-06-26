@@ -4,7 +4,7 @@ from highway_env.vehicle.objects import Obstacle
 from highway_env.road.road import Road, RoadNetwork
 from highway_env.vehicle.behavior import IDMVehicle, LinearVehicle
 
-FPS = 20
+FPS = 15
 vehicle_types = [IDMVehicle, LinearVehicle]
 
 
