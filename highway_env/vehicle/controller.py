@@ -894,7 +894,7 @@ class MDPVehicle(ControlledVehicle):
         states = []
         v = copy.deepcopy(self)
         t = 0
-        dt = 0.05
+        dt = 0.01
         for action in actions:
             v.act(action)  # High-level decision
             for _ in range(int(action_duration / dt)):
