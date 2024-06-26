@@ -4,7 +4,7 @@ from highway_env.road.road import Road, RoadNetwork
 from highway_env.vehicle.kinematics import Vehicle
 from highway_env.vehicle.objects import Obstacle, Landmark
 
-FPS = 20
+FPS = 15
 
 
 def test_step():
