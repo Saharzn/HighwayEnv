@@ -693,7 +693,7 @@ class ControlledVehicle(Vehicle):
                self.target_lane_index = None  # Reset target lane index
             else:
                s = self.steering_control(self.lane_index)
-      return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
+        return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
     
     def speed_control(self, target_speed: float) -> float:
         """
