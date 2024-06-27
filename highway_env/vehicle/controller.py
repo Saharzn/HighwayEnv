@@ -470,7 +470,7 @@ class ControlledVehicle(Vehicle):
 
     """Characteristic time"""
     TAU_ACC = 0.6  # [s]
-    TAU_HEADING = 0.5  # [s]
+    TAU_HEADING = 0.2  # [s]
     TAU_LATERAL = 0.6  # [s]
   
     TAU_PURSUIT = 0.5 * TAU_HEADING  # [s]
@@ -613,9 +613,11 @@ class ControlledVehicle(Vehicle):
         heading_command = np.arcsin(
             np.clip(lateral_speed_command / utils.not_zero(self.speed), -1, 1)
         )
-        heading_ref = lane_future_heading + np.clip(
-            heading_command, -np.pi / 4, np.pi / 4
-        )
+        #heading_ref = lane_future_heading + np.clip(
+         #   heading_command, -np.pi / 4, np.pi / 4
+        #)
+        heading_ref = lane_future_heading + heading_command
+      
         # Heading control
         heading_rate_command = self.KP_HEADING * utils.wrap_to_pi(
             heading_ref - self.heading
