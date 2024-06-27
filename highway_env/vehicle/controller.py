@@ -638,7 +638,7 @@ class ControlledVehicle(Vehicle):
 
    
 
-    def discrete_steering(self, action):
+    def discrete_steering_1(self, action):
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
     
         # Initial steering based on current lane
@@ -688,7 +688,7 @@ class ControlledVehicle(Vehicle):
         
         return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
 
-    def discrete_steering_default(self,action):
+    def discrete_steering(self,action):
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
         s = self.steering_control(self.lane_index)
       
