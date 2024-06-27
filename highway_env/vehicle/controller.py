@@ -687,7 +687,7 @@ class ControlledVehicle(Vehicle):
         
     return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
   
-  def discrete_steering_1(self,action):
+    def discrete_steering_1(self,action):
 
   
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
