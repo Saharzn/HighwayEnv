@@ -636,7 +636,7 @@ class ControlledVehicle(Vehicle):
       
     def discrete_steering(self,action):
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
-        s = self.steering_control(self.lane_index)
+        s = 0
       
 
         # middle lane
