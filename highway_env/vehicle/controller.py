@@ -639,7 +639,7 @@ class ControlledVehicle(Vehicle):
      
         target_lane = self.road.network.get_lane(self.lane_index)
         lane_coords = target_lane.local_coordinates(self.position)
-        if lane_coords[1]<0.5:
+        if abs(lane_coords[1])<0.3:
           s = 0
         else:
           s = self.steering_control(self.lane_index)
