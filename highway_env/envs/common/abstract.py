@@ -175,9 +175,10 @@ class AbstractEnv(gym.Env):
         :return: info dict
         """
         
-        target_lane = self.road.network.get_lane(self.lane_index)
-        lane_coords = target_lane.local_coordinates(self.position)
         class_a_instance = ControlledVehicle(self.vehicle.road,self.vehicle.position)
+        target_lane = ControlledVehicle.road.network.get_lane(self.vehicle.lane_index)
+        lane_coords = target_lane.local_coordinates(self.vehicle.position)
+        
         info = {
             "lateral":lane_coords[1],
             "speed": self.vehicle.speed,
