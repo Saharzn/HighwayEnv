@@ -630,7 +630,7 @@ class ControlledVehicle(Vehicle):
         )
         steering_angle = np.arctan(2 * np.tan(slip_angle))
         steering_angle = np.clip(
-            slip_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE
+            steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE
         )
         return float(steering_angle)
 
