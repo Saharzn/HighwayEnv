@@ -179,7 +179,7 @@ class AbstractEnv(gym.Env):
         lane_coords = target_lane.local_coordinates(self.position)
         class_a_instance = ControlledVehicle(self.vehicle.road,self.vehicle.position)
         info = {
-            "lateral":lane_coords[1]
+            "lateral":lane_coords[1],
             "speed": self.vehicle.speed,
             "crashed": self.vehicle.crashed,
             #"action": action,
