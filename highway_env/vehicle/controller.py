@@ -637,59 +637,9 @@ class ControlledVehicle(Vehicle):
     
 
 
-    def discrete_steering(self, action):
-     STEERING_RANGE = (-np.pi / 4, np.pi / 4)
-    
-    # Initial steering based on current lane
-    s = 0
-    
-    # Constants for alignment
-    ALIGNMENT_THRESHOLD = 0.1  # Threshold for lane alignment
-    LANE_CHANGE_COMPLETION_THRESHOLD = 0.05  # Threshold for completing a lane change
-    
-    # Middle lane actions
-    if self.lane_index[2] == 1 and Vehicle.on_road:
-        if action[1] < -0.5:
-            # Change to left
-            _from, _to, _id = self.target_lane_index
-            target_lane_index = _from, _to, max(_id - 1, 0)
-            self.target_lane_index = target_lane_index
-        elif action[1] > 0.5:
-            # Change to right
-            _from, _to, _id = self.target_lane_index
-            target_lane_index = _from, _to, min(_id + 1, len(self.road.network.graph[_from][_to]) - 1)
-            self.target_lane_index = target_lane_index
-
-    # Left lane actions
-    elif self.lane_index[2] == 0 and action[1] > 0.5 and Vehicle.on_road:
-        # Change to right
-        _from, _to, _id = self.target_lane_index
-        target_lane_index = _from, _to, min(_id + 1, len(self.road.network.graph[_from][_to]) - 1)
-        self.target_lane_index = target_lane_index
-
-    # Right lane actions
-    elif self.lane_index[2] == 2 and action[1] < -0.5 and Vehicle.on_road:
-        # Change to left
-        _from, _to, _id = self.target_lane_index
-        target_lane_index = _from, _to, max(_id - 1, 0)
-        self.target_lane_index = target_lane_index
-
-    # Determine steering based on target lane
-    if self.target_lane_index != self.lane_index:
-        s = self.steering_control(self.target_lane_index)
-        
-    # Check for alignment with the new lane
-    if abs(self.position[1] - self.target_lane_index[1]) < ALIGNMENT_THRESHOLD:
-            self.lane_index = self.target_lane_index  # Update current lane index
-            self.target_lane_index = None  # Reset target lane index
-    else:
-        s = 0
-        
-        return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
-  
-    def discrete_steering_1(self,action):
 
   
+    def discrete_steering(self,action):
         STEERING_RANGE = (-np.pi / 4, np.pi / 4)
         s = self.steering_control(self.lane_index)
       
@@ -738,7 +688,6 @@ class ControlledVehicle(Vehicle):
             self.target_lane_index = target_lane_index
             s =  self.steering_control(self.target_lane_index)
         return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
-
     
     def speed_control(self, target_speed: float) -> float:
         """
