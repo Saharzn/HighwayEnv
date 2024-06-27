@@ -690,7 +690,7 @@ class ControlledVehicle(Vehicle):
             lane_coords = target_lane.local_coordinates(self.position)
         
         # Check for alignment with the new lane
-            if abs(lane_coords[1]) < 0.05:
+            if abs(lane_coords[1]) < 0.5:
                self.lane_index = self.target_lane_index  # Update current lane index
                self.target_lane_index = None  # Reset target lane index
                s = 0
