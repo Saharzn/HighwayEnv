@@ -693,8 +693,6 @@ class ControlledVehicle(Vehicle):
             if abs(lane_coords[1]) < 0.05:
                self.lane_index = self.target_lane_index  # Update current lane index
                self.target_lane_index = None  # Reset target lane index
-            else:
-               s = self.steering_control(self.lane_index)
         return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
     
     def speed_control(self, target_speed: float) -> float:
