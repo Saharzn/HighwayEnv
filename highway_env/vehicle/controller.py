@@ -613,23 +613,23 @@ class ControlledVehicle(Vehicle):
         heading_command = np.arcsin(
             np.clip(lateral_speed_command / utils.not_zero(self.speed), -1, 1)
         )
-        #heading_ref = lane_future_heading + np.clip(
-         #   heading_command, -np.pi / 4, np.pi / 4
-        #)
-        heading_ref = lane_future_heading + heading_command
+        heading_ref = lane_future_heading + np.clip(
+            heading_command, -np.pi / 4, np.pi / 4
+        )
       
         # Heading control
         heading_rate_command = self.KP_HEADING * utils.wrap_to_pi(
             heading_ref - self.heading
         )
         # Heading rate to steering angle
-        slip_angle = np.arcsin(
-            np.clip(
-                self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command,
-                -1,
-                1,
-            )
-        )
+        #slip_angle = np.arcsin(
+         #   np.clip(
+          #      self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command,
+           #     -1,
+            #    1,
+            #)
+        #)
+        slip_angle = np.arcsin(self.LENGTH / 2 / utils.not_zero(self.speed) * heading_rate_command)
         steering_angle = np.arctan(2 * np.tan(slip_angle))
         steering_angle = np.clip(
             steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE
