@@ -639,11 +639,11 @@ class ControlledVehicle(Vehicle):
      
         target_lane = self.road.network.get_lane(self.lane_index)
         lane_coords = target_lane.local_coordinates(self.position)
-        if abs(lane_coords[1])<0.3:
+        #if abs(lane_coords[1])<0.1:
+         # s = 0
+        #else:
+         # s = self.steering_control(self.lane_index)
           s = 0
-        else:
-          s = self.steering_control(self.lane_index)
-          
         # middle lane
         if self.lane_index[2] == 1 and action[1]<-0.5 and Vehicle.on_road:          
           #change to left
