@@ -686,6 +686,8 @@ class ControlledVehicle(Vehicle):
         # Check for alignment with the new lane
         if self.target_lane_index != self.lane_index:
             s = self.steering_control(self.target_lane_index)
+            target_lane = self.road.network.get_lane(self.target_lane_index)
+            lane_coords = target_lane.local_coordinates(self.position)
         
         # Check for alignment with the new lane
             if abs(lane_coords[1]) < 0.05:
