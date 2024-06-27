@@ -688,10 +688,11 @@ class ControlledVehicle(Vehicle):
             s = self.steering_control(self.target_lane_index)
             target_lane = self.road.network.get_lane(self.target_lane_index)
             lane_coords = target_lane.local_coordinates(self.position)
+            print(lane_coords[1])
         
         # Check for alignment with the new lane
             if abs(lane_coords[1]) < 0.5:
-               print(lane_coords[1])
+     
                self.lane_index = self.target_lane_index  # Update current lane index
                self.target_lane_index = None  # Reset target lane index
                s = 0
