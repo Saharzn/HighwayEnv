@@ -176,7 +176,7 @@ class AbstractEnv(gym.Env):
         """
         
         class_a_instance = ControlledVehicle(self.vehicle.road,self.vehicle.position)
-        target_lane = ControlledVehicle.road.network.get_lane(self.vehicle.lane_index)
+        target_lane = self.vehicle.road.network.get_lane(self.vehicle.lane_index)
         lane_coords = target_lane.local_coordinates(self.vehicle.position)
         
         info = {
