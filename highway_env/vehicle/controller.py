@@ -636,10 +636,14 @@ class ControlledVehicle(Vehicle):
         return float(steering_angle)
       
     def discrete_steering(self,action):
-        STEERING_RANGE = (-np.pi / 4, np.pi / 4)
-        s = 0
-      
-
+     
+        target_lane = self.road.network.get_lane(self.lane_index)
+        lane_coords = target_lane.local_coordinates(self.position)
+        if lane_coords[1]<0.5:
+          s = 0
+        else:
+          s = self.steering_control(self.lane_index)
+          
         # middle lane
         if self.lane_index[2] == 1 and action[1]<-0.5 and Vehicle.on_road:          
           #change to left
@@ -647,7 +651,6 @@ class ControlledVehicle(Vehicle):
           target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           self.target_lane_index = target_lane_index
           s =  self.steering_control(self.target_lane_index)
-
 
         elif self.lane_index[2] == 1 and action[1]>0.5 and Vehicle.on_road: 
           # change to right 
@@ -685,18 +688,15 @@ class ControlledVehicle(Vehicle):
             s =  self.steering_control(self.target_lane_index)
         
         # Check for alignment with the new lane
-        if self.target_lane_index != self.lane_index:
-            s = self.steering_control(self.target_lane_index)
-            target_lane = self.road.network.get_lane(self.target_lane_index)
-            lane_coords = target_lane.local_coordinates(self.position)
-            print(lane_coords[1])
+        #if self.target_lane_index != self.lane_index:
+          #  s = self.steering_control(self.target_lane_index)
         
         # Check for alignment with the new lane
-            if abs(lane_coords[1]) < 0.5:
+           # if abs(lane_coords[1]) < 0.5:
      
-               self.lane_index = self.target_lane_index  # Update current lane index
-               self.target_lane_index = None  # Reset target lane index
-               s = 0
+            #   self.lane_index = self.target_lane_index  # Update current lane index
+             #  self.target_lane_index = None  # Reset target lane index
+              # s = 0
         return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
     
     def speed_control(self, target_speed: float) -> float:
