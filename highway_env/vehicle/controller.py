@@ -637,7 +637,7 @@ class ControlledVehicle(Vehicle):
       
     def discrete_steering(self,action):
      
-        target_lane = self.road.network.get_lane(self.lane_index)
+        target_lane = self.road.network.get_lane(self.target_lane_index)
         lane_coords = target_lane.local_coordinates(self.position)
         if abs(lane_coords[1])<0.5:
           s = 0
