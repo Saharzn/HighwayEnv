@@ -473,8 +473,8 @@ class ControlledVehicle(Vehicle):
     #TAU_HEADING = 0.2  # [s]
     #TAU_LATERAL = 0.6  # [s]
     
-    TAU_HEADING = 600  # [s]
-    TAU_LATERAL = 900  # [s]
+    TAU_HEADING = 0.002  # [s]
+    TAU_LATERAL = 0.006  # [s]
   
     TAU_PURSUIT = 0.5 * TAU_HEADING  # [s]
     KP_A = 1 / TAU_ACC
@@ -639,14 +639,15 @@ class ControlledVehicle(Vehicle):
         return float(steering_angle)
       
     def discrete_steering(self,action):
-        self.target_lane_index = self.lane_index
+        #self.target_lane_index = self.lane_index
      
-        target_lane = self.road.network.get_lane(self.target_lane_index)
-        lane_coords = target_lane.local_coordinates(self.position)
-        if abs(lane_coords[1])<0.3:
-          s = 0
-        else:
-          s = self.steering_control(self.target_lane_index)
+        #target_lane = self.road.network.get_lane(self.target_lane_index)
+        #lane_coords = target_lane.local_coordinates(self.position)
+        #if abs(lane_coords[1])<0.3:
+         # s = 0
+        #else:
+         # s = self.steering_control(self.target_lane_index)
+        s = 0
         
         # middle lane
         if self.lane_index[2] == 1 and action[1]<-0.5 and Vehicle.on_road:          
