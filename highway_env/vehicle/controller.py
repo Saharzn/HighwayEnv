@@ -671,10 +671,10 @@ class ControlledVehicle(Vehicle):
                 1,
             )
         )
-        if abs(lane_coord[1])<0.3:
+        if abs(lane_coords[1])<0.3:
           x = 0
         else:
-          x = lane_coord[1]
+          x = lane_coords[1]
         steering_angle = np.arctan(2 * np.tan(slip_angle))+0.1*x
         steering_angle = np.clip(
             steering_angle, -np.pi/3, np.pi/3
