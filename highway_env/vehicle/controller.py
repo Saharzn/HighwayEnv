@@ -671,10 +671,12 @@ class ControlledVehicle(Vehicle):
                 1,
             )
         )
-        steering_angle = np.arctan(2 * np.tan(slip_angle))-0.02*lane_coords[1]
+        steering_angle = np.arctan(2 * np.tan(slip_angle))+0.02*lane_coords[1]
         steering_angle = np.clip(
-            steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE
+            steering_angle, -np.pi/3, np.pi/3
+          
         )
+      #steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE
         return float(steering_angle)
       
     def discrete_steering(self,action):
