@@ -656,7 +656,7 @@ class ControlledVehicle(Vehicle):
             np.clip(lateral_speed_command / utils.not_zero(self.speed), -1, 1)
         )
         heading_ref = lane_future_heading + np.clip(
-            heading_command, -np.pi / 3, np.pi / 3
+            heading_command, -np.pi / 4, np.pi / 4
         )
       
         # Heading control
@@ -677,7 +677,7 @@ class ControlledVehicle(Vehicle):
           x = lane_coords[1]
         steering_angle = np.arctan(2 * np.tan(slip_angle))+0*x
         steering_angle = np.clip(
-            steering_angle, -np.pi/3, np.pi/3
+            steering_angle, -np.pi/4, np.pi/4
           
         )
       #steering_angle, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE
