@@ -648,7 +648,7 @@ class ControlledVehicle(Vehicle):
         KP_LATERAL_EV = 1 / TAU_LATERAL_EV  # [1/s]     
         target_lane = self.road.network.get_lane(target_lane_index)
         lane_coords = target_lane.local_coordinates(self.position)
-        lane_next_coords = lane_coords[0] + self.speed * self.TAU_PURSUIT
+        lane_next_coords = lane_coords[0] + self.speed * TAU_PURSUIT_EV
         lane_future_heading = target_lane.heading_at(lane_next_coords)
 
         # Lateral position control
