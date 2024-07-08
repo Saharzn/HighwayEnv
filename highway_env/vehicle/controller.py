@@ -639,7 +639,7 @@ class ControlledVehicle(Vehicle):
 
     def steering_control_EV(self, target_lane_index: LaneIndex) -> float: 
         TAU_HEADING_EV = 0.01  # [s]
-        TAU_LATERAL_EV = 0.01  # [s] 
+        TAU_LATERAL_EV = 0.05  # [s] 
         TAU_PURSUIT_EV = 20 * TAU_HEADING_EV  # [s]
       
         KP_HEADING_EV = 1 / TAU_HEADING_EV
@@ -675,7 +675,7 @@ class ControlledVehicle(Vehicle):
           x = 0
         else:
           x = lane_coords[1]
-        steering_angle = np.arctan(2 * np.tan(slip_angle))+0.1*x
+        steering_angle = np.arctan(2 * np.tan(slip_angle))+0*x
         steering_angle = np.clip(
             steering_angle, -np.pi/3, np.pi/3
           
