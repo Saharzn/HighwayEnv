@@ -695,7 +695,7 @@ class ControlledVehicle(Vehicle):
           _from, _to, _id = self.target_lane_index
           target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           self.target_lane_index = target_lane_index
-          s =  self.steering_control(self.target_lane_index)
+          s =  self.steering_control_EV(self.target_lane_index)
           self.lane_index = self.target_lane_index
 
         elif self.lane_index[2] == 1 and action[1]>0.5 and Vehicle.on_road: 
@@ -703,7 +703,7 @@ class ControlledVehicle(Vehicle):
           _from, _to, _id = self.target_lane_index
           target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           self.target_lane_index = target_lane_index
-          s = self.steering_control(self.target_lane_index)
+          s = self.steering_control_EV(self.target_lane_index)
           self.lane_index = self.target_lane_index
             
         #elif self.lane_index[2] == 1 and action[1] >= -0.5 and action[1]<=0.5 and Vehicle.on_road:
@@ -717,7 +717,7 @@ class ControlledVehicle(Vehicle):
           _from, _to, _id = self.target_lane_index
           target_lane_index = _from, _to, np.clip(_id + 1, 0, len(self.road.network.graph[_from][_to]) - 1)
           self.target_lane_index = target_lane_index
-          s = self.steering_control(self.target_lane_index)
+          s = self.steering_control_EV(self.target_lane_index)
           self.lane_index = self.target_lane_index
 
         #elif self.lane_index[2] == 0  and action[1]<=0.5 and Vehicle.on_road:
@@ -736,7 +736,7 @@ class ControlledVehicle(Vehicle):
             _from, _to, _id = self.target_lane_index
             target_lane_index = _from, _to, np.clip(_id - 1, 0, len(self.road.network.graph[_from][_to]) - 1)
             self.target_lane_index = target_lane_index
-            s =  self.steering_control(self.target_lane_index)
+            s =  self.steering_control_EV(self.target_lane_index)
             self.lane_index = self.target_lane_index
 
         return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
