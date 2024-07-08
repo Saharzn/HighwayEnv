@@ -675,7 +675,7 @@ class ControlledVehicle(Vehicle):
           x = 0
         else:
           x = lane_coords[1]
-        steering_angle = np.arctan(2 * np.tan(slip_angle))+0*x
+        steering_angle = np.arctan(2 * np.tan(slip_angle))-0.1*x
         steering_angle = np.clip(
             steering_angle, -np.pi/4, np.pi/4
           
