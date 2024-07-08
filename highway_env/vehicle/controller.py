@@ -671,7 +671,7 @@ class ControlledVehicle(Vehicle):
                 1,
             )
         )
-        if abs(lane_coords[1])<0.2:
+        if abs(lane_coords[1])<0.4:
           x = 0
         else:
           x = lane_coords[1]
