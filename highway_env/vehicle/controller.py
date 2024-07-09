@@ -638,8 +638,8 @@ class ControlledVehicle(Vehicle):
         return float(steering_angle)
 
     def steering_control_EV(self, target_lane_index: LaneIndex) -> float: 
-        TAU_HEADING_EV = 2000  # [s]
-        TAU_LATERAL_EV = 6000  # [s] 
+        TAU_HEADING_EV = 2e4  # [s]
+        TAU_LATERAL_EV = 2e4  # [s] 
         #TAU_PURSUIT_EV = 0.5 * TAU_HEADING_EV  # [s]
         TAU_PURSUIT_EV = 0.3;
       
@@ -660,7 +660,7 @@ class ControlledVehicle(Vehicle):
         heading_ref = lane_future_heading + np.clip(
             heading_command, -np.pi / 4, np.pi / 4
         )
-        KP_HEADING_EV = 0
+
         # Heading control
         heading_rate_command = KP_HEADING_EV * utils.wrap_to_pi(
             heading_ref - self.heading
