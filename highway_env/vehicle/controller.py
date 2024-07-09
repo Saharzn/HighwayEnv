@@ -639,7 +639,7 @@ class ControlledVehicle(Vehicle):
 
     def steering_control_EV(self, target_lane_index: LaneIndex) -> float: 
         TAU_HEADING_EV = 100  # [s]
-        TAU_LATERAL_EV = 1e4  # [s] 
+        TAU_LATERAL_EV = 1.5e4  # [s] 
         #TAU_PURSUIT_EV = 0.5 * TAU_HEADING_EV  # [s]
         TAU_PURSUIT_EV = 0.3;
       
@@ -745,8 +745,7 @@ class ControlledVehicle(Vehicle):
             self.target_lane_index = target_lane_index
             s =  self.steering_control_EV(self.target_lane_index)
             self.lane_index = self.target_lane_index
-        if abs(s)<0.02:
-          s = 0
+
 
         return np.clip(s, -self.MAX_STEERING_ANGLE, self.MAX_STEERING_ANGLE)
     
