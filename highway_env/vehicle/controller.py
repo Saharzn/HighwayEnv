@@ -638,8 +638,8 @@ class ControlledVehicle(Vehicle):
         return float(steering_angle)
 
     def steering_control_EV(self, target_lane_index: LaneIndex) -> float: 
-        TAU_HEADING_EV = 0.02  # [s]
-        TAU_LATERAL_EV = 0.06  # [s] 
+        TAU_HEADING_EV = 0.2  # [s]
+        TAU_LATERAL_EV = 0.6  # [s] 
         TAU_PURSUIT_EV = 0.5 * TAU_HEADING_EV  # [s]
       
         KP_HEADING_EV = 1 / TAU_HEADING_EV
@@ -675,7 +675,7 @@ class ControlledVehicle(Vehicle):
           x = 0
         else:
           x = lane_coords[1]
-        steering_angle = np.arctan(2 * np.tan(slip_angle))+0*x
+        steering_angle = np.arctan(2 * np.tan(slip_angle))
         steering_angle = np.clip(
             steering_angle, -np.pi/4, np.pi/4
           
@@ -684,14 +684,14 @@ class ControlledVehicle(Vehicle):
         return float(steering_angle)
       
     def discrete_steering(self,action):
-        #self.target_lane_index = self.lane_index
+        self.target_lane_index = self.lane_index
      
-        #target_lane = self.road.network.get_lane(self.target_lane_index)
-        #lane_coords = target_lane.local_coordinates(self.position)
-        #if abs(lane_coords[1])<0.3:
-         # s = 0
-        #else:
-          #s = self.steering_control(self.target_lane_index)
+        target_lane = self.road.network.get_lane(self.target_lane_index)
+        lane_coords = target_lane.local_coordinates(self.position)
+        if abs(lane_coords[1])<0.3:
+          s = 0
+        else:
+          s = self.steering_control(self.target_lane_index)
         #s = 0
         
         # middle lane
