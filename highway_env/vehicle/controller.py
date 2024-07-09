@@ -641,7 +641,7 @@ class ControlledVehicle(Vehicle):
         TAU_HEADING_EV = 100  # [s]
         TAU_LATERAL_EV = 1.7e4  # [s] 
         #TAU_PURSUIT_EV = 0.5 * TAU_HEADING_EV  # [s]
-        TAU_PURSUIT_EV = 0.3;
+        TAU_PURSUIT_EV = 3;
       
       
         KP_HEADING_EV = 1 / TAU_HEADING_EV
