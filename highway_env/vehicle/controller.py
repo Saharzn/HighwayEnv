@@ -684,14 +684,14 @@ class ControlledVehicle(Vehicle):
         return float(steering_angle)
       
     def discrete_steering(self,action):
-        self.target_lane_index = self.lane_index
+        #self.target_lane_index = self.lane_index
      
-        target_lane = self.road.network.get_lane(self.target_lane_index)
-        lane_coords = target_lane.local_coordinates(self.position)
-        if abs(lane_coords[1])<0.3:
-          s = 0
-        else:
-          s = self.steering_control(self.target_lane_index)
+        #target_lane = self.road.network.get_lane(self.target_lane_index)
+        #lane_coords = target_lane.local_coordinates(self.position)
+        #if abs(lane_coords[1])<0.3:
+         # s = 0
+        #else:
+          #s = self.steering_control(self.target_lane_index)
         #s = 0
         
         # middle lane
