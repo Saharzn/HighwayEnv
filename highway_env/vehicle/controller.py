@@ -660,7 +660,7 @@ class ControlledVehicle(Vehicle):
         heading_ref = lane_future_heading + np.clip(
             heading_command, -np.pi / 4, np.pi / 4
         )
-      
+        KP_HEADING_EV = 0
         # Heading control
         heading_rate_command = KP_HEADING_EV * utils.wrap_to_pi(
             heading_ref - self.heading
