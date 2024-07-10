@@ -673,10 +673,7 @@ class ControlledVehicle(Vehicle):
                 1,
             )
         )
-        if abs(lane_coords[1])<0.4:
-          x = 0
-        else:
-          x = lane_coords[1]
+
         steering_angle = np.arctan(2 * np.tan(slip_angle))
         steering_angle = np.clip(
             steering_angle, -np.pi/4, np.pi/4
@@ -694,7 +691,7 @@ class ControlledVehicle(Vehicle):
           s = 0
         else:
           s = self.steering_control_EV(self.target_lane_index)
-        #s = 0
+
         
         # middle lane
         if self.lane_index[2] == 1 and action[1]<-0.5 and Vehicle.on_road:          
